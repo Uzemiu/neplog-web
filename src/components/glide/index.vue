@@ -59,13 +59,13 @@ export default {
       this.$nextTick(() => {
         let glide = new Glide('.glide').mount();
         let glides = this.$refs.glide.querySelectorAll('.slide-caption');
-        glide.on(['mount.after','run.after'], () => {this.$anime({
-          targets: glides[glide.index].children,
-          opacity: [0,1],
-          duration: 400,
-          easing: 'linear',
-        })
-
+        glide.on(['mount.after','run.after'], () => {
+          this.$anime({
+            targets: glides[glide.index].children,
+            opacity: [0,1],
+            duration: 400,
+            easing: 'linear',
+          })
         });
         let glidesChildren = this.$refs.glide.querySelectorAll('.slide-caption > *');
         glide.on(['run.before'], () => {
@@ -88,7 +88,7 @@ export default {
 
 .glide {
   position: relative;
-  top: -80px;
+  top: -47px;
   z-index: 50;
   cursor: pointer;
 

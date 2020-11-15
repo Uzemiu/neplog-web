@@ -43,7 +43,7 @@ export default {
 
 <style lang="scss" scoped>
   footer{
-    margin-top: 60px;
+    margin-top: 80px;
     background-color: #181818;
     display: grid;
     justify-items: center;

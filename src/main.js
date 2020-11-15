@@ -10,6 +10,7 @@ Vue.prototype.$anime = anime;
 Vue.config.productionTip = false
 
 Vue.use(Element,{size: 'small'})
+import 'element-ui/lib/theme-chalk/index.css'
 
 new Vue({
   router,

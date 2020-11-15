@@ -6,40 +6,25 @@
     <div class="post-info">
       <div class="title">
         <a href="">
-          米五十米五十米五十米速ss度
+          {{title}}
         </a>
       </div>
       <div class="detail">
         <p class="create-date">
-          <span>2020-55-55</span>
+          <span>{{createDate}}</span>
         </p>
         <p class="statics">
-          <span><i class="fa fa-user"></i>2220</span>
-          <span><i class="fa fa-comment"></i>2220</span>
-          <span><i class="fa fa-heart"></i>2220</span>
+          <span><i class="fa fa-user"></i>{{view}}</span>
+          <span><i class="fa fa-comment"></i>{{comment}}</span>
+          <span><i class="fa fa-heart"></i>{{like}}</span>
         </p>
       </div>
       <div class="summary">
-        123123231231231迪杰斯特dsssssssssdsdsdsdddwdwsdsds打打
-        打的无情的群无人情味群拉231231321
+        {{summary}}
       </div>
       <div class="tags">
-        <button>Java</button>
-        <button>Java</button>
-        <button>Java</button>
-        <button>Java</button>
-        <button>算法</button>
-        <button>Java</button>
-        <button>Java</button>
-        <button>Java</button>
-        <button>Java</button>
-        <button>Java</button>
+        <button v-for="tag in tags" :key="tag">{{tag}}</button>
       </div>
-<!--      <div class="statics">-->
-<!--        <span><i class="fa fa-user"></i>232</span>-->
-<!--        <span><i class="fa fa-commenting"></i>23</span>-->
-<!--        <span><i class="fa fa-heart"></i>1</span>-->
-<!--      </div>-->
     </div>
   </div>
 </template>
@@ -50,7 +35,26 @@ export default {
   props: {
     postId: Number,
     cover: String,
-    title: String,
+    title: {
+      type: String,
+      default: 'TITLE'
+    },
+    createDate: {
+      type: String,
+      default: '2077-77-02'
+    },
+    view: {
+      type: Number,
+      default: 0
+    },
+    comment: {
+      type: Number,
+      default: 0
+    },
+    like: {
+      type: Number,
+      default: 0
+    },
     summary: {
       type: String,
       required: false,
@@ -71,7 +75,7 @@ export default {
   grid-template-columns: 160px 1fr;
   grid-template-rows: 160px;
   // 单vw会产生浮点数宽度，可能是导致isotope无法何时分配空间位置的原因
-  width: calc(26.5vw - 1px);
+  width: calc(30vw - 1px);
   padding: 10px;
 
   .post-cover{
@@ -79,7 +83,7 @@ export default {
     grid-area: cover;
     border-radius: 5px;
     overflow: hidden; // to activate border-radius
-    box-shadow: 18px 18px 18px rgba(0, 0, 0, 0.06);
+    box-shadow: 8px 8px 3px rgba(241, 241, 241, 0.15);
     transition: 0.5s ease-in-out;
 
     img{
@@ -216,7 +220,7 @@ export default {
 
 @media (max-width: 1410px) {
   .case-card{
-    width: calc(40vw - 1px);
+    width: calc(45vw - 1px);
   }
 }
 @media (max-width: 992px) {

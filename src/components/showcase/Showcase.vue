@@ -3,23 +3,30 @@
 
     <div class="filter-btns"
          :class="{'collapse':collapseFilter}">
-      <div class="flex-wrapper">
+
+      <div class="search-group">
+        <filter-group
+            class="general-filter"
+            :filter-tag="'最近更新'"
+            :tags="generalFilterTags"
+            ref="generalFilter">
+        </filter-group>
         <button
-          class="filter-btn"
-          :class="{'active':activeTags.size === 0}"
-          @click="activeButton('all')">All
-        </button>
-        <button
-          class="filter-btn"
-          v-for="tag in tags"
-          :key="tag"
-          @click="activeButton(tag)"
-          :class="{'active':isButtonActive(tag)}">
-          {{tag}}
-        </button>
+            slot="search"
+            class="filter-btn search-btn">搜索</button>
       </div>
-      <div class="divider"></div>
-      <div class="collapse-wrapper">
+
+      <filter-group
+          :filter-tag="'All Categories'"
+          :tags="categories"
+          ref="categoryFilter"/>
+      <filter-group
+          :filter-tag="'All Tags'"
+          :tags="tags"
+          :multi-choice="true"
+          ref="tagFilter"/>
+
+      <div class="collapse-button">
         <button
           class="collapse-btn"
           @click="toggleCollapse">
@@ -27,6 +34,7 @@
           <span class="fa fa-angle-up"></span>
         </button>
       </div>
+
     </div>
 
     <div class="showcases">
@@ -34,81 +42,96 @@
         v-for="post in posts"
         :key="post.id"
         :postId="post.id"
+        :title="post.title"
         :cover="post.cover"
-        :tags="post.tags">
-
+        :tags="post.tags"
+        :create-date="post.createDate"
+        :summary="post.summary">
       </card>
     </div>
+
+    <el-pagination
+        class="pagination"
+        layout="prev, pager, next"
+        :pager-count="5"
+        :page-size="10"
+        :total="500"
+        @current-change="handlePageChange">
+
+    </el-pagination>
   </section>
 </template>
 
 <script>
-import Card from "@/components/showcase/Card";
+import Card from "./Card";
+import FilterGroup from "./filter/FilterGroup";
 
 export default {
   name: "Showcase",
   components: {
-    Card
+    Card,
+    FilterGroup
   },
   data(){
     return {
-      collapseFilter: false,
-      activeTracker: 1,
-      activeTags: new Set(),
+      collapseFilter: true,
+      generalFilterTags: ['浏览最多','评论最多','点赞最多'],
       tags: [],
+      categories: [],
       posts: []
     }
   },
   methods: {
-    activeButton(tag){
-      this.activeTracker+=1;
-      if(tag.toLowerCase() === 'all'){
-        this.activeTags.clear();
-      } else if(this.activeTags.has(tag)){
-        this.activeTags.delete(tag);
-      } else {
-        this.activeTags.add(tag);
-      }
-    },
     toggleCollapse(){
       this.collapseFilter = !this.collapseFilter;
     },
-    isButtonActive(tag){
-      return this.activeTracker && this.activeTags.has(tag);
+    handlePageChange(val){
+      console.log(val)
     }
   },
   computed:{
   },
   mounted() {
-    this.tags = ['Web','Java','Html','C++',
-                'Csharp','作业','JuanG','Eavier',
-                'Neptunia','Uzemiu','算法'];
     this.posts = [{
       id: 1,
-      tags: ['Web','Java','Html'],
+      tags: ['Home','Java','Html'],
+      category: '首页',
       cover: require('../../assets/imgs/71767472_p0.jpg'),
-      title: 'nihao1'
+      title: '首页施工中...',
+      createDate: '2020-11-15',
+      summary: '91.6%...'
     },{
       id: 2,
-      tags: ['Web','Java'],
+      tags: ['Article','Java'],
+      category: '文章',
       cover: require('../../assets/imgs/75977007_p0.jpg'),
-      title: 'nihao1'
+      title: '文章页面施工中...'
     },{
       id: 3,
-      tags: ['Web'],
+      tags: ['links'],
+      category: '友情链接',
       cover: require('../../assets/imgs/75706567_p0.jpg'),
-      title: 'nihao1'
+      title: '友情链接施工中...'
     },{
       id: 4,
-      tags: [],
+      tags: ['about'],
       cover: require('../../assets/imgs/QQ图片20201110135305.jpg'),
-      title: 'nihao1'
+      category: '关于我',
+      title: '个人页面施工中...'
     }];
+    let set = new Set();
+    this.categories.splice(0,this.categories.length);
+    this.posts.forEach(post => {
+      post.tags.forEach(t => set.add(t));
+      this.categories.push(post.category);
+    })
+    this.tags.splice(0,this.tags.length);
+    this.tags.push(...set);
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" >
 .flex-section{
   display: grid;
   justify-items: center;
@@ -122,36 +145,13 @@ export default {
     width: 100%;
     box-shadow: 0 0 18px rgba(0, 0, 0, 0.06);
     transition: 0.4s ease-in-out;
-    max-width: 80vw;
+    max-width: 90vw;
 
-    .flex-wrapper{
-      max-width: unset;
-      display: flex;
-      flex-wrap: nowrap;
-      transition: .4s ease-in-out;
-      max-height: 57px;
-      overflow-x: auto;
-      overflow-y: hidden;
-
-      &::-webkit-scrollbar{
-        height: 4px;
-      }
-      &::-webkit-scrollbar-thumb {
-        background-color: rgba(0,0,0,.1);
-        border-radius: 10px;
-      }
-      &::-webkit-scrollbar-track {
-        border-radius: 10px;
-        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0);
-        //background-color: white;
-      }
-    }
-
-    .collapse-wrapper{
-      height: 20px;
+    .collapse-button{
+      height: 10px;
       text-align: center;
       transition: .4s ease-in-out;
-      padding: 5px 5px;
+      padding: 0 5px;
 
       .collapse-btn{
         width: 100%;
@@ -170,12 +170,12 @@ export default {
     }
 
     &.collapse {
-      padding-top: 0;
       overflow: hidden;
-      .flex-wrapper{
+      .flex-wrapper:nth-of-type(n+2){
         max-height: 0;
+        padding: 0;
       }
-      .collapse-wrapper .fa{
+      .collapse-button .fa{
         transform: rotate(180deg) translateY(2px);
       }
     }
@@ -186,13 +186,20 @@ export default {
       }
     }
 
+    .flex-wrapper:first-of-type{
+      padding-top: 0;
+      &:before{
+        content: none;
+      }
+    }
+
     .filter-btn{
       flex-shrink: 0;
       margin: 3.5px 6px 3.5px 6px;
       background-color: var(--secondary-color);
       border: 0;
       color: var(--text-color-dark-gray);
-      padding: 8px 18px;
+      padding:6px 14px;
       border-radius: 4px;
       transition: .4s ease-in-out;
       cursor: pointer;
@@ -201,17 +208,33 @@ export default {
         background-color: var(--primary-color);
         color: white;
       }
-      &:hover{
+    }
 
+    .search-group{
+      display: flex;
+      .general-filter{
+        max-width: calc(96vw - 90px);
+      }
+      .search-btn{
+        margin-left: auto;
+        background-color: #0097e6;
+        color: #fff;
+        height: 29px;
       }
     }
+
+
 
   }
 
   .showcases{
-    width: 80vw;
+    width: 90vw;
     display: flex;
     flex-wrap: wrap;
+  }
+
+  .pagination{
+    padding: 10px 0;
   }
 }
 
