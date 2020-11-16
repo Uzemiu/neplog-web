@@ -4,11 +4,11 @@
     <div class="glide__track" data-glide-el="track">
       <div class="glide__slides" ref="glide">
         <glide-slide
-          v-for="post in slides"
-          :link="post.id"
-          :key="post.id">
-          <h1 slot="title">{{post.title}}</h1>
-          <img slot="img" :src="post.img" alt="">
+          v-for="article in slides"
+          :link="`/article/${article.id}`"
+          :title="article.title"
+          :key="article.id">
+          <img slot="img" :src="article.img" alt="">
         </glide-slide>
       </div>
     </div>
@@ -36,7 +36,6 @@
 <script>
 import Glide from '@glidejs/glide'
 import GlideSlide from "@/components/glide/GlideSlide";
-// import anime from 'animejs/lib/anime.es'
 
 export default {
   name: "Glide",
@@ -45,11 +44,6 @@ export default {
   },
   props: {
     slides: Array
-  },
-  data(){
-    return{
-
-    }
   },
   mounted() {
     this.initSlide();
@@ -96,9 +90,6 @@ export default {
     opacity: .8;
   }
 
-  //.glide__arrow{
-  //  top: calc(50% + 47px)
-  //}
 }
 
 </style>

@@ -6,6 +6,9 @@
     <div class="top-header header-item">
       <div class="logo">Neplog</div>
       <nav class="top-nav">
+        <ul>
+          
+        </ul>
         <router-link to="/home">首页</router-link>
         <router-link to="/about">关于</router-link>
         <router-link to="/team">团队</router-link>

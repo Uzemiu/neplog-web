@@ -68,6 +68,8 @@ export default {
   justify-content: center;
   flex-direction: column;
 
+  background-color: #fafafa;
+
   .about-us{
     padding-bottom: 32px;
   }

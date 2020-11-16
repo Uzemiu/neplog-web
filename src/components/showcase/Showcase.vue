@@ -1,6 +1,7 @@
 <template>
   <section class="flex-section">
 
+    <!--
     <div class="filter-btns"
          :class="{'collapse':collapseFilter}">
 
@@ -36,17 +37,18 @@
       </div>
 
     </div>
+    -->
 
     <div class="showcases">
       <card
-        v-for="post in posts"
-        :key="post.id"
-        :postId="post.id"
-        :title="post.title"
-        :cover="post.cover"
-        :tags="post.tags"
-        :create-date="post.createDate"
-        :summary="post.summary">
+        v-for="article in articles"
+        :key="article.id"
+        :postId="article.id"
+        :title="article.title"
+        :cover="article.cover"
+        :tags="article.tags"
+        :create-date="article.createDate"
+        :summary="article.summary">
       </card>
     </div>
 
@@ -64,13 +66,13 @@
 
 <script>
 import Card from "./Card";
-import FilterGroup from "./filter/FilterGroup";
+// import FilterGroup from "./filter/FilterGroup";
 
 export default {
   name: "Showcase",
   components: {
     Card,
-    FilterGroup
+    // FilterGroup
   },
   data(){
     return {
@@ -78,7 +80,7 @@ export default {
       generalFilterTags: ['浏览最多','评论最多','点赞最多'],
       tags: [],
       categories: [],
-      posts: []
+      articles: []
     }
   },
   methods: {
@@ -92,14 +94,14 @@ export default {
   computed:{
   },
   mounted() {
-    this.posts = [{
+    this.articles = [{
       id: 1,
-      tags: ['Home','Java','Html'],
+      tags: ['Home','Java','Html','TESTTAGSTESTTAGSTEST'],
       category: '首页',
       cover: require('../../assets/imgs/71767472_p0.jpg'),
       title: '首页施工中...',
       createDate: '2020-11-15',
-      summary: '91.6%...'
+      summary: '94.666666666666666666666666666666ddddddddddddddd%...'
     },{
       id: 2,
       tags: ['Article','Java'],
@@ -110,7 +112,7 @@ export default {
       id: 3,
       tags: ['links'],
       category: '友情链接',
-      cover: require('../../assets/imgs/75706567_p0.jpg'),
+      cover: require('../../assets/imgs/71773962_p0.jpg'),
       title: '友情链接施工中...'
     },{
       id: 4,
@@ -121,7 +123,7 @@ export default {
     }];
     let set = new Set();
     this.categories.splice(0,this.categories.length);
-    this.posts.forEach(post => {
+    this.articles.forEach(post => {
       post.tags.forEach(t => set.add(t));
       this.categories.push(post.category);
     })
@@ -137,7 +139,7 @@ export default {
   justify-items: center;
   max-width: unset;
   padding: 0;
-  box-shadow: 0 0 18px rgba(0, 0, 0, 0.06);
+  //box-shadow: 0 0 18px rgba(0, 0, 0, 0.06);
 
   .filter-btns{
     padding: 10px;
@@ -238,6 +240,14 @@ export default {
   }
 }
 
+@media (max-width: 1410px){
+  .flex-section{
+    .showcases{
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+}
 @media (max-width: 992px) {
   .flex-section{
     .showcases{

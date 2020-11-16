@@ -1,9 +1,11 @@
 <template>
   <div class="glide__slide">
     <div class="slide-caption">
-      <slot name="title"></slot>
-      <slot name="sub-title"></slot>
-      <button class="detail" @click="to">详细</button>
+      <router-link :to="link" class="title">{{title}}</router-link>
+<!--      <slot name="title"></slot>-->
+      <h3>{{subTitle}}</h3>
+<!--      <slot name="sub-title"></slot>-->
+<!--      <button class="detail" @click="to">详细</button>-->
     </div>
     <div class="backdrop"></div>
     <slot name="img"></slot>
@@ -14,11 +16,19 @@
 export default {
   name: "GlideSlide",
   props: {
-    link: [String,Number]
+    link: [String,Number],
+    title: {
+      type: String,
+      default: ''
+    },
+    subTitle: {
+      type: String,
+      default: ''
+    }
   },
   methods:{
     to(){
-      this.$router.push('/post/' + this.link);
+      this.$router.push('/article/' + this.link);
     }
   }
 }
@@ -58,6 +68,12 @@ export default {
       font-size:48px;
       font-weight: 600;
     }
+    .title{
+      font-size: 48px;
+      font-weight: 600;
+      color: #fff;
+      display: block;
+    }
     h3{
       font-size:24px;
       margin: 48px 0;
@@ -85,7 +101,7 @@ export default {
 @media (max-width: 992px) {
   .glide__slide {
     .slide-caption{
-      h1{
+      .title{
 
       }
       h3{
@@ -99,7 +115,7 @@ export default {
 @media (max-width: 768px){
   .glide__slide {
     .slide-caption{
-      h1{
+      .title{
         font-size: 40px;
       }
       h3{
@@ -113,7 +129,7 @@ export default {
 @media (max-width: 576px){
   .glide__slide {
     .slide-caption{
-      h1{
+      .title{
         font-size: 26px;
       }
       h3{

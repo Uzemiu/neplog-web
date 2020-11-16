@@ -1,19 +1,17 @@
 <template>
   <div class="case-card" :class="tags">
-    <a class="post-cover" :href="'/post/' + postId">
+    <a class="article-cover" :href="'/article/' + postId">
       <img :src="cover" alt="">
     </a>
-    <div class="post-info">
+    <div class="article-info">
       <div class="title">
         <a href="">
           {{title}}
         </a>
       </div>
       <div class="detail">
-        <p class="create-date">
-          <span>{{createDate}}</span>
-        </p>
         <p class="statics">
+          <span>{{createDate}}</span>
           <span><i class="fa fa-user"></i>{{view}}</span>
           <span><i class="fa fa-comment"></i>{{comment}}</span>
           <span><i class="fa fa-heart"></i>{{like}}</span>
@@ -72,21 +70,22 @@ export default {
 .case-card{
   display: grid;
   grid-template-areas: "cover content";
-  grid-template-columns: 160px 1fr;
-  grid-template-rows: 160px;
-  // 单vw会产生浮点数宽度，可能是导致isotope无法何时分配空间位置的原因
-  width: calc(30vw - 1px);
-  padding: 10px;
+  grid-template-columns: 330px 1fr;
+  grid-template-rows: 220px;
+  width: calc(45vw - 20px);
+  margin: 10px;
+  box-shadow: 0 1px 12px -6px rgba(0,0,0,.5);
+  overflow: hidden; // to activate border-radius
+  border-radius: 10px;
 
-  .post-cover{
+  .article-cover{
     display: block;
     grid-area: cover;
-    border-radius: 5px;
-    overflow: hidden; // to activate border-radius
-    box-shadow: 8px 8px 3px rgba(241, 241, 241, 0.15);
-    transition: 0.5s ease-in-out;
+    transition: 0.4s ease-in-out;
+    overflow: hidden;
 
     img{
+      height: 220px;
       width: 100%;
       object-fit: cover;
     }
@@ -96,14 +95,14 @@ export default {
     }
   }
 
-  .post-info{
+  .article-info{
     grid-area: content;
-    padding-left: 15px;
+    padding: 15px 20px;
     position: relative;
     overflow: hidden;
 
     .title{
-      font-size: 20px;
+      font-size: 22px;
       line-height: 20px;
       font-weight: 500;
       overflow: hidden;
@@ -122,40 +121,29 @@ export default {
 
     .detail{
       color: var(--text-color-gray);
-      font-size: 13px;
+      font-size: 14px;
       margin-bottom: 1px;
       span{
-        margin-right: 6px;
+        margin-right: 8px;
       }
-      .create-date{
+      .statics{
+        margin-top: 10px;
         max-height: 15px;
         overflow: hidden;
         transition: .4s ease-in-out;
       }
-      .statics{
-        max-height: 0;
-        overflow: hidden;
-        transition: .4s ease-in-out;
-      }
 
-      &:hover{
-        .create-date{
-          max-height: 0;
-        }
-        .statics{
-          max-height: 15px;
-        }
-      }
     }
 
     .summary{
+      margin-top: 10px;
       word-wrap: anywhere;
-      font-size: 15px;
+      font-size: 16px;
       color: #8b8b8b;
       overflow: hidden;
       display: -webkit-box;
       -webkit-box-orient: vertical;
-      -webkit-line-clamp: 3;
+      -webkit-line-clamp: 5;
       text-overflow: ellipsis;
 
       &:hover{
@@ -166,7 +154,7 @@ export default {
     .tags{
       display: flex;
       position: absolute;
-      bottom: 0;
+      bottom: 15px;
       width: calc(100% - 15px); // -15px是post-info的padding-left
 
       button{
@@ -189,53 +177,49 @@ export default {
         background: linear-gradient(90deg,rgba(240,242,247,.05),#fff);
       }
     }
-
-    // unused
-    //.statics{
-    //  position: absolute;
-    //  bottom: 0;
-    //
-    //  .fa{
-    //    transition: .4s ease;
-    //  }
-    //  span{
-    //    padding-right: 14px;
-    //  }
-    //
-    //  &:hover{
-    //    .fa-user{
-    //      color: #44bd32;
-    //    }
-    //    .fa-commenting{
-    //      color: #0097e6;
-    //    }
-    //    .fa-heart{
-    //      color: #ff434f;
-    //    }
-    //  }
-    //
-    //}
   }
 }
 
 @media (max-width: 1410px) {
   .case-card{
-    width: calc(45vw - 1px);
+    grid-template-columns: 375px 1fr;
+    grid-template-rows: 250px;
+    width: 73vw;
+    .article-cover{
+      img{
+        height: 250px;
+      }
+    }
   }
 }
 @media (max-width: 992px) {
   .case-card{
-    grid-template-columns: 150px 1fr;
-    grid-template-rows: 150px;
-    width: calc(48vw - 1px);
+    width: 83vw;
+    grid-template-columns: 300px 1fr;
+    grid-template-rows: 200px;
+    .article-cover{
+      img{
+        height: 194px;
+      }
+    }
   }
 }
 @media (max-width: 768px){
   .case-card{
-    width: calc(96vw - 1px)
+    width: calc(96vw - 20px);
+    .article-cover{
+      img{
+        height: 194px;
+      }
+    }
   }
 }
-@media (max-width: 576px){
+@media (max-width: 600px){
+  .case-card{
+    grid-template-areas: "cover" "content";
+    grid-template-columns: 100%;
+    grid-template-rows: 176px 194px;
+  }
 
 }
 </style>
