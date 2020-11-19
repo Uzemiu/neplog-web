@@ -7,7 +7,7 @@
       <div class="logo">Neplog</div>
       <nav class="top-nav">
         <ul>
-          
+
         </ul>
         <router-link to="/home">首页</router-link>
         <router-link to="/about">关于</router-link>
@@ -65,15 +65,14 @@ header{
   width: 100%;
   height: 47px;
   max-height: 100px;
-
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   position: relative;
   z-index: 200;
   transition: .4s ease-in-out;
+  font-family: 'Play';
 
-  //margin-bottom: 47px;
 
   .header-item{
     padding: 0 40px;

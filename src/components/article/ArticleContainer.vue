@@ -5,14 +5,20 @@
     <remote-css href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css"/>
     <remote-js src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"/>
     <remote-js src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/katex.min.js"/>
+
     <div class="article-header">
-      <h1 class="article-title">
-        TIPS:本博客金部署了前端样式和前端演示和呵呵呵
-        TIPS:本博客金部署了前端样式和前端演示和呵呵呵
-      </h1>
-      <p class="date-info">
-        <span>创建于:2020-02-02</span>
-        <span>更新于:2020-02-02</span>
+<!--      <h1 class="article-title">-->
+<!--        TIPS:本博客金部署了前端样式和前端演示和呵呵呵-->
+<!--        TIPS:本博客金部署了前端样式和前端-->
+<!--      </h1>-->
+      <p class="base-info">
+
+        <span>Neptu</span>
+        <span>Created: 2020-02-02</span>
+        <span>Updated: 2020-02-02</span>
+      </p>
+      <p class="base-info">
+
         <span>
           <i class="fa fa-folder-open"></i>
           <a href="">テースト</a>
@@ -20,17 +26,20 @@
         <span class="tags">
           <i class="fa fa-tags"></i>
           <a href="">Java</a>
+          <span class="bull">·</span>
           <a href="">AvaJ</a>
         </span>
         <span><i class="fa fa-user"></i>{{view}}</span>
-        <span><i class="fa fa-comment"></i>{{comment}}</span>
-        <span><i class="fa fa-heart"></i>{{like}}</span>
       </p>
     </div>
 
-    <div class="article-body markdown-body" v-html="article">
+    <div class="article-body markdown-body serif-sc" v-html="article">
 
     </div>
+    <div class="article-foot">
+
+    </div>
+
   </div>
 </template>
 
@@ -54,36 +63,41 @@ export default {
       like: 3,
       article: article
     }
+  },
+  methods: {
+
+  },
+  mounted() {
+
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .article-container{
-  width: 100%;
-  padding: 20px;
-  background-color: #fff;
-  box-shadow: 0 13px 15px rgba(31,45,61,.1);
+  width: calc(100% - 150px);
+  padding: 40px;
+  position: relative;
+  color: #434343;
 
   .article-header{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-
 
     .article-title{
       font-size: 1.5em;
-      padding: 0 20px;
-      text-align: center;
+
     }
-    .date-info{
-      margin-top: 13px;
+    .base-info{
+      margin-bottom: 15px;
       color: var(--text-color-gray);
+      text-align: left;
+
+      .bull{
+        margin: 0 3px;
+      }
 
       span{
-        margin: 0 8px;
-        font-size: 13px;
+        margin-right: 16px;
+        font-size: 15px;
 
         i.fa{
           margin-right: 4px
@@ -91,17 +105,42 @@ export default {
         a{
           color: var(--text-color-gray)
         }
-        a:nth-of-type(n+2){
-          margin-left: 4px;
-          &:before{
-            content: "- "
-          }
-        }
-      }
-      span a{
-
       }
     }
   }
+
+  .article-body{
+    margin-top: 20px;
+    line-height: 20px;
+    font-family: "Noto Serif SC";
+
+
+    code{
+      font-size: 100%;
+      font-family: Consolas,serif;
+    }
+  }
+
+}
+
+@media (max-width: 992px) {
+ .article-container{
+   //width: 96vw;
+ }
+}
+
+@media (max-width: 838px) {
+  .article-container{
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px){
+  .flex-section{
+    width: 100%;
+  }
+}
+@media (max-width: 576px){
+
 }
 </style>

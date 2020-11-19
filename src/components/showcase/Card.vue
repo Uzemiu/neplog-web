@@ -129,7 +129,7 @@ export default {
       .statics{
         margin-top: 10px;
         max-height: 15px;
-        overflow: hidden;
+        line-height: 22px;
         transition: .4s ease-in-out;
       }
 
@@ -143,8 +143,9 @@ export default {
       overflow: hidden;
       display: -webkit-box;
       -webkit-box-orient: vertical;
-      -webkit-line-clamp: 5;
+      -webkit-line-clamp: 3;
       text-overflow: ellipsis;
+      line-height: 25px;
 
       &:hover{
         color: #2e2e2e;
@@ -172,12 +173,17 @@ export default {
         content: "";
         position: absolute;
         width: 20px;
-        height: 25px;
+        height: 27px;
         right: 0;
-        background: linear-gradient(90deg,rgba(240,242,247,.05),#fff);
+        background: linear-gradient(90deg,rgba(240,242,247,.04),#fff);
       }
     }
   }
+
+  //&:nth-child(4n), &:nth-child(4n+3){
+  //  grid-template-areas: "content cover";
+  //  grid-template-columns: 1fr 330px;
+  //}
 }
 
 @media (max-width: 1410px) {
@@ -190,16 +196,20 @@ export default {
         height: 250px;
       }
     }
+    //&:nth-child(2n+1){
+    //  grid-template-areas: "content cover";
+    //  grid-template-columns: 1fr 375px;
+    //}
   }
 }
 @media (max-width: 992px) {
   .case-card{
     width: 83vw;
     grid-template-columns: 300px 1fr;
-    grid-template-rows: 200px;
+    grid-template-rows: 250px;
     .article-cover{
       img{
-        height: 194px;
+        height: 250px;
       }
     }
   }
@@ -209,7 +219,7 @@ export default {
     width: calc(96vw - 20px);
     .article-cover{
       img{
-        height: 194px;
+        height: 250px;
       }
     }
   }

@@ -1,49 +1,31 @@
 <template>
   <div class="content-wrapper">
-<!--    <flex-section class="home-us">-->
-<!--      <h2 slot="title" class="main-title">关于</h2>-->
-<!--      <p slot="intro" class="intro">-->
-<!--        即使如此我依然前行 只为证明这份坚强-->
-<!--      </p>-->
-<!--      <features slot="items">-->
-<!--        <feature>-->
-<!--          <img slot="icon" src="../../assets/imgs/QQ图片20201110142312.jpg" alt="">-->
-<!--          <h4 slot="title">123</h4>-->
-<!--          <p slot="content">简介简介简介简介简介简介简介简介</p>-->
-<!--        </feature>-->
-<!--        <feature>-->
-<!--          <h4 slot="title">Neplog</h4>-->
-<!--          <p slot="content">欢迎来到NeptuLOGLOGLGOGLOGLOGGLOGLOG</p>-->
-<!--        </feature>-->
-<!--        <feature>-->
-<!--          <h4 slot="title">Neplog</h4>-->
-<!--          <p slot="content">欢迎来到NeptuLOGLOGLGOGLOGLOGGLOGLOG</p>-->
-<!--        </feature>-->
-<!--        <feature></feature>-->
-<!--        <feature></feature>-->
-<!--      </features>-->
-<!--    </flex-section>-->
 
-    <glide :slides="slides" class="home-slides"></glide>
+    <glide :glide-length="slides.length" class="home-slides">
+      <glide-slide
+        v-for="article in slides"
+        :key="article.id"
+        :link="`/article/${article.id}`"
+        :title="article.title"
+        :img="article.img">
+
+      </glide-slide>
+    </glide>
     <showcase></showcase>
   </div>
 </template>
 
 <script>
-// import Feature from "@/components/home/Feature";
-// import Features from "@/components/home/Features";
-// import FlexSection from "@/components/flex/FlexSection";
 import Showcase from "@/components/showcase/Showcase";
 import Glide from "@/components/glide/index"
+import GlideSlide from "@/components/glide/GlideSlide";
 
 export default {
   name: "About",
   components: {
-    // Feature,
-    // Features,
-    // FlexSection,
     Showcase,
-    Glide
+    Glide,
+    GlideSlide
   },
   data(){
     return {

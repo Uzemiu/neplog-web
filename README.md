@@ -1,24 +1,8 @@
-# sso
+# Neplog-web
 
-## Project setup
-```
-npm install
-```
+## 更新日志
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+### [0.01] - 2020-11-09
 
-### Compiles and minifies for production
-```
-npm run build
-```
+- 开始制作前端样式部分
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

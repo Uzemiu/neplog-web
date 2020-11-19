@@ -1,10 +1,19 @@
 <template>
-  <mavon-editor v-model="html" @save="handleChange"></mavon-editor>
+  <div>
+    <mavon-editor
+      ref=md
+      v-model="html"
+      @save="handleSave"></mavon-editor>
+
+  </div>
+
+
 </template>
 
 <script>
 import 'mavon-editor/dist/css/index.css';
-
+import anchor from 'markdown-it-anchor';
+import markdownItTocDoneRight from 'markdown-it-toc-done-right';
 
 export default {
 
@@ -13,18 +22,26 @@ export default {
   },
   data() {
     return {
+      markdownIt: null,
       html: ''
     }
   },
   methods: {
-    handleChange(value,render){
+    handleSave(value,render){
       console.log(value);
-      console.log(render)
+      console.log(render);
     }
+  },
+  mounted() {
+    this.$refs.md.markdownIt
+      .use(anchor)
+      .use(markdownItTocDoneRight);
   }
 }
 </script>
 
 <style scoped>
+.n-editor{
 
+}
 </style>

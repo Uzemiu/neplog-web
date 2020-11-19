@@ -2,13 +2,10 @@
   <div class="glide__slide">
     <div class="slide-caption">
       <router-link :to="link" class="title">{{title}}</router-link>
-<!--      <slot name="title"></slot>-->
-      <h3>{{subTitle}}</h3>
-<!--      <slot name="sub-title"></slot>-->
-<!--      <button class="detail" @click="to">详细</button>-->
+      <h3 v-if="subTitle">{{subTitle}}</h3>
     </div>
     <div class="backdrop"></div>
-    <slot name="img"></slot>
+    <img :src="img" alt="">
   </div>
 </template>
 
@@ -23,6 +20,10 @@ export default {
     },
     subTitle: {
       type: String,
+      default: ''
+    },
+    img: {
+      type: null,
       default: ''
     }
   },
@@ -58,6 +59,7 @@ export default {
     object-fit: cover;
   }
   .slide-caption{
+    width: 80%;
     position: absolute;
     z-index: 70;
     color: var(--text-color-lightest);

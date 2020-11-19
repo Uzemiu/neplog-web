@@ -24,8 +24,14 @@ export default {
 
 <style>
 @import "assets/css/style.css";
-#app{
-
+#app, button{
   scroll-behavior: smooth;
+
+  font-family: 'Noto Serif SC',"Play",'Open Sans',-apple-system,
+  Consolas,
+  BlinkMacSystemFont,
+  Helvetica Neue, Helvetica,
+  Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif;
+
 }
 </style>
