@@ -76,7 +76,7 @@ export default {
 <style lang="scss">
 .article-container{
   width: calc(100% - 150px);
-  padding: 40px;
+  padding: 20px 20px 40px 40px;
   position: relative;
   color: #434343;
 
@@ -132,6 +132,7 @@ export default {
 @media (max-width: 838px) {
   .article-container{
     width: 100%;
+    padding-left: 20px;
   }
 }
 

@@ -15,6 +15,10 @@
     font-family: "Noto Serif SC", sans-serif;
 }
 
+button:focus{
+    outline: none;
+}
+
 :root{
     --primary-color: #ff434f;
     --secondary-color: #e3e3e3;

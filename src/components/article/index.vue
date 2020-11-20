@@ -167,7 +167,9 @@ export default {
       line-height: 24px;
 
       ol{
-        padding-left: 14px
+        word-wrap: anywhere;
+        padding-left: 14px;
+        padding-right: 5px;
       }
 
       li > ol{

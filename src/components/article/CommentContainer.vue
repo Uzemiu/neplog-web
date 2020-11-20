@@ -159,6 +159,8 @@ export default {
 
 @media (max-width: 768px){
   .comment-container{
+    padding-left: 10px;
+
     .comment-submit{
       .user-info{
         width: 100px;
