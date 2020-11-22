@@ -23,7 +23,7 @@ export default {
   },
   methods: {
     changeScrollTop(){
-      this.scrollTop = window.pageYOffset > 200 ? '40px' : '-40px';
+      this.scrollTop = window.pageYOffset > 200 ? '27px' : '-40px';
     },
     scrollToTop(){
       window.scrollTo({
@@ -60,11 +60,11 @@ export default {
     .scrollToTop i{
       width: 32px;
       height: 32px;
-      border-radius: 4px;
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      background-color: var(--primary-color);
+      background-color: coral;
       color: white;
       text-decoration: none;
       position: fixed;
@@ -72,6 +72,7 @@ export default {
       right: 27px;
       cursor: pointer;
       transition: .4s ease-in-out;
+      z-index: 234;
     }
   }
 </style>

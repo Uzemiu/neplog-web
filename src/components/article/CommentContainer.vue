@@ -107,7 +107,7 @@ export default {
       .word-counter{
         position: absolute;
         color: #8b8b8b;
-        right: 6px;
+        right: 18px;
         top: 3px;
         font-size: 13px;
         z-index: 1;
