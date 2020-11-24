@@ -31,7 +31,8 @@ export default {
     return {
       slides: [{
         id: 123,
-        img: require('@/assets/imgs/71891897_p0.jpg'),
+        img: 'https://www.neptu.cn/img/71773962_p0.f8462c3e.jpg',
+        // img: require('@/assets/imgs/71891897_p0.jpg'),
         title: 'TIPS：本博客仅部署了前端样式'
       }, {
         id: 456,

@@ -5,15 +5,11 @@
     ref="header">
     <div class="top-header header-item">
       <div class="logo">Neplog</div>
-      <nav class="top-nav">
-        <ul>
-
-        </ul>
-        <router-link to="/home">首页</router-link>
-        <router-link to="/about">关于</router-link>
-        <router-link to="/team">团队</router-link>
-        <i class="fa fa-search"></i>
-      </nav>
+      <nav-item>
+        <li slot="search-bar" class="">
+          <search-bar></search-bar>
+        </li>
+      </nav-item>
       <div class="burger" @click="openTopBar">
         <div class="burger-line1"></div>
         <div class="burger-line2"></div>
@@ -21,16 +17,27 @@
       </div>
     </div>
 
-    <div class="open-header header-item" ref="openHeader">
-
+    <div class="side-nav" ref="openHeader">
+      <div class="avatar">
+        <img src="../../assets/imgs/tomorinao.jpg" alt="">
+      </div>
+      <search-bar class="side-search-bar"></search-bar>
+      <nav-item></nav-item>
     </div>
 
   </header>
 </template>
 
 <script>
+import NavItem from "@/components/top-nav/NavItem";
+import SearchBar from "@/components/search-bar/index";
+
 export default {
   name: "NavBar",
+  components:{
+    NavItem,
+    SearchBar
+  },
   data(){
     return {
       stickyHeader: false,
@@ -60,7 +67,6 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../../node_modules/font-awesome/css/font-awesome.min.css";
-@import "../../../node_modules/hamburgers/dist/hamburgers.css";
 header{
   width: 100%;
   height: 47px;
@@ -70,36 +76,21 @@ header{
   flex-wrap: wrap;
   position: relative;
   z-index: 200;
-  transition: .4s ease-in-out;
-  font-family: 'Play';
-
+  transition: background-color .3s ease-in-out;
+  font-family: 'Noto Serif SC';
 
   .header-item{
     padding: 0 40px;
   }
 
   .top-header{
-
     display: grid;
     grid-template-columns: 1fr 2fr;
     align-items: center;
     position: relative;
     height: 100%;
     width: 100%;
-
-    nav{
-      justify-self: end;
-
-      i{
-        color: var(--text-color-lightest);
-      }
-
-      a{
-        color: var(--text-color-lightest);
-        text-decoration: none;
-        margin: 0 24px;
-      }
-    }
+    z-index: 234;
 
     .burger{
       display: none;
@@ -140,22 +131,95 @@ header{
       font-size: 24px;
       font-weight: 600;
       color: var(--text-color-lightest);
+      font-family: Play;
+    }
+
+    ::v-deep .top-nav{
+      a, .fa{
+        color: var(--text-color-lightest);
+      }
+      input{
+        &, &::placeholder{
+          color: var(--text-color-lightest);
+        }
+      }
+      .search-bar:hover{
+        background-color: rgba(255,255,255,.2);
+        box-shadow: 0 2px 10px 1px rgba(0,0,0,.15);
+      }
+      .search-bar:after{
+        content: none;
+      }
     }
   }
 
-  .open-header{
-    max-height: 0;
-    width: 100%;
-    height: 100px;
-    background-color: rgba(255,255,255,1);
+  .side-nav{
+    position: fixed;
+    height: 100vh;
+    width: 200px;
+    transform: translateX(200px);
+    top: 0;
+    right: 0;
+    background-color: rgba(255,255,255,.9);
     box-shadow: 0 5px 5px rgba(0,0,0,0.1);
     transition: .4s ease-in-out;
+    backdrop-filter: blur(2px);
+    z-index: 2;
+    padding-top: 47px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .avatar{
+      display: flex;
+      justify-content: center;
+      img{
+        width: 100px;
+        height: 100px;
+      }
+    }
+
+    .side-search-bar{
+      width: 160px;
+      ::v-deep input{
+        max-width: 120px;
+      }
+    }
+
+    ::v-deep .top-nav{
+      ul{
+        flex-direction: column;
+      }
+      li{
+        padding: 4px 0;
+      }
+      .menu-item:first-child{
+        margin-top: 25px;
+      }
+      .menu-item:hover > .sub-menu{
+
+       }
+      .sub-menu{
+        position: relative;
+        opacity: 1;
+        transform: translateY(0);
+        overflow: hidden;
+
+        a{
+          color: var(--text-color-gray);
+          margin-left: 48px;
+        }
+        li{
+          text-align: left;
+        }
+      }
+    }
   }
 
   &.sticky{
     position: sticky;
     top: 0;
-    background-color: rgba(255,255,255,1);
+    background-color: rgba(255,255,255,.9);
     box-shadow: 0 0 18px rgba(0,0,0,0.2);
 
     .burger-line1,
@@ -163,19 +227,29 @@ header{
     .burger-line3{
       transition: .4s ease;
     }
-
-    .top-nav,{
-      a,i{
-        transition: .4s;
-        color: var(--text-color-dark)
-      }
-    }
     .logo{
       color: var(--text-color-darker)
     }
+    .top-header{
+      backdrop-filter: blur(2px);
+    }
+    .top-header ::v-deep .top-nav {
+      a, .fa, input{
+        color: var(--text-color-darker);
+      }
+      input::placeholder{
+        color: var(--text-color-light-gray);
+      }
+      .search-bar:hover{
+        box-shadow: none;
+      }
+      .search-bar:after{
+        content: "";
+      }
+    }
   }
 
-  &.open, &.delay-open{
+  &.open{
     .burger-line1 {
       transform: rotate(45deg) translate(3px, 5px);
     }
@@ -186,35 +260,16 @@ header{
     .burger-line3 {
       transform: rotate(-45deg) translate(3px, -5px);
     }
-
     .top-header{
       box-shadow: none;
     }
-    .open-header{
-      max-height: 100px;
+    .side-nav{
+      max-width: 200px;
+      transform: translateY(0);
+      ::v-deep .top-nav{
+      }
     }
   }
-
-  //&.open{
-  //  .open-header{
-  //    max-height: 100px;
-  //  }
-  //}
-  //
-  //&.delay-open{
-  //  .open-header{
-  //    animation: openTopNav .4s ease-in-out forwards .4s;
-  //  }
-  //  @keyframes openTopNav {
-  //    from{
-  //      max-height: 0;
-  //    }
-  //    to{
-  //      max-height: 100px;
-  //    }
-  //  }
-  //}
-
 }
 
 @media (max-width: 1100px) {
@@ -222,7 +277,7 @@ header{
     grid-template-columns: repeat(2,1fr);
 
     .top-header{
-      nav.top-nav{
+      ::v-deep .top-nav{
         display: none;
       }
 
@@ -233,7 +288,6 @@ header{
         height: 6px;
         justify-self: end;
         cursor: pointer;
-
       }
     }
 

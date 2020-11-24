@@ -45,14 +45,14 @@
 
 <script>
 import 'mavon-editor/dist/css/index.css'
-import {RemoteCss, RemoteJs} from "@/utils/remote-js";
+import {RemoteCss, RemoteTags} from "@/utils/remote-tags";
 
 import article from "@/utils/mock";
 export default {
   name: "ArticleContainer",
   components: {
     RemoteCss,
-    RemoteJs
+    RemoteJs: RemoteTags
   },
   data(){
     return {

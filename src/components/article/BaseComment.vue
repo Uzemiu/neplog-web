@@ -9,10 +9,7 @@
 
 <script>
 export default {
-  name: "Comment",
-  props: {
-
-  }
+  name: "BaseComment"
 }
 </script>
 
@@ -28,7 +25,6 @@ export default {
   .comment-main{
     width: 100%;
     position: relative;
-
   }
 }
 

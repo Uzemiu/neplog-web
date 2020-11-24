@@ -1,7 +1,7 @@
 <template>
   <div class="case-card" :class="tags">
     <a class="article-cover" :href="'/article/' + postId">
-      <img :src="cover" alt="">
+      <img v-lazy="cover" alt="">
     </a>
     <div class="article-info">
       <div class="title">

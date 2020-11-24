@@ -7,7 +7,6 @@
         :link="`/article/${article.id}`"
         :title="article.title"
         :img="article.img">
-
       </glide-slide>
     </glide>
 
@@ -21,7 +20,11 @@
     </section>
 
     <section class="flex-section">
-      <comment-container></comment-container>
+      <comment-form>
+        <div slot="user-avatar" class="avatar-area">
+          <img class="avatar" src="https://pic2.zhimg.com/da8e974dc_is.jpg" alt="">
+        </div>
+      </comment-form>
     </section>
 
     <section class="flex-section">
@@ -32,10 +35,10 @@
 </template>
 
 <script>
-import Glide from '../glide/index'
+import Glide from '../../components/glide/index'
 import GlideSlide from "@/components/glide/GlideSlide";
-import ArticleContainer from "./ArticleContainer";
-import CommentContainer from "./CommentContainer";
+import ArticleContainer from "../../components/article/ArticleContainer";
+import CommentForm from "../../components/article/CommentForm";
 import CommentList from "@/components/article/CommentList";
 
 let links, anchors;
@@ -46,7 +49,7 @@ export default {
     Glide,
     GlideSlide,
     ArticleContainer,
-    CommentContainer,
+    CommentForm,
     CommentList
   },
   data(){
@@ -58,6 +61,18 @@ export default {
         img: require('@/assets/imgs/71891897_p0.jpg'),
         title: 'TIPS：本博客仅部署了前端样式'
       }]
+    }
+  },
+  mounted() {
+    let toc = document.querySelector('.table-of-contents');
+    if(toc){
+      this.$refs.toc.appendChild(toc);
+      links = toc.querySelectorAll('li');
+      anchors = this.$refs.articleSection
+        .querySelectorAll('.article-body h1, h2, h3, h4, h5, h6');
+      window.addEventListener('scroll',this.scrollToc);
+      window.addEventListener('scroll',this.displayDrawer)
+      this.smoothAnchorScroll();
     }
   },
   methods: {
@@ -110,19 +125,6 @@ export default {
       this.drawn = !this.drawn;
     }
   },
-  mounted() {
-    let toc = document.querySelector('.table-of-contents');
-    if(toc){
-      this.$refs.toc.appendChild(toc);
-      links = toc.querySelectorAll('li');
-      anchors = this.$refs.articleSection
-        .querySelectorAll('.article-body h1, h2, h3, h4, h5, h6');
-      window.addEventListener('scroll',this.scrollToc);
-      window.addEventListener('scroll',this.displayDrawer)
-      this.smoothAnchorScroll();
-    }
-
-  }
 }
 </script>
 
@@ -143,7 +145,18 @@ export default {
   box-shadow: 0 13px 15px rgba(31,45,61,.1);
 }
 
-.article-glide{
+
+.avatar-area{
+  width: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .avatar{
+    margin-bottom: 10px;
+    width: 100px;
+    border-radius: 50%;
+  }
 
 }
 

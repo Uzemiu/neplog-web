@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import VueRouter from "vue-router";
 
-const About = () => import("@/components/home/index");
-const Article = () => import("@/components/article/index")
+const About = () => import("@/views/home/index");
+const Article = () => import("@/views/article/index")
 const Editor = () => import("@/components/editor/index")
 
 Vue.use(VueRouter)

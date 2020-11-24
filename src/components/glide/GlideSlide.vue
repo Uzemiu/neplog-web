@@ -5,7 +5,7 @@
       <h3 v-if="subTitle">{{subTitle}}</h3>
     </div>
     <div class="backdrop"></div>
-    <img :src="img" alt="">
+    <img v-lazy="img" alt="">
   </div>
 </template>
 
@@ -25,11 +25,6 @@ export default {
     img: {
       type: null,
       default: ''
-    }
-  },
-  methods:{
-    to(){
-      this.$router.push('/article/' + this.link);
     }
   }
 }

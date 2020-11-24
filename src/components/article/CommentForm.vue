@@ -1,14 +1,10 @@
 <template>
-  <div class="comment-container">
-
-    <div class="comment-submit">
-      <div class="user-info">
-        <img class="avatar" src="https://pic2.zhimg.com/da8e974dc_is.jpg" alt="">
-      </div>
-
-      <div class="submit-area">
+  <div class="comment-form">
+    <base-comment class="comment-submit">
+      <slot name="user-avatar" slot="user-avatar"></slot>
+      <div slot="main" class="submit-area">
         <div class="word-counter">{{leftWordCount}}</div>
-        <textarea rows="6" class="comment" v-model="comment"></textarea>
+        <textarea rows="6" class="comment" :placeholder="placeholder" v-model="comment"></textarea>
         <div class="anonymous-input">
           <input type="text" placeholder="*昵称" class="username" v-model="username">
           <input type="text" placeholder="*邮箱" class="email" v-model="email">
@@ -18,15 +14,20 @@
           <button>评论</button>
         </div>
       </div>
-    </div>
-
+    </base-comment>
   </div>
 </template>
 
 <script>
-
+import BaseComment from "@/components/article/BaseComment";
 export default {
-  name: "CommentContainer",
+  name: "CommentForm",
+  components:{
+    BaseComment
+  },
+  props: {
+    placeholder: String
+  },
   data(){
     return {
       comment: '',
@@ -44,16 +45,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.comment-container{
+.comment-form{
   width: 100%;
   padding: 20px;
 
   .comment-submit{
-    width: 100%;
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-    flex-direction: row;
 
     input, .comment{
       outline: none;
