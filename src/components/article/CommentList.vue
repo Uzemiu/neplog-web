@@ -4,64 +4,60 @@
       <span>共8条评论</span>
     </div>
     <div v-if="loading">Loading...</div>
-    <lazy-component @show="fetchComments">
-      <BaseComment
-        v-for="i in 6"
-        :key="i"
-        :class="{'sub-comment': i % 3 !== 1}">
-        <div class="user" slot="main">
-          <div class="user-avatar" slot="user-avatar">
-            <img class="avatar" src="https://pic2.zhimg.com/da8e974dc_is.jpg" alt="">
-          </div>
-          <div class="user-info">
-            <span class="username">Username</span>
-            <span>回复</span>
-            <span class="username">Neptu</span>
-          </div>
-          <div class="user-agent">
+    <lazy-component @show="fetchComments"></lazy-component>
+    <BaseComment
+      v-for="i in 6"
+      :key="i"
+      :class="{'sub-comment': i % 3 !== 1}">
+      <div class="user" slot="main">
+        <div class="user-avatar" slot="user-avatar">
+          <img class="avatar" src="https://pic2.zhimg.com/da8e974dc_is.jpg" alt="">
+        </div>
+        <div class="user-info">
+          <span class="username">Username</span>
+          <span>回复</span>
+          <span class="username">Neptu</span>
+        </div>
+        <div class="user-agent">
           <span class="os windows">
             <i class="fa fa-windows"></i>
             <span>Windows 10</span>
           </span>
-            <span class="ua chrome">
+          <span class="ua chrome">
             <i class="fa fa-chrome"></i>
             <span>Chrome</span>
           </span>
+        </div>
+      </div>
+
+      <div slot="main" class="comment-content markdown-body">
+        <h2 id="test-reply">Test Reply</h2>
+        <pre class="hljs"><code>md without lang
+</code></pre>
+      </div>
+      <div slot="main" class="comment-foot">
+        <span class="date">2020-11-21 25:81:22</span>
+        <span class="pointer"><i class="fa fa-smile-o"></i> 1</span>
+        <span class="pointer"><i class="fa fa-frown-o"></i> 0</span>
+        <span class="reply" @click="activeReply(i)">Reply</span>
+        <div class="more-action">
+          <i class="fa fa-ellipsis-v"></i>
+          <div class="action-list">
+            <ul>
+              <li>删除评论</li>
+              <li>删除</li>
+            </ul>
           </div>
         </div>
+      </div>
 
-        <div slot="main" class="comment-content markdown-body">
-        <pre><div class="hljs"><code class="lang-java"><span class="hljs-function"><span
-          class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span
-          class="hljs-keyword">void</span> <span class="hljs-title">main</span><span
-          class="hljs-params">(String[] args)</span></span>{
-          System.out.println('#');}
-</code></div></pre>
-        </div>
-        <div slot="main" class="comment-foot">
-          <span class="date">2020-11-21 25:81:22</span>
-          <span class="pointer"><i class="fa fa-smile-o"></i> 1</span>
-          <span class="pointer"><i class="fa fa-frown-o"></i> 0</span>
-          <span class="reply" @click="activeReply(i)">Reply</span>
-          <div class="more-action">
-            <i class="fa fa-ellipsis-v"></i>
-            <div class="action-list">
-              <ul>
-                <li>删除评论</li>
-                <li>删除</li>
-              </ul>
-            </div>
-          </div>
-        </div>
+      <component slot="main"
+                 class="comment-reply"
+                 :is="reply[i]"
+                 v-show="collapse[i]"/>
 
-        <component slot="main"
-                   class="comment-reply"
-                   :is="reply[i]"
-                   v-show="collapse[i]"/>
+    </BaseComment>
 
-      </BaseComment>
-
-    </lazy-component>
   </div>
 </template>
 
@@ -234,7 +230,6 @@ export default {
           line-height: 24px;
           height: 24px;
         }
-
         li:hover {
           background-color: var(--text-color-lightest);
         }
@@ -267,17 +262,14 @@ export default {
     .sub-comment {
       padding-left: 0;
     }
-
     .user {
       .user-avatar {
         width: 50px;
       }
-
       .avatar {
         margin-bottom: 7px;
         width: 40px;
       }
-
       .user-agent {
         margin-top: 0;
       }
@@ -287,7 +279,6 @@ export default {
       .date {
         margin-left: 0;
       }
-
       &:after {
         bottom: 7px;
       }

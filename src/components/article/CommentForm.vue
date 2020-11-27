@@ -20,15 +20,16 @@
 
 <script>
 import BaseComment from "@/components/article/BaseComment";
+
 export default {
   name: "CommentForm",
-  components:{
+  components: {
     BaseComment
   },
   props: {
     placeholder: String
   },
-  data(){
+  data() {
     return {
       comment: '',
       username: '',
@@ -37,7 +38,7 @@ export default {
     }
   },
   computed: {
-    leftWordCount(){
+    leftWordCount() {
       return 140 - this.comment.length;
     }
   }
@@ -45,29 +46,29 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.comment-form{
+.comment-form {
   width: 100%;
   padding: 20px;
 
-  .comment-submit{
+  .comment-submit {
 
-    input, .comment{
+    input, .comment {
       outline: none;
     }
 
-    .user-info{
+    .user-info {
       width: 150px;
       display: flex;
       flex-direction: column;
       align-items: center;
 
-      .avatar{
+      .avatar {
         margin-bottom: 10px;
         width: 100px;
         border-radius: 50%;
       }
 
-      .username{
+      .username {
         font-size: 16px;
         padding: 2px 0;
         border: none;
@@ -75,7 +76,7 @@ export default {
         text-align: center;
         width: 80%;
 
-        &:focus{
+        &:focus {
           border: var(--text-color-gray);
           outline: #8b8b8b 1px solid;
         }
@@ -83,11 +84,11 @@ export default {
 
     }
 
-    .submit-area{
+    .submit-area {
       width: 100%;
       position: relative;
 
-      .comment{
+      .comment {
         resize: none;
         position: relative;
         padding: 15px 20px 5px 10px;
@@ -97,10 +98,10 @@ export default {
         max-height: 200px;
         overflow-y: auto;
         border-radius: 5px;
-        border: 1px rgb(229,233,239) solid;
+        border: 1px rgb(229, 233, 239) solid;
       }
 
-      .word-counter{
+      .word-counter {
         position: absolute;
         color: #8b8b8b;
         right: 18px;
@@ -109,29 +110,29 @@ export default {
         z-index: 1;
       }
 
-      .anonymous-input{
+      .anonymous-input {
         margin-top: 10px;
         display: flex;
 
-        input{
+        input {
           width: 33%;
-          border: 1px rgb(229,233,239) solid;
+          border: 1px rgb(229, 233, 239) solid;
           border-radius: 5px;
           background-color: #f8f8f8;
           font-size: 16px;
           padding: 10px 10px;
         }
 
-        input:nth-last-child(n+2){
+        input:nth-last-child(n+2) {
           margin-right: 20px;
         }
       }
 
-      .submit-button{
+      .submit-button {
         margin-top: 10px;
         text-align: right;
 
-        button{
+        button {
           outline: none;
           font-size: 16px;
           cursor: pointer;
@@ -141,7 +142,7 @@ export default {
           color: #fff;
           background-color: #0097e6;
 
-          &:hover{
+          &:hover {
             opacity: 0.9;
           }
         }
@@ -153,28 +154,29 @@ export default {
 @media (max-width: 992px) {
 }
 
-@media (max-width: 768px){
-  .comment-container{
-    padding-left: 10px;
+@media (max-width: 768px) {
+  .comment-form {
 
-    .comment-submit{
-      .user-info{
+    .comment-submit {
+      .user-info {
         width: 100px;
-        .avatar{
+
+        .avatar {
           width: 60px;
         }
       }
-      .submit-area{
 
-        .comment{
+      .submit-area {
+        .comment {
           font-size: 15px;
           max-height: 80px;
         }
 
-        .anonymous-input{
+        .anonymous-input {
           flex-direction: column;
 
-          input{
+          input {
+
             margin-bottom: 10px;
             width: 100%;
             padding: 5px 5px;
@@ -182,19 +184,19 @@ export default {
           }
         }
 
-        .submit-button{
+        .submit-button {
           margin-top: 0;
-          button{
+
+          button {
             font-size: 14px;
           }
         }
       }
     }
   }
-
-
 }
-@media (max-width: 576px){
+
+@media (max-width: 576px) {
 
 }
 </style>

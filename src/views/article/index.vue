@@ -1,18 +1,10 @@
 <template>
   <div class="content-wrapper">
-    <glide :glide-length="slides.length" class="article-glide">
-      <glide-slide
-        v-for="article in slides"
-        :key="article.id"
-        :link="`/article/${article.id}`"
-        :title="article.title"
-        :img="article.img">
-      </glide-slide>
-    </glide>
+    <glide :glides="glides" class="article-glide"></glide>
 
     <section class="flex-section article-section" ref="articleSection">
       <article-container></article-container>
-      <div class="toc" ref="toc" :class="{drawn}">
+      <div class="toc" ref="toc" :class="{drawn}" v-if="tocDone">
         <div class="drawer" @click="doDraw" :class="{'show':showDrawer}">
           <i class="fa fa-angle-left"></i>
         </div>
@@ -35,8 +27,7 @@
 </template>
 
 <script>
-import Glide from '../../components/glide/index'
-import GlideSlide from "@/components/glide/GlideSlide";
+import Glide from '../../components/glide/index';
 import ArticleContainer from "../../components/article/ArticleContainer";
 import CommentForm from "../../components/article/CommentForm";
 import CommentList from "@/components/article/CommentList";
@@ -47,17 +38,18 @@ export default {
   name: "Article",
   components: {
     Glide,
-    GlideSlide,
     ArticleContainer,
     CommentForm,
     CommentList
   },
   data(){
     return {
+      tocDone: true,
       drawn: false,
       showDrawer: false,
-      slides: [{
+      glides: [{
         id: 123,
+        link: '#',
         img: require('@/assets/imgs/71891897_p0.jpg'),
         title: 'TIPS：本博客仅部署了前端样式'
       }]
@@ -73,6 +65,8 @@ export default {
       window.addEventListener('scroll',this.scrollToc);
       window.addEventListener('scroll',this.displayDrawer)
       this.smoothAnchorScroll();
+    } else {
+      this.tocDone = false;
     }
   },
   methods: {

@@ -19,6 +19,10 @@ const routes = [
   {
     path: '/editor',
     component: Editor
+  },
+  {
+    path: '/friend',
+    component: () => import("@/views/friend/index")
   }
 ]
 

@@ -1,0 +1,12 @@
+.markdown-body{
+  pre{
+    code[class*=html]{
+      .hljs-tag, .hljs-attribute{
+        color: #fff;
+      }
+      .hljs-name{
+        color: #569cd6;
+      }
+    }
+  }
+}

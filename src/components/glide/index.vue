@@ -3,20 +3,19 @@
 
     <div class="glide__track" data-glide-el="track">
       <div class="glide__slides" ref="glide">
-        <slot></slot>
-<!--        <glide-slide-->
-<!--          v-for="article in slides"-->
-<!--          :key="article.id"-->
-<!--          :link="`/article/${article.id}`"-->
-<!--          :title="article.title"-->
-<!--          :img="article.img"-->
-<!--          :info="'12323123'">-->
+        <glide-slide
+          v-for="(glide, i) in glides"
+          :key="i"
+          :link="glide.link"
+          :title="glide.title"
+          :img="glide.img"
+          :info="'12323123'">
 
-<!--        </glide-slide>-->
+        </glide-slide>
       </div>
     </div>
 
-    <div class="glide__arrows" data-glide-el="controls" v-show="isSingleSlide">
+    <div class="glide__arrows" data-glide-el="controls" v-if="isSingleSlide">
       <button class="glide__arrow glide__arrow--left" data-glide-dir="<">
         &lt;
       </button>
@@ -25,10 +24,10 @@
       </button>
     </div>
 
-    <div class="glide__bullets" data-glide-el="controls[nav]" v-show="isSingleSlide">
+    <div class="glide__bullets" data-glide-el="controls[nav]" v-if="isSingleSlide">
       <button
         class="glide__bullet"
-        v-for="i in glideLength || 0"
+        v-for="i in glides.length || 0"
         :key="i"
         :data-glide-dir="`=${i-1}`"></button>
     </div>
@@ -38,13 +37,28 @@
 
 <script>
 import Glide from '@glidejs/glide'
+import GlideSlide from "@/components/glide/GlideSlide";
 
 export default {
   name: "Glide",
   components: {
+    GlideSlide
   },
   props: {
-    glideLength: Number
+    glides: {
+      type: Array,
+      default: () => {
+        return [{img:require("@/assets/imgs/glide/322529.jpg")}]
+      }
+    },
+    arrows: {
+      type: Boolean,
+      default: undefined
+    },
+    bullets: {
+      type: Boolean,
+      default: undefined
+    }
   },
   mounted() {
     this.initSlide();
@@ -71,7 +85,7 @@ export default {
   },
   computed: {
     isSingleSlide(){
-      return !this.glideLength;
+      return this.glides.length > 1;
     }
   }
 }

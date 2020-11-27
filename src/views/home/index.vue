@@ -1,16 +1,7 @@
 <template>
   <div class="content-wrapper">
 
-    <glide :glide-length="slides.length" class="home-slides">
-      <glide-slide
-        v-for="article in slides"
-        :key="article.id"
-        :link="`/article/${article.id}`"
-        :title="article.title"
-        :img="article.img">
-
-      </glide-slide>
-    </glide>
+    <glide :glides="glides" class="home-slides"></glide>
     <showcase></showcase>
   </div>
 </template>
@@ -18,24 +9,23 @@
 <script>
 import Showcase from "@/components/showcase/Showcase";
 import Glide from "@/components/glide/index"
-import GlideSlide from "@/components/glide/GlideSlide";
 
 export default {
   name: "About",
   components: {
     Showcase,
-    Glide,
-    GlideSlide
+    Glide
   },
   data(){
     return {
-      slides: [{
+      glides: [{
         id: 123,
-        img: 'https://www.neptu.cn/img/71773962_p0.f8462c3e.jpg',
-        // img: require('@/assets/imgs/71891897_p0.jpg'),
+        link: `/article/${this.id}`,
+        img: require('@/assets/imgs/71891897_p0.jpg'),
         title: 'TIPS：本博客仅部署了前端样式'
       }, {
         id: 456,
+        link: `/article/${this.id}`,
         img: require('@/assets/imgs/71773962_p0.jpg'),
         title: 'EXTER'
       }]

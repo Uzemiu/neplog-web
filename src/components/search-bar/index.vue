@@ -45,14 +45,16 @@ export default {
       color: var(--text-color-light-gray);
     }
   }
-  &:hover:after{
-    content: "";
+  &:after{
     background-color: #c6e2ff;
     height: 2px;
     width: 100%;
     position: absolute;
     bottom: 0;
     right: 0;
+  }
+  &:hover:after{
+    content: "";
   }
 }
 </style>

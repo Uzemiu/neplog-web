@@ -7,18 +7,12 @@
     <remote-js src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/katex.min.js"/>
 
     <div class="article-header">
-<!--      <h1 class="article-title">-->
-<!--        TIPS:本博客金部署了前端样式和前端演示和呵呵呵-->
-<!--        TIPS:本博客金部署了前端样式和前端-->
-<!--      </h1>-->
       <p class="base-info">
-
         <span>Neptu</span>
         <span>Created: 2020-02-02</span>
         <span>Updated: 2020-02-02</span>
       </p>
       <p class="base-info">
-
         <span>
           <i class="fa fa-folder-open"></i>
           <a href="">テースト</a>
@@ -33,9 +27,9 @@
       </p>
     </div>
 
-    <div class="article-body markdown-body serif-sc" v-html="article">
+    <article class="article-body markdown-body serif-sc" v-html="article">
 
-    </div>
+    </article>
     <div class="article-foot">
 
     </div>
@@ -45,14 +39,18 @@
 
 <script>
 import 'mavon-editor/dist/css/index.css'
-import {RemoteCss, RemoteTags} from "@/utils/remote-tags";
-
+import 'highlight.js/styles/vs2015.css'
+import '@/assets/css/markdown.scss'
+import '@/assets/css/highlight/highlight-css.scss'
+import '@/assets/css/highlight/highlight-html.scss'
+import {RemoteCss, RemoteJs} from "@/utils/remote-tags";
 import article from "@/utils/mock";
+
 export default {
   name: "ArticleContainer",
   components: {
     RemoteCss,
-    RemoteJs: RemoteTags
+    RemoteJs
   },
   data(){
     return {
@@ -61,13 +59,20 @@ export default {
       view: 1,
       comment: 2,
       like: 3,
-      article: article
+      article: ''
     }
   },
-  methods: {
-
-  },
   mounted() {
+    this.axios
+      .get('http://localhost:8080/LanguageStyle.html')
+      .then(success => {
+        this.article = success.data;
+        // eslint-disable-next-line no-unused-vars
+      }, failure => {
+        this.article = article;
+      });
+  },
+  methods: {
 
   }
 }
@@ -75,7 +80,7 @@ export default {
 
 <style lang="scss">
 .article-container{
-  width: calc(100% - 150px);
+  width: calc(100% - 20px);
   padding: 20px 20px 40px 40px;
   position: relative;
   color: #434343;
@@ -84,7 +89,6 @@ export default {
 
     .article-title{
       font-size: 1.5em;
-
     }
     .base-info{
       margin-bottom: 15px;
@@ -94,7 +98,6 @@ export default {
       .bull{
         margin: 0 3px;
       }
-
       span{
         margin-right: 16px;
         font-size: 15px;
@@ -114,19 +117,14 @@ export default {
     line-height: 20px;
     font-family: "Noto Serif SC";
 
-
     code{
       font-size: 100%;
       font-family: Consolas,serif;
     }
   }
-
 }
 
 @media (max-width: 992px) {
- .article-container{
-   //width: 96vw;
- }
 }
 
 @media (max-width: 838px) {

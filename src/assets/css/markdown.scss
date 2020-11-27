@@ -1,0 +1,53 @@
+.markdown-body{
+  pre{
+    overflow-x: auto !important;
+    padding-left: 4.2em !important;
+    background-color: #1d1d1d !important;
+    counter-reset: linenumber;
+    color: #dcdcdc;
+    code{
+      position: relative;
+      .hljs-keyword, .hljs-literal, .hljs-symbol, .hljs-name{
+        color: #569CD6;
+      }
+      .hljs-subst, .hljs-function, .hljs-title, .hljs-params, .hljs-formula{
+        color: #dcdcdc;
+      }
+      .hljs-string, .hljs-meta-string{
+        color: #d69d85;
+      }
+      .hljs-regexp{
+        color: #b5cea8;
+      }
+      .hljs-function .hljs-title{
+         color: #dcd2a1;
+      }
+      .hljs-class .hljs-title{
+        color: #4ec9b0;
+      }
+      .hljs-built_in, .hljs-type{
+        color: #4ec9b0;
+      }
+      .line-numbers{
+        position: absolute;
+        top: 0;
+        left: -4.8em;
+        width: 4em;
+        font-size: 100%;
+        pointer-events: none;
+        border-right: 1px #999 solid;
+        .line-number{
+          display: block;
+          counter-increment: linenumber;
+          text-align: right;
+          color: #999;
+
+          &:before{
+            content: counter(linenumber);
+            padding-right: .5em;
+          }
+        }
+      }
+    }
+  }
+}

@@ -6,7 +6,7 @@ const RemoteCss = {
     href: { type: String, required: true },
   }
 };
-const RemoteTags = {
+const RemoteJs = {
   render(createElement) {
     return createElement('script', { attrs: { type: 'text/javascript', src: this.src }});
   },
@@ -15,4 +15,4 @@ const RemoteTags = {
   },
 };
 
-export {RemoteCss, RemoteTags};
+export {RemoteCss, RemoteJs};

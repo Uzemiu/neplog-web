@@ -1,11 +1,11 @@
 <template>
   <div class="glide__slide">
     <div class="slide-caption">
-      <router-link :to="link" class="title">{{title}}</router-link>
+      <a :href="link" class="title">{{title}}</a>
       <h3 v-if="subTitle">{{subTitle}}</h3>
     </div>
     <div class="backdrop"></div>
-    <img v-lazy="img" alt="">
+    <img v-lazy="img" alt="" class="glide-img">
   </div>
 </template>
 
@@ -13,7 +13,10 @@
 export default {
   name: "GlideSlide",
   props: {
-    link: [String,Number],
+    link: {
+      type: [String, Number],
+      default: '#'
+    },
     title: {
       type: String,
       default: ''
