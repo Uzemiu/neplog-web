@@ -44,7 +44,7 @@ import '@/assets/css/markdown.scss'
 import '@/assets/css/highlight/highlight-css.scss'
 import '@/assets/css/highlight/highlight-html.scss'
 import {RemoteCss, RemoteJs} from "@/utils/remote-tags";
-import article from "@/utils/mock";
+import {article} from "@/utils/mock";
 
 export default {
   name: "ArticleContainer",

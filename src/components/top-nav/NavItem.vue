@@ -1,13 +1,13 @@
 <template>
   <nav class="top-nav">
     <ul class="menu">
-      <li class="menu-item"><router-link to="/home">首页</router-link></li>
-      <li class="menu-item"><router-link to="/friend">朋友们</router-link></li>
+      <li class="menu-item"><router-link to="/">首页</router-link></li>
+      <li class="menu-item"><router-link to="/friends">朋友们</router-link></li>
       <li class="menu-item"><router-link to="/article">关于</router-link></li>
-      <li class="menu-item" v-for="i in 2" :key="i">
+      <li class="menu-item">
         <a href="#">有什么呢</a>
         <ul class="sub-menu">
-          <li><router-link to="/another">其他1</router-link></li>
+          <li><router-link to="/statics">统计信息</router-link></li>
           <li><router-link to="/another">其他1</router-link></li>
           <li><router-link to="/another">打卡</router-link></li>
         </ul>

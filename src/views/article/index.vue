@@ -28,9 +28,9 @@
 
 <script>
 import Glide from '../../components/glide/index';
-import ArticleContainer from "../../components/article/ArticleContainer";
-import CommentForm from "../../components/article/CommentForm";
-import CommentList from "@/components/article/CommentList";
+import ArticleContainer from "./ArticleContainer";
+import CommentForm from "../../components/comment/CommentForm";
+import CommentList from "@/components/comment/CommentList";
 
 let links, anchors;
 
@@ -61,7 +61,7 @@ export default {
       this.$refs.toc.appendChild(toc);
       links = toc.querySelectorAll('li');
       anchors = this.$refs.articleSection
-        .querySelectorAll('.article-body h1, h2, h3, h4, h5, h6');
+        .querySelectorAll('.comment-body h1, h2, h3, h4, h5, h6');
       window.addEventListener('scroll',this.scrollToc);
       window.addEventListener('scroll',this.displayDrawer)
       this.smoothAnchorScroll();

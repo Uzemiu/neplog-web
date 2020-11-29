@@ -1,18 +1,26 @@
 <template>
   <div class="content-wrapper">
-
     <glide :glides="glides" class="home-slides"></glide>
-    <showcase></showcase>
+    <showcase class="article-list">
+      <ul>
+        <li class="article-item" v-for="(article,i) in articles" :key="i">
+          <article-card :article="article"></article-card>
+        </li>
+      </ul>
+    </showcase>
   </div>
 </template>
 
 <script>
-import Showcase from "@/components/showcase/Showcase";
-import Glide from "@/components/glide/index"
+import Showcase from "../../components/showcase/index";
+import Glide from "../../components/glide/index"
+import {articleList} from "../../utils/mock";
+import ArticleCard from "../../components/article-list/ArticleCard";
 
 export default {
   name: "About",
   components: {
+    ArticleCard,
     Showcase,
     Glide
   },
@@ -28,7 +36,8 @@ export default {
         link: `/article/${this.id}`,
         img: require('@/assets/imgs/71773962_p0.jpg'),
         title: 'EXTER'
-      }]
+      }],
+      articles: articleList
     }
   }
 }
@@ -41,14 +50,28 @@ export default {
   justify-content: center;
   flex-direction: column;
 
-  background-color: #fafafa;
+  .article-item{
+    margin-bottom: 20px;
 
-  .about-us{
-    padding-bottom: 32px;
+
   }
+}
 
-  .home-slides{
-    //margin-top: 47px;
+
+@media (min-width: 769px) {
+  .content-wrapper{
+    .article-item{
+      &:nth-child(2n) ::v-deep .article-card{
+        grid-template-areas: "content cover";
+        grid-template-columns: 1fr 360px;
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .article-list{
+    padding: 0 3%;
   }
 }
 

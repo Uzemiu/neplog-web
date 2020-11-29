@@ -58,7 +58,6 @@ export default {
 }
 
 img[lazy=loading]{
-  transform: scale(.3);
-  //max-height: 100px;
+  transform: scale(.5);
 }
 </style>

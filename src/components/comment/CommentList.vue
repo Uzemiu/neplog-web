@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import BaseComment from "@/components/article/BaseComment";
+import BaseComment from "@/components/comment/BaseComment";
 
 const Reply = () => import("./CommentForm");
 

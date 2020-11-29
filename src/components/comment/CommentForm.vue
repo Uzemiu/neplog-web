@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import BaseComment from "@/components/article/BaseComment";
+import BaseComment from "@/components/comment/BaseComment";
 
 export default {
   name: "CommentForm",

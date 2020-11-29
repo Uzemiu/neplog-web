@@ -75,5 +75,34 @@ const article = `<nav class="table-of-contents"><ol><li><a href="#header1">Heade
 <br>
 <h2 id="%E4%BD%A0%E5%A5%BD">你好</h2>`
 
+let articleList = [{
+  id: 1,
+  tags: ['Home', 'Java', 'Html', 'TESTTAGSTESTTAGSTEST'],
+  category: '首页',
+  cover: require('../assets/imgs/71767472_p0.jpg'),
+  title: '首页施工中...',
+  createDate: '2020-11-15',
+  summary: '94.666666666666666666666666666666ddddddddddddddd%...',
+  view: 0
+}, {
+  id: 2,
+  tags: ['Article', 'Java'],
+  category: '文章',
+  cover: require('../assets/imgs/75977007_p0.jpg'),
+  title: '文章页面施工中...'
+}, {
+  id: 3,
+  tags: ['links'],
+  category: '友情链接',
+  cover: require('../assets/imgs/71773962_p0.jpg'),
+  title: '友情链接施工中...'
+}, {
+  id: 4,
+  tags: ['about'],
+  cover: require('../assets/imgs/QQ图片20201110135305.jpg'),
+  category: '关于我',
+  title: '个人页面施工中...'
+}]
 
-export default article;
+
+export {article, articleList};

@@ -1,16 +1,16 @@
 import Vue from 'vue'
 import VueRouter from "vue-router";
 
-const About = () => import("@/views/home/index");
-const Article = () => import("@/views/article/index")
-const Editor = () => import("@/components/editor/index")
+const Home = () => import("../views/home/index");
+const Article = () => import("../views/article/index")
+const Editor = () => import("../components/editor/index")
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    component: About
+    component: Home
   },
   {
     path: '/article/:articleId',
@@ -21,8 +21,8 @@ const routes = [
     component: Editor
   },
   {
-    path: '/friend',
-    component: () => import("@/views/friend/index")
+    path: '/friends',
+    component: () => import("../views/friends/index")
   }
 ]
 

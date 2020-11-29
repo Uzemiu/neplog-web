@@ -1,27 +1,25 @@
 <template>
-  <div class="case-card" :class="tags">
-    <a class="article-cover" :href="'/article/' + postId">
-      <img v-lazy="cover" alt="">
+  <div class="article-card" :class="article.tags">
+    <a class="article-cover" :href="'/comment/' + article.id">
+      <img v-lazy="article.cover" alt="">
     </a>
     <div class="article-info">
-      <div class="title">
-        <a href="">
-          {{title}}
-        </a>
-      </div>
+      <a href="" class="title">
+        <h4>{{article.title}}</h4>
+      </a>
       <div class="detail">
         <p class="statics">
-          <span>{{createDate}}</span>
-          <span><i class="fa fa-user"></i>{{view}}</span>
-          <span><i class="fa fa-comment"></i>{{comment}}</span>
-          <span><i class="fa fa-heart"></i>{{like}}</span>
+          <span>{{article.createDate || '2077-07-07'}}</span>
+          <span><i class="fa fa-user"></i> {{article.view || 0}}</span>
+          <span><i class="fa fa-comment"></i> {{article.comment || 0}}</span>
+          <span><i class="fa fa-heart"></i> {{article.like || 0}}</span>
         </p>
       </div>
       <div class="summary">
-        {{summary}}
+        {{article.summary || 'summary'}}
       </div>
       <div class="tags">
-        <button v-for="tag in tags" :key="tag">{{tag}}</button>
+        <button v-for="tag in article.tags" :key="tag">{{tag}}</button>
       </div>
     </div>
   </div>
@@ -31,51 +29,30 @@
 export default {
   name: "Card",
   props: {
-    postId: Number,
-    cover: String,
-    title: {
-      type: String,
-      default: 'TITLE'
-    },
-    createDate: {
-      type: String,
-      default: '2077-77-02'
-    },
-    view: {
-      type: Number,
-      default: 0
-    },
-    comment: {
-      type: Number,
-      default: 0
-    },
-    like: {
-      type: Number,
-      default: 0
-    },
-    summary: {
-      type: String,
-      required: false,
-      default: 'summary'
-    },
-    tags: {
-      type: Array,
-      required: false
+    article: {
+      id: Number,
+      cover: String,
+      title: String,
+      createDate: String,
+      view: Number,
+      comment: Number,
+      like: Number,
+      summary: String,
+      tags: Array,
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.case-card{
+.article-card{
   display: grid;
   grid-template-areas: "cover content";
-  grid-template-columns: 330px 1fr;
-  grid-template-rows: 220px;
-  width: calc(45vw - 20px);
-  margin: 10px;
-  box-shadow: 0 1px 12px -6px rgba(0,0,0,.5);
-  overflow: hidden; // to activate border-radius
+  grid-template-columns: 360px 1fr;
+  grid-template-rows: 250px;
+  width: 100%;
+  box-shadow: 0 1px 12px -6px rgba(10,105,170,.5);
+  overflow: hidden;
   border-radius: 10px;
 
   .article-cover{
@@ -85,7 +62,7 @@ export default {
     overflow: hidden;
 
     img{
-      height: 220px;
+      height: 270px;
       width: 100%;
       object-fit: cover;
     }
@@ -104,18 +81,14 @@ export default {
     .title{
       font-size: 22px;
       line-height: 20px;
-      font-weight: 500;
       overflow: hidden;
-      max-height: 40px;
+      max-height: 44px;
       text-overflow: ellipsis;
       margin-bottom: 5px;
-
-      a{
-        transition: .4s ease;
-        color: #2e2e2e;
-      }
-      a:hover{
-        color: #0097e6;
+      transition: .4s ease;
+      color: #2e2e2e;
+      &:hover{
+        color: var(--primary-blue);
       }
     }
 
@@ -180,55 +153,24 @@ export default {
     }
   }
 
-  //&:nth-child(4n), &:nth-child(4n+3){
-  //  grid-template-areas: "content cover";
-  //  grid-template-columns: 1fr 330px;
-  //}
 }
 
-@media (max-width: 1410px) {
-  .case-card{
-    grid-template-columns: 375px 1fr;
-    grid-template-rows: 250px;
-    width: 73vw;
-    .article-cover{
-      img{
-        height: 250px;
-      }
-    }
-    //&:nth-child(2n+1){
-    //  grid-template-areas: "content cover";
-    //  grid-template-columns: 1fr 375px;
-    //}
-  }
-}
 @media (max-width: 992px) {
-  .case-card{
-    width: 83vw;
-    grid-template-columns: 300px 1fr;
-    grid-template-rows: 250px;
+  .article-card{
+    /*grid-template-columns: 300px 1fr;*/
+    /*grid-template-rows: 250px;*/
     .article-cover{
       img{
-        height: 250px;
+        /*height: 250px;*/
       }
     }
   }
 }
 @media (max-width: 768px){
-  .case-card{
-    width: calc(96vw - 20px);
-    .article-cover{
-      img{
-        height: 250px;
-      }
-    }
-  }
-}
-@media (max-width: 600px){
-  .case-card{
+  .article-card{
     grid-template-areas: "cover" "content";
     grid-template-columns: 100%;
-    grid-template-rows: 176px 194px;
+    grid-template-rows: 28vh 233px;
   }
 
 }

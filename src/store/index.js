@@ -5,7 +5,9 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    articles: []
+    blogConfig: {
+
+    }
   },
   mutations: {
 
