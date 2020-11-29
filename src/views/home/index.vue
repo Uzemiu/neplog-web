@@ -1,10 +1,14 @@
 <template>
   <div class="content-wrapper">
     <glide :glides="glides" class="home-slides"></glide>
+    <div></div>
     <showcase class="article-list">
       <ul>
         <li class="article-item" v-for="(article,i) in articles" :key="i">
-          <article-card :article="article"></article-card>
+          <article-card class="article-card" :article="article"></article-card>
+            <router-link :to="'/article/' + article.id" class="arrow">
+              <i class="fa fa-angle-right"></i>
+            </router-link>
         </li>
       </ul>
     </showcase>
@@ -15,7 +19,7 @@
 import Showcase from "../../components/showcase/index";
 import Glide from "../../components/glide/index"
 import {articleList} from "../../utils/mock";
-import ArticleCard from "../../components/article-list/ArticleCard";
+import ArticleCard from "../../components/article-card/ArticleCard";
 
 export default {
   name: "About",
@@ -52,11 +56,46 @@ export default {
 
   .article-item{
     margin-bottom: 20px;
+    position: relative;
 
+    .article-card{
+      transition: .4s;
+      background-color: #fff;
+    }
 
+    .arrow{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      height: 100%;
+      width: 50px;
+      top: 0;
+      right: 0;
+      z-index: -1;
+      .fa{
+        font-size: 50px;
+        color: var(--secondary-blue);
+      }
+    }
   }
 }
 
+@media (min-width: 998px){
+  .content-wrapper{
+    .article-item{
+      &:hover {
+        .article-card{
+          transform: translateX(-50px);
+        }
+        .arrow{
+          transition: .4s .1s;
+          z-index: 0;
+        }
+      }
+    }
+  }
+}
 
 @media (min-width: 769px) {
   .content-wrapper{

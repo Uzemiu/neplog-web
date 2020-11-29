@@ -34,6 +34,10 @@ export default {
     .menu-item{
       display: block;
       position: relative;
+
+      a:hover{
+        color: var(--secondary-blue);
+      }
     }
     .menu-item:hover > .sub-menu{
       opacity: 1;
@@ -46,12 +50,15 @@ export default {
       display: flex;
       flex-direction: column;
       position: absolute;
-      width: 100%;
+      left: -10px;
+      width: calc(100% + 20px);
       a{
         margin: 0;
       }
       li{
+        line-height: 28px;
         text-align: center;
+        position: relative;
       }
     }
   }
@@ -64,9 +71,14 @@ export default {
   a{
     color: var(--text-color-darker);
     text-decoration: none;
-    margin: 0 24px;
     transition: .4s ease-in-out;
+
   }
 
+  .link-active.router-link-exact-active{
+    color: var(--primary-blue);
+
+  }
 }
+
 </style>

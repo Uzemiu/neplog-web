@@ -91,6 +91,7 @@ header{
     height: 100%;
     width: 100%;
     z-index: 234;
+    font-weight: 600;
 
     .burger{
       display: none;
@@ -135,8 +136,34 @@ header{
     }
 
     ::v-deep .top-nav{
+      .menu-item{
+        margin: 0 12px;
+      }
       a, .fa{
         color: var(--text-color-lightest);
+      }
+      a{
+        &:after{
+          background-color: var(--secondary-blue);
+          bottom: -12px;
+          content: "";
+          position: absolute;
+          left:0;
+          width: 0;
+          height: 4px;
+          transition: .4s;
+        }
+      }
+      .router-link-exact-active{
+        color: var(--secondary-blue);
+        &:after{
+          width: 100%;
+        }
+      }
+      .sub-menu .router-link-exact-active{
+        &:after{
+          width: 0;
+        }
       }
       input{
         &, &::placeholder{
@@ -163,9 +190,8 @@ header{
     background-color: rgba(255,255,255,.9);
     box-shadow: 0 5px 5px rgba(0,0,0,0.1);
     transition: .4s ease-in-out;
-    backdrop-filter: blur(2px);
-    z-index: 2;
-    padding-top: 47px;
+    z-index: 20;
+    padding-top: 53px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -208,7 +234,11 @@ header{
 
         a{
           color: var(--text-color-gray);
-          margin-left: 48px;
+          padding-left: 48px;
+
+        }
+        .router-link-exact-active{
+          color: var(--primary-blue);
         }
         li{
           text-align: left;
@@ -235,8 +265,11 @@ header{
       backdrop-filter: blur(2px);
     }
     .top-header ::v-deep .top-nav {
+      .router-link-exact-active{
+        color: var(--secondary-blue);
+      }
       a, .fa, input{
-        color: var(--text-color-darker);
+        color: #666;
       }
       input::placeholder{
         color: var(--text-color-light-gray);
@@ -246,6 +279,23 @@ header{
       }
       .search-bar:hover:after{
         content: "";
+      }
+      .sub-menu{
+        margin-top: 8px;
+        padding: 10px;
+        background-color: rgba(255,255,255,9);
+        box-shadow: 2px 2px 18px rgba(0,0,0,0.2);
+        border-radius: 5px;
+
+        &:before{
+          content: "";
+          position: absolute;
+          top: -14px;
+          left: 34px;
+          border-width: 7px;
+          border-style: solid;
+          border-color: transparent transparent #fff;
+        }
       }
     }
   }
@@ -273,7 +323,7 @@ header{
   }
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 998px) {
   header {
     grid-template-columns: repeat(2,1fr);
 

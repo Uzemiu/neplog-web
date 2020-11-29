@@ -1,12 +1,12 @@
 <template>
   <div class="article-card" :class="article.tags">
-    <a class="article-cover" :href="'/comment/' + article.id">
+    <a class="article-cover" :href="'/article/' + article.id">
       <img v-lazy="article.cover" alt="">
     </a>
     <div class="article-info">
-      <a href="" class="title">
+      <router-link :to="'/article/' + article.id" class="title">
         <h4>{{article.title}}</h4>
-      </a>
+      </router-link>
       <div class="detail">
         <p class="statics">
           <span>{{article.createDate || '2077-07-07'}}</span>
