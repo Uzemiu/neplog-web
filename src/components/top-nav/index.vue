@@ -5,11 +5,11 @@
     ref="header">
     <div class="top-header header-item">
       <div class="logo">Neplog</div>
-      <nav-item>
-        <li slot="search-bar" class="">
+      <component :is="pluto">
+        <li slot="search-bar">
           <search-bar></search-bar>
         </li>
-      </nav-item>
+      </component>
       <div class="burger" @click="openTopBar">
         <div class="burger-line1"></div>
         <div class="burger-line2"></div>
@@ -22,26 +22,25 @@
         <img src="../../assets/imgs/tomorinao.jpg" alt="">
       </div>
       <search-bar class="side-search-bar"></search-bar>
-      <nav-item></nav-item>
+      <component :is="pluto"></component>
     </div>
 
   </header>
 </template>
 
 <script>
-import NavItem from "@/components/top-nav/NavItem";
 import SearchBar from "@/components/search-bar/index";
 
 export default {
   name: "NavBar",
   components:{
-    NavItem,
-    SearchBar
+    SearchBar,
   },
   data(){
     return {
       stickyHeader: false,
-      open: false
+      open: false,
+      path: this.$route
     }
   },
   methods: {
@@ -53,15 +52,20 @@ export default {
       this.open = !this.open;
     }
   },
-  computed: {
-
-  },
   mounted() {
+    console.log(this.path)
     window.addEventListener('scroll',this.changeStickyHeader)
   },
   beforeDestroy() {
     window.removeEventListener('scroll',this.changeStickyHeader)
-  }
+  },
+  computed: {
+    pluto(){
+      return this.$route.fullPath.startsWith('/pluto')
+        ? () => import('./BackstageNav')
+        : () => import('./MainNav');
+    }
+  },
 }
 </script>
 
@@ -135,7 +139,7 @@ header{
       font-family: Play;
     }
 
-    ::v-deep .top-nav{
+    ::v-deep .nav-item{
       .menu-item{
         margin: 0 12px;
       }
@@ -152,6 +156,9 @@ header{
           width: 0;
           height: 4px;
           transition: .4s;
+        }
+        &:hover{
+          color: var(--secondary-blue);
         }
       }
       .router-link-exact-active{
@@ -219,7 +226,7 @@ header{
       }
     }
 
-    ::v-deep .top-nav{
+    ::v-deep .nav-item{
       ul{
         flex-direction: column;
       }
@@ -235,7 +242,6 @@ header{
         a{
           color: var(--text-color-gray);
           padding-left: 48px;
-
         }
         .router-link-exact-active{
           color: var(--primary-blue);
@@ -264,7 +270,7 @@ header{
     .top-header{
       backdrop-filter: blur(2px);
     }
-    .top-header ::v-deep .top-nav {
+    .top-header ::v-deep .nav-item {
       .router-link-exact-active{
         color: var(--secondary-blue);
       }
@@ -282,7 +288,7 @@ header{
       }
       .sub-menu{
         margin-top: 8px;
-        padding: 10px;
+        padding: 10px 0;
         background-color: rgba(255,255,255,9);
         box-shadow: 2px 2px 18px rgba(0,0,0,0.2);
         border-radius: 5px;
@@ -317,7 +323,7 @@ header{
     .side-nav{
       max-width: 200px;
       transform: translateY(0);
-      ::v-deep .top-nav{
+      ::v-deep .nav-item{
       }
     }
   }
@@ -328,7 +334,7 @@ header{
     grid-template-columns: repeat(2,1fr);
 
     .top-header{
-      ::v-deep .top-nav{
+      ::v-deep .nav-item{
         display: none;
       }
 

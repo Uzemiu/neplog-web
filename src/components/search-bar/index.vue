@@ -46,7 +46,7 @@ export default {
     }
   }
   &:after{
-    background-color: #c6e2ff;
+    background-color: var(--secondary-green);
     height: 2px;
     width: 100%;
     position: absolute;
