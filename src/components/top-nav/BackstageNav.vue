@@ -1,15 +1,11 @@
 <template>
   <nav-item>
     <nav-menu>
-      <menu-item>
-        <a href="#">博客管理</a>
-        <sub-menu>
-          <menu-item><router-link to="/pluto/editor">写博客</router-link></menu-item>
-        </sub-menu>
-      </menu-item>
-
-      <menu-item><router-link to="/pluto/editor">友链管理</router-link></menu-item>
-      <menu-item><router-link to="/pluto/editor">留言板</router-link></menu-item>
+      <sub-menu :title="'博客管理'">
+        <menu-item :link="'/pluto/editor'">写博客</menu-item>
+      </sub-menu>
+      <menu-item :link="'/pluto/editor'">友链管理</menu-item>
+      <menu-item :link="'/pluto/something'">留言板</menu-item>
     </nav-menu>
   </nav-item>
 </template>

@@ -18,6 +18,10 @@ Vue.use(VueLazyload,{
 import mavonEditor from '@neptu/mavon-editor'
 Vue.use(mavonEditor)
 
+import Element from 'element-ui'
+Vue.use(Element)
+import 'element-ui/lib/theme-chalk/index.css'
+
 Vue.config.productionTip = false
 
 new Vue({

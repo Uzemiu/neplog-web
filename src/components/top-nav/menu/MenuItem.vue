@@ -1,10 +1,16 @@
 <template>
-  <li class="menu-item"><slot></slot></li>
+  <li class="menu-item"><router-link :to="link"><slot></slot></router-link></li>
 </template>
 
 <script>
 export default {
-name: "MenuItem"
+  name: "MenuItem",
+  props: {
+    link: {
+      type: String,
+      default: '#'
+    }
+  }
 }
 </script>
 
@@ -16,11 +22,10 @@ name: "MenuItem"
   a:hover, .link-active.router-link-exact-active{
     color: var(--secondary-blue);
   }
+  a, a:after{
+    font-weight: 600;
+    transition: .4s;
+  }
 }
-.menu-item:hover > .sub-menu{
-  opacity: 1;
-  transform: translateY(0);
-}
-
 
 </style>

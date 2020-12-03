@@ -6,7 +6,7 @@ import qs from "qs";
 
 // Full config:  https://github.com/axios/axios#request-config
 axios.defaults.baseURL = 'http://localhost/api'
-// axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
+// axios.defaults.headers.form['Authorization'] = AUTH_TOKEN;
 axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded';
 axios.defaults.withCredentials = true;
 axios.defaults.transformRequest = function(data){return data instanceof FormData ? data : qs.stringify(data)}

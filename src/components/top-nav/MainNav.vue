@@ -1,17 +1,16 @@
 <template>
   <nav-item>
     <nav-menu>
-      <menu-item><router-link to="/">首页</router-link></menu-item>
-      <menu-item><router-link to="/friends">朋友们</router-link></menu-item>
-      <menu-item><router-link to="/article">关于</router-link></menu-item>
-      <menu-item>
-        <a href="#">有什么呢</a>
-        <sub-menu>
-          <menu-item><router-link to="/statics">统计信息</router-link></menu-item>
-          <menu-item><router-link to="/another">其他1</router-link></menu-item>
-          <menu-item><router-link to="/another">打卡</router-link></menu-item>
-        </sub-menu>
-      </menu-item>
+      <menu-item :link="'/'">首页</menu-item>
+      <menu-item :link="'/friends'">朋友们</menu-item>
+      <menu-item :link="'/article'">关于</menu-item>
+      <sub-menu :title="'有什么呢'">
+        <menu-item :link="'/statics'">统计信息</menu-item>
+        <menu-item :link="'/another'">其他1</menu-item>
+        <menu-item :link="'/clock'">>打卡</menu-item>
+        <menu-item :link="'/user/login'">登录</menu-item>
+        <menu-item :link="'/user/register'">注册</menu-item>
+      </sub-menu>
       <slot name="search-bar"></slot>
     </nav-menu>
   </nav-item>

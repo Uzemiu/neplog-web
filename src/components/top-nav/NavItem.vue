@@ -13,19 +13,6 @@ export default {
 <style lang="scss" scoped>
 .nav-item{
   justify-self: end;
-
-  i{
-    color: var(--text-color-darker);
-    transition: .4s ease-in-out;
-  }
-
-  a{
-    color: var(--text-color-darker);
-    text-decoration: none;
-    transition: .4s ease-in-out;
-
-  }
-
 }
 
 </style>
