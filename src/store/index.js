@@ -1,20 +1,15 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import user from './user'
+import getters from "./getters";
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
-  state: {
-    blogConfig: {
-
-    }
+  modules: {
+    user
   },
-  mutations: {
-
-  },
-  actions: {
-
-  }
+  getters
 })
 
 export default store

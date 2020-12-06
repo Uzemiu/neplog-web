@@ -13,6 +13,7 @@
     "animejs": "^3.2.1",
     "axios": "^0.21.0",
     "core-js": "^3.6.5",
+    "crypto-js": "^4.0.0",
     "element-ui": "^2.14.1",
     "font-awesome": "^4.7.0",
     "highlight.js": "^10.4.0",

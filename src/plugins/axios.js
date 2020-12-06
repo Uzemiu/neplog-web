@@ -20,7 +20,9 @@ const _axios = axios.create(config);
 
 _axios.interceptors.request.use(
   function(config) {
-    // Do something before request is sent
+    if(localStorage.jwt){
+      config.headers['Authorization'] = localStorage.jwt;
+    }
     return config;
   },
   function(error) {
@@ -29,13 +31,12 @@ _axios.interceptors.request.use(
   }
 );
 
-// Add a response interceptor
 _axios.interceptors.response.use(
   function(response) {
-    return response;
+    return response.data.data;
   },
   function(error) {
-    return Promise.reject(error);
+    return Promise.reject(error.response.data);
   }
 );
 Plugin.install = function(Vue) {
@@ -57,4 +58,4 @@ Plugin.install = function(Vue) {
 
 Vue.use(Plugin)
 
-export default Plugin;
+export default _axios;
