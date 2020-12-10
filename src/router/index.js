@@ -4,7 +4,7 @@ import store from "@/store";
 
 const Home = () => import("../views/home/index");
 const Article = () => import("../views/article/index")
-const Editor = () => import("../components/editor/index")
+const Editor = () => import("../views/pluto/article/Editor")
 const Friends = () => import("../views/friends/index");
 
 const User = () => import("../views/user/index")
@@ -27,10 +27,6 @@ const routes = [
     component: Article
   },
   {
-    path: '/editor',
-    component: Editor
-  },
-  {
     path: '/friends',
     name: 'friends',
     component: Friends
@@ -51,12 +47,12 @@ const routes = [
         meta: {enableRedirect: true},
         props: {register: true},
         component: Login
-      }
+      },
     ]
   },
   {
     path: '/pluto',
-    meta: {requiresLevel: 6},
+    // meta: {requiresLevel: 6},
     component: Pluto,
     children: [
       {
@@ -69,9 +65,14 @@ const routes = [
       },
       {
         path: 'article',
-        name: 'article',
+        name: 'pluto-article',
         component: PlutoArticle
-      }
+      },
+      {
+        path: 'editor',
+        name: 'editor',
+        component: Editor
+      },
     ]
   }
 ]

@@ -1,14 +1,28 @@
+/**
+ * modification of el-component
+ */
 .el-form-item__label{
   line-height: 36px;
 }
 .el-form-item__content{
   line-height: 36px;
 }
+.el-form-item input{
+  font-family: "Noto Serif SC", sans-serif;
+}
 
 .el-input__inner{
   font-size: 15px;
   padding: 10px 16px;
   height: 36px;
+}
+
+.el-input__icon{
+  line-height: 36px;
+}
+
+.el-collapse-item__content{
+  padding-bottom: 0;
 }
 
 .form-submit{
@@ -27,7 +41,61 @@
   }
 }
 
+.el-button--primary:focus, .el-button--primary:hover {
+  background-color: #0097e6;
+}
+
 .el-form-item{
   margin-bottom: 18px;
 }
+
+/**
+ * custom input
+ */
+
+%nep-button {
+  font-size: 16px;
+  cursor: pointer;
+  padding: 6px 18px;
+  border: none;
+  border-radius: 5px;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.nep-button-primary{
+  @extend %nep-button;
+  color: #fff;
+  background-color: #0097e6;
+
+  &:hover, &:focus{
+    color: #fff;
+    background-color: #0097e6;
+  }
+}
+.nep-button-warn{
+  @extend %nep-button;
+  color: #fff;
+  background-color: #0097e6;
+  &:hover, &:focus{
+    color: #fff;
+    background-color: #0097e6;
+  }
+}
+.nep-button-common{
+  @extend %nep-button;
+  color: #909399;
+  background-color: #fff;
+  border: 1px solid #d3d4d6;
+
+  &:hover, &:focus{
+    background-color: #f4f4f5;
+    color: #8b8b8b;
+    border: 1px solid #d3d4d6;
+  }
+}
+
+
 

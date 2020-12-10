@@ -1,5 +1,4 @@
 <template>
-
   <ul class="foot-menu"
       :style="{'bottom':scrollTop}">
     <li>

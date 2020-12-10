@@ -40,6 +40,11 @@ export default {
         link: `/article/${this.id}`,
         img: require('@/assets/imgs/71773962_p0.jpg'),
         title: 'EXTER'
+      }, {
+        id: 456,
+        link: `/article/${this.id}`,
+        img: require('@/assets/imgs/75977007_p0.jpg'),
+        title: 'EXTER'
       }],
       articles: articleList
     }

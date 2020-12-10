@@ -1,4 +1,4 @@
-import { userInfo } from '@/api/user/user'
+import { userInfo } from '@/api/user'
 
 export default {
   state: {
@@ -12,6 +12,14 @@ export default {
   mutations: {
     setUser(state, user){
       state.user = user;
+    },
+    removeUser(state){
+      state.user = {
+        username: '',
+        nickname: '',
+        avatar: '',
+        level: undefined
+      }
     }
   },
   actions: {
@@ -24,6 +32,6 @@ export default {
           reject(error)
         })
       })
-    }
+    },
   }
 }

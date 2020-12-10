@@ -13,10 +13,11 @@
 </template>
 
 <script>
-
 import NavBar from "@/components/top-nav/index";
 import Foot from "@/components/foot/index";
-import FootMenu from "@/components/foot-menu/index"
+import FootMenu from "@/components/foot/FootMenu"
+
+import store from "@/store";
 
 export default {
   name: 'App',
@@ -24,6 +25,15 @@ export default {
     NavBar,
     Foot,
     FootMenu
+  },
+  created() {
+    if(localStorage['jwt']){
+      store.dispatch('getUserInfo').catch(() => {
+        localStorage.removeItem('jwt')
+        store.commit('removeUser');
+        this.$message.warning("当前登录已过期，请重新登录")
+      })
+    }
   },
   methods: {
     closeSide(){
@@ -45,10 +55,13 @@ export default {
 #app{
   height: 100%;
 }
+.el-form{
+  @import "assets/css/inputs";
+}
+
 #main{
   transition: .4s ease-in-out;
   width: 100%;
-  //min-height: calc(100% - 47px);
   height: calc(100%);
   display: flex;
   flex-direction: column;

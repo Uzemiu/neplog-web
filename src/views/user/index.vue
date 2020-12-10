@@ -3,7 +3,6 @@
     <keep-alive>
       <router-view></router-view>
     </keep-alive>
-
   </div>
 </template>
 
@@ -21,9 +20,5 @@ name: "index"
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-::v-deep{
-  @import "src/assets/css/inputs";
 }
 </style>

@@ -34,7 +34,6 @@
       </el-form-item>
 
       <el-button type="primary" class="form-submit" @click="submit">{{register ? '注册' : '登录'}}</el-button>
-      <el-button type="primary" class="form-submit" @click="getUserInfo">'test'</el-button>
 
     </el-form>
 
@@ -47,7 +46,7 @@
 
 <script>
 import AESUtil from "@/utils/AESUtil"
-import {captcha,login,register,userInfo} from "@/api/user/user";
+import {captcha,login,register} from "@/api/user";
 
 export default {
   name: "Login",
@@ -85,11 +84,6 @@ export default {
         });
       })
     },
-    getUserInfo(){
-      userInfo().then(data => {
-        console.log(data)
-      })
-    },
     submit(){
       let originPassword = this.user.password;
       this.user.password = AESUtil.encrypt(originPassword);
@@ -105,9 +99,11 @@ export default {
       promise.then(data => {
         if(!this.register){
           localStorage.setItem('jwt',data.jwt);
+          this.$store.commit('setUser',data.user);
+          this.$message.success('登陆成功');
+        } else {
+          this.$message.success('注册成功');
         }
-        this.$store.commit('setUser',data.user);
-        this.$message.success('登陆成功');
       }).catch(error => {
         this.$message.error(error.message)
       }).finally(() => {
