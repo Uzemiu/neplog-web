@@ -2,7 +2,7 @@
   <div class="article-edit">
 
     <el-form :model="article" :label-position="'top'" :rules="rules" ref="articleForm">
-      <el-form-item :rules="[{required: true, min: 1, max: 32, message: '请输入标题'}]">
+      <el-form-item prop="title">
         <el-input v-model="article.title" placeholder="Title"></el-input>
       </el-form-item>
       <el-button @click="drawer = true" type="primary">More</el-button>
@@ -222,7 +222,7 @@ export default {
     saveArticle(){
       this.$refs.articleForm.validate(valid => {
         if(valid){
-          console.log(this.article)
+          this.article.htmlContent = this.$refs.md.d_render;
           updateArticle(this.article).then(data => {
             console.log(data)
           }).catch(error => {

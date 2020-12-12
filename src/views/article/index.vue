@@ -221,7 +221,6 @@ export default {
       transition: .4s ease-in-out;
     }
   }
-
 }
 
 
@@ -265,6 +264,8 @@ export default {
   }
 }
 @media (max-width: 576px){
-
+  .avatar-area{
+    display: none;
+  }
 }
 </style>

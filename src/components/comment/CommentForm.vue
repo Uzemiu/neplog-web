@@ -156,37 +156,29 @@ export default {
 
 @media (max-width: 768px) {
   .comment-form {
-
     .comment-submit {
       .user-info {
         width: 100px;
-
         .avatar {
           width: 60px;
         }
       }
-
       .submit-area {
         .comment {
           font-size: 15px;
           max-height: 80px;
         }
-
         .anonymous-input {
           flex-direction: column;
-
           input {
-
             margin-bottom: 10px;
             width: 100%;
             padding: 5px 5px;
             font-size: 14px;
           }
         }
-
         .submit-button {
           margin-top: 0;
-
           button {
             font-size: 14px;
           }

@@ -1,24 +1,24 @@
 <template>
-  <div class="article-card" :class="article.tags">
+  <div class="article-card" :mode="mode">
     <a class="article-cover" :href="'/article/' + article.id">
       <img v-lazy="article.cover" alt="">
     </a>
     <div class="article-info">
-      <router-link :to="'/article/' + article.id" class="title">
+      <router-link :to="(mode === 'edit' ? '/pluto/article/edit?id=' : '/article/') + article.id" class="title">
         <h4>{{article.title}}</h4>
       </router-link>
       <div class="detail">
         <p class="statics">
           <span>{{article.createDate || '2077-07-07'}}</span>
-          <span><i class="fa fa-user"></i> {{article.view || 0}}</span>
-          <span><i class="fa fa-comment"></i> {{article.comment || 0}}</span>
-          <span><i class="fa fa-heart"></i> {{article.like || 0}}</span>
+          <span class="ignorable"><i class="fa fa-user"></i> {{article.view || 0}}</span>
+          <span class="ignorable"><i class="fa fa-comment"></i> {{article.comment || 0}}</span>
+          <span class="ignorable"><i class="fa fa-heart"></i> {{article.like || 0}}</span>
         </p>
       </div>
       <div class="summary">
         {{article.summary || 'summary'}}
       </div>
-      <div class="tags">
+      <div class="tags ignorable" v-if="article.tags">
         <button v-for="tag in article.tags" :key="tag">{{tag}}</button>
       </div>
     </div>
@@ -29,6 +29,7 @@
 export default {
   name: "Card",
   props: {
+    mode: String,
     article: {
       id: Number,
       cover: String,
@@ -169,6 +170,97 @@ export default {
     .article-cover img{
         height: 28vh;
     }
+  }
+}
+</style>
+
+<style lang="scss" scoped>
+.article-card[mode=list], .article-card[mode=edit]{
+  grid-template-columns: 180px 1fr;
+  grid-template-rows: 135px;
+
+  .article-cover{
+    img{
+      height: 135px;
+    }
+    &:hover{
+      transform: none;
+    }
+  }
+  .article-info{
+    .title{
+      font-size: 16px;
+      float: left;
+      padding-right: 20px;
+      margin-bottom: 0;
+      line-height: unset;
+    }
+    .detail{
+      margin-top: 0;
+      .statics{
+        margin-top: 0;
+      }
+    }
+    .summary{
+      font-size: 13px;
+    }
+  }
+  .article-list-item{
+    padding: 5px 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .article-card[mode=list], .article-card[mode=edit]{
+    grid-template-areas: "cover content";
+    grid-template-columns: 135px 1fr;
+    grid-template-rows: 135px;
+
+    .article-info{
+      .summary{
+        line-height: 20px;
+      }
+    }
+  }
+}
+
+@media (max-width: 576px){
+  .article-card[mode=list], .article-card[mode=edit]{
+    grid-template-columns: 100px 1fr;
+    grid-template-rows: 100px;
+    .article-cover{
+      img{
+        height: 100px;
+      }
+    }
+    .article-info{
+      padding: 7px;
+    }
+  }
+  .ignorable{
+    display: none;
+  }
+}
+</style>
+
+<style lang="scss" scoped>
+.article-card[mode=edit]{
+  grid-template-columns: 0 1fr;
+  grid-template-rows: 65px;
+  .article-info{
+    padding: 7px 100px 7px 10px;
+  }
+  .article-cover img{
+    display: none;
+  }
+  .summary{
+    max-height: 22px;
+  }
+}
+
+@media (max-width: 576px) {
+  .article-card[mode=edit] {
+    grid-template-rows: 60px;
   }
 }
 </style>
