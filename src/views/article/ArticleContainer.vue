@@ -9,13 +9,13 @@
     <div class="article-header">
       <p class="base-info">
         <span>Neptu</span>
-        <span>Created: 2020-02-02</span>
-        <span>Updated: 2020-02-02</span>
+        <span>Created: {{article.createTime}}</span>
+        <span>Updated: {{article.updateTime}}</span>
       </p>
       <p class="base-info">
         <span>
           <i class="fa fa-folder-open"></i>
-          <a href="">テースト</a>
+          <a href="">{{article.category.name}}</a>
         </span>
         <span class="tags">
           <i class="fa fa-tags"></i>
@@ -23,11 +23,11 @@
           <span class="bull">·</span>
           <a href="">AvaJ</a>
         </span>
-        <span><i class="fa fa-user"></i>{{view}}</span>
+        <span><i class="fa fa-user"></i>{{article.views}}</span>
       </p>
     </div>
 
-    <article class="article-body markdown-body serif-sc" v-html="article">
+    <article class="article-body markdown-body serif-sc" v-html="article.htmlContent">
 
     </article>
     <div class="article-foot">
@@ -44,7 +44,7 @@ import '@/assets/css/markdown.scss'
 import '@/assets/css/highlight/highlight-css.scss'
 import '@/assets/css/highlight/highlight-html.scss'
 import {RemoteCss, RemoteJs} from "@/utils/remote-tags";
-import {article} from "@/utils/mock";
+import {findArticleView} from "@/api/article";
 
 export default {
   name: "ArticleContainer",
@@ -52,25 +52,35 @@ export default {
     RemoteCss,
     RemoteJs
   },
+  props: {
+    id: {
+      type: Number,
+      required: true
+    }
+  },
   data(){
     return {
-      id: 0,
-      title: 'title',
-      view: 1,
-      comment: 2,
-      like: 3,
-      article: ''
+      article: {
+        id: 0,
+        title: 'title',
+        category: {
+          name: ''
+        },
+        views: 1,
+        comments: 2,
+        likes: 3,
+        cover: '',
+        createTime: '',
+        updateTime: '',
+        tags: [],
+        htmlContent: ''
+      }
     }
   },
   mounted() {
-    this.axios
-      .get('http://localhost:8080/LanguageStyle.html')
-      .then(success => {
-        this.article = success.data;
-        // eslint-disable-next-line no-unused-vars
-      }, failure => {
-        this.article = article;
-      });
+    findArticleView(this.id).then(data => {
+      this.article = data;
+    })
   },
   methods: {
 

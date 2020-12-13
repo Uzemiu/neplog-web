@@ -1,6 +1,6 @@
 <template>
   <div class="article-card" :mode="mode">
-    <a class="article-cover" :href="'/article/' + article.id">
+    <a class="article-cover" :href="'/article/' + article.id" v-if="mode !== 'edit'">
       <img v-lazy="article.cover" alt="">
     </a>
     <div class="article-info">
@@ -9,10 +9,10 @@
       </router-link>
       <div class="detail">
         <p class="statics">
-          <span>{{article.createDate || '2077-07-07'}}</span>
-          <span class="ignorable"><i class="fa fa-user"></i> {{article.view || 0}}</span>
-          <span class="ignorable"><i class="fa fa-comment"></i> {{article.comment || 0}}</span>
-          <span class="ignorable"><i class="fa fa-heart"></i> {{article.like || 0}}</span>
+          <span>{{article.createTime || '2077-07-07'}}</span>
+          <span class="ignorable"><i class="fa fa-user"></i> {{article.views || 0}}</span>
+          <span class="ignorable"><i class="fa fa-comment"></i> {{article.comments || 0}}</span>
+          <span class="ignorable"><i class="fa fa-heart"></i> {{article.likes || 0}}</span>
         </p>
       </div>
       <div class="summary">
@@ -34,10 +34,10 @@ export default {
       id: Number,
       cover: String,
       title: String,
-      createDate: String,
-      view: Number,
-      comment: Number,
-      like: Number,
+      createTime: String,
+      views: Number,
+      comments: Number,
+      likes: Number,
       summary: String,
       tags: Array,
     }

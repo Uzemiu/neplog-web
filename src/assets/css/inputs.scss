@@ -49,6 +49,22 @@
   margin-bottom: 18px;
 }
 
+.el-range-editor.el-input__inner{
+  padding: 10px 16px;
+
+  .el-range__icon, .el-range__close-icon{
+    line-height: 1;
+  }
+  .el-range-input{
+    height: 22px;
+    width: 80px;
+  }
+  .el-range-separator{
+    height: 22px;
+    width: 2em;
+  }
+}
+
 /**
  * custom input
  */

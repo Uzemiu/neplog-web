@@ -2,7 +2,7 @@
 
 import Vue from 'vue';
 import axios from "axios";
-// import qs from "qs";
+import qs from "qs";
 
 // Full config:  https://github.com/axios/axios#request-config
 axios.defaults.baseURL = 'http://localhost/api'
@@ -22,6 +22,11 @@ _axios.interceptors.request.use(
   function(config) {
     if(localStorage.jwt){
       config.headers['Authorization'] = localStorage.jwt;
+    }
+    if(config.method.toLowerCase() === 'get'){
+      config.paramsSerializer = params => {
+        return qs.stringify(params,{indices:false})
+      }
     }
     return config;
   },

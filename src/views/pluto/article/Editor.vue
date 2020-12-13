@@ -38,8 +38,8 @@
               default-first-option
               placeholder="文章分类">
               <el-option
-                v-for="(ca,i) in availableCategories"
-                :key="i"
+                v-for="ca in availableCategories"
+                :key="ca.id"
                 :label="ca.name"
                 :value="ca">
               </el-option>
@@ -129,7 +129,7 @@ import anchor from 'markdown-it-anchor';
 import markdownItTocDoneRight from 'markdown-it-toc-done-right';
 import rules from '@/utils/rules/article';
 // eslint-disable-next-line no-unused-vars
-import {createArticle, findArticle, updateArticle} from "@/api/article";
+import {createArticle, findArticle, updateArticle, findArticleDetail} from "@/api/article";
 import {deleteFile, uploadCover} from "@/api/file";
 import {getAllTags} from "@/api/tag";
 import {getAllCategories} from "@/api/category";
@@ -162,9 +162,8 @@ export default {
       }, {
         value: 16, label: '关闭评论'
       }],
-
       article: {
-        id: 65,
+        id: null,
         title: 'title',
         summary: '',
         content: '',
@@ -199,7 +198,16 @@ export default {
       })
     },
     retrieveArticle() {
-      findArticle(33).then(data => {
+      // eslint-disable-next-line no-unused-vars
+      let query = {
+        id: 33,
+        content: 'nihao',
+        categoryId: 0,
+        deleted: false,
+        createTime: ['2019-12-12 2:2:1','2020-2-2 3:3:3']
+      }
+      // findArticle(query);
+      findArticleDetail(1).then(data => {
         this.article = data
       }).catch(error => {
         this.$message.error(error.message)

@@ -3,7 +3,7 @@
     <glide :glides="glides" class="article-glide"></glide>
 
     <section class="flex-section article-section" ref="articleSection">
-      <article-container></article-container>
+      <article-container :id="id"></article-container>
       <div class="toc" ref="toc" :class="{drawn}" v-if="tocDone">
         <div class="drawer" @click="doDraw" :class="{'show':showDrawer}">
           <i class="fa fa-angle-left"></i>
@@ -41,6 +41,12 @@ export default {
     ArticleContainer,
     CommentForm,
     CommentList
+  },
+  props: {
+    id: {
+      type: Number,
+      required: true
+    }
   },
   data(){
     return {
@@ -129,7 +135,6 @@ export default {
   justify-content: center;
   flex-direction: column;
   background-color: #fafafa;
-
 }
 
 .flex-section{
@@ -138,7 +143,6 @@ export default {
   background-color: #fff;
   box-shadow: 0 13px 15px rgba(31,45,61,.1);
 }
-
 
 .avatar-area{
   width: 150px;
@@ -151,7 +155,6 @@ export default {
     width: 100px;
     border-radius: 50%;
   }
-
 }
 
 .article-section{
