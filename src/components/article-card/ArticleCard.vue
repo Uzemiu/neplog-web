@@ -4,7 +4,7 @@
       <img v-lazy="article.cover" alt="">
     </a>
     <div class="article-info">
-      <router-link :to="(mode === 'edit' ? '/pluto/article/edit?id=' : '/article/') + article.id" class="title">
+      <router-link :to="(mode === 'edit' ? '/pluto' : '') + '/article/' + article.id" class="title">
         <h4>{{article.title}}</h4>
       </router-link>
       <div class="detail">
@@ -18,7 +18,7 @@
       <div class="summary">
         {{article.summary || 'summary'}}
       </div>
-      <div class="tags ignorable" v-if="article.tags">
+      <div class="tags ignorable" v-if="mode === 'view' && article.tags">
         <button v-for="tag in article.tags" :key="tag">{{tag}}</button>
       </div>
     </div>

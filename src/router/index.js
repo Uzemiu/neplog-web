@@ -7,6 +7,8 @@ const Article = () => import("../views/article/index")
 const Editor = () => import("../views/pluto/article/Editor")
 const Friends = () => import("../views/friends/index");
 
+const Install = () => import("../views/pluto/install/index")
+
 const User = () => import("../views/user/index")
 const Login = () => import("../views/user/Login")
 
@@ -24,13 +26,18 @@ const routes = [
   {
     path: '/article/:id',
     name: 'article',
-    component: Article,
-    props: true
+    props: true,
+    component: Article
   },
   {
     path: '/friends',
     name: 'friends',
     component: Friends
+  },
+  {
+    path: '/install',
+    name: 'install',
+    component: Install
   },
   {
     path: '/user',
@@ -70,8 +77,9 @@ const routes = [
         component: PlutoArticle
       },
       {
-        path: 'editor',
-        name: 'editor',
+        path: 'article/:id',
+        name: 'pluto-article-edit',
+        props: true,
         component: Editor
       },
     ]

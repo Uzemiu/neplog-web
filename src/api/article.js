@@ -39,3 +39,15 @@ export function updateArticle(data){
   })
 }
 
+export function updateDeleted({id, deleted}){
+  return axios({
+    url: 'article/delete',
+    method: 'put',
+    data: {
+      id,deleted
+    }
+  })
+}
+
+export default {findArticle,findArticleDetail,findArticleView,createArticle,updateArticle,updateDeleted};
+

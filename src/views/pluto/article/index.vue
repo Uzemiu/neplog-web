@@ -43,7 +43,7 @@
         <el-form-item size="small">
           <el-date-picker
               style="width: 240px"
-              v-model="query.createTime[0]"
+              v-model="query.createTime"
               type="daterange"
               range-separator="至"
               start-placeholder="开始日期"
@@ -60,13 +60,29 @@
         </div>
       </el-form>
     </section>
+    <crud-operation crud="c" @create="createNewArticle"></crud-operation>
     <section>
       <ul>
         <li class="article-list-item"
             v-for="article in articles"
             :key="article.id" >
           <article-card :article="article" mode="edit"></article-card>
-          <div class="operation-menu">dsd</div>
+          <el-dropdown class="operation-menu">
+            <span class="el-dropdown-link">
+              <i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item v-if="!article.deleted">
+                <i class="fa fa-pencil"></i><router-link :to="`article/${article.id}`">Edit</router-link>
+              </el-dropdown-item>
+<!--              todo  更改drop down item样式-->
+              <el-dropdown-item>
+                <i class="fa"
+                   :class="article.deleted ? 'fa-undo' : 'fa-trash'"
+                   @click="updateTrashBin(article.id, !article.deleted)"> {{article.deleted ? 'Restore' : 'Delete'}}</i>
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
         </li>
       </ul>
     </section>
@@ -75,12 +91,14 @@
 
 <script>
 import ArticleCard from "@/components/article-card/ArticleCard";
-import {findArticle} from "@/api/article";
+import CrudOperation from "@/components/form/CrudOperation";
+import {findArticle,updateDeleted} from "@/api/article";
 import {getAllCategories} from "@/api/category";
 
 export default {
   name: "index",
   components: {
+    CrudOperation,
     ArticleCard,
   },
   data(){
@@ -93,27 +111,37 @@ export default {
         value: 4, label: '已发布'
       }],
       query: {
-        title: null,
-        content: null,
-        status: null,
-        createTime: [null,null],
-        updateTime: [null,null],
-        categoryId: null
+        deleted: false
       },
       articles: []
     }
   },
   mounted() {
-    findArticle().then(data => {
-      this.articles = data;
-    });
-    getAllCategories().then(data => {
-      this.availableCategories = data;
-    })
+    this.refresh();
   },
   methods: {
     changeSection(tab){
-      console.log(tab.name)
+      this.query.deleted = tab.name === 'deleted';
+      this.refresh();
+    },
+    updateTrashBin(id,deleted){
+      updateDeleted({id: id, deleted: deleted}).then(res => {
+        if(res){
+          this.$message.success(deleted ? "文章已放入回收站" : '文章已恢复')
+        }
+        this.refresh();
+      })
+    },
+    refresh(){
+      findArticle(this.query).then(data => {
+        this.articles = data;
+      });
+      getAllCategories().then(data => {
+        this.availableCategories = data;
+      })
+    },
+    createNewArticle(){
+      this.$router.push('/pluto/article/new')
     }
   }
 }
@@ -123,11 +151,11 @@ export default {
 .article-list-item{
   position: relative;
   padding: 5px 0;
+  display: flex;
+  align-items: center;
   .operation-menu{
-    height: 100%;
     position: absolute;
-    right: 0;
-    top: 0;
+    right: 20px;
   }
 }
 .search-section{
@@ -151,15 +179,21 @@ export default {
     line-height: 1;
   }
 }
-@media (max-width: 768px) {
+@media (max-width: 576px) {
   .query-group{
     padding-right: 100px;
     flex-wrap: nowrap;
-    width: calc(100% - 150px);
+    margin-bottom: 40px;
   }
   .action-item{
     position: absolute;
-    right: 0;
+    left: 0;
+    top: 44px;
+  }
+}
+@media (min-width: 577px){
+  .query-group{
+
   }
 }
 </style>

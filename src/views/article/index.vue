@@ -44,7 +44,7 @@ export default {
   },
   props: {
     id: {
-      type: Number,
+      type: [Number,String],
       required: true
     }
   },
@@ -225,7 +225,6 @@ export default {
     }
   }
 }
-
 
 @media (max-width: 1100px) {
   .flex-section{

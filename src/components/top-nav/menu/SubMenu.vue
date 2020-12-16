@@ -1,6 +1,6 @@
 <template>
   <li class="menu-item">
-    <a href="#">{{title}}</a>
+    <router-link :to="link">{{title}}</router-link>
     <ul class="sub-menu"><slot></slot></ul>
   </li>
 </template>
@@ -12,6 +12,10 @@ export default {
     title: {
       type: String,
       default: 'SubTitle'
+    },
+    link: {
+      type: String,
+      default: '#'
     }
   }
 }

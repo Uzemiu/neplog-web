@@ -62,3 +62,24 @@ a:visited{text-decoration:none;color:#666}
 .full-width{
     width: 100%;
 }
+
+.nep-scroll::-webkit-scrollbar{
+     height: 4px;
+}
+.nep-scroll::-webkit-scrollbar-thumb {
+     background-color: rgba(0,0,0,.1);
+     border-radius: 10px;
+ }
+.nep-scroll::-webkit-scrollbar-track {
+     border-radius: 10px;
+     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0);
+}
+
+.common-flex{
+    width: 100%;
+    height: 100%;
+    padding-top: 47px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

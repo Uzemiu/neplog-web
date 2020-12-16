@@ -5,7 +5,7 @@
       <keep-alive>
         <router-view></router-view>
       </keep-alive>
-      <foot></foot>
+      <foot v-if="!pluto"></foot>
       <div id="cover" @click="closeSide"></div>
     </main>
     <foot-menu></foot-menu>
@@ -34,11 +34,17 @@ export default {
         this.$message.warning("当前登录已过期，请重新登录")
       })
     }
+    this.$store.dispatch('getBlogConfig');
   },
   methods: {
     closeSide(){
       this.$refs.nav.open = false;
     }
+  },
+  computed: {
+    pluto(){
+      return this.$route.fullPath.startsWith('/pluto');
+    },
   }
 }
 </script>
@@ -55,7 +61,7 @@ export default {
 #app{
   height: 100%;
 }
-.el-form{
+.el-form, .nep-operation{
   @import "assets/css/inputs";
 }
 

@@ -49,7 +49,7 @@
           <el-form-item :label="'阅读权限'">
             <el-select
               class="form-advanced-item"
-              v-model="article.status"
+              v-model="article.viewPermission"
               placeholder="阅读权限">
               <el-option
                 v-for="per in availableViewPermission"
@@ -99,10 +99,10 @@
 
           <el-row :gutter="10">
             <el-col :span="8">
-              <el-button class="nep-button-common full-width">存为草稿</el-button>
+              <el-button class="nep-button-common full-width" @click="saveDraft">存为草稿</el-button>
             </el-col>
             <el-col :span="8">
-              <el-button class="nep-button-primary full-width" @click="handleSave">发布</el-button>
+              <el-button class="nep-button-primary full-width" @click="publishArticle">发布</el-button>
             </el-col>
             <el-col :span="8">
               <el-button class="nep-button-primary full-width">放弃修改</el-button>
@@ -129,7 +129,7 @@ import anchor from 'markdown-it-anchor';
 import markdownItTocDoneRight from 'markdown-it-toc-done-right';
 import rules from '@/utils/rules/article';
 // eslint-disable-next-line no-unused-vars
-import {createArticle, findArticle, updateArticle, findArticleDetail} from "@/api/article";
+import {createArticle, updateDeleted, updateArticle, findArticleDetail} from "@/api/article";
 import {deleteFile, uploadCover} from "@/api/file";
 import {getAllTags} from "@/api/tag";
 import {getAllCategories} from "@/api/category";
@@ -137,6 +137,12 @@ import {getAllCategories} from "@/api/category";
 export default {
   name: "index",
   components: {},
+  props: {
+    id: {
+      type: [Number,String],
+      default: null
+    }
+  },
   data() {
     return {
       drawer: false,
@@ -194,7 +200,6 @@ export default {
     retrieveCategories() {
       getAllCategories().then(data => {
         this.availableCategories = this.availableCategories.concat(data)
-        this.article.category = data[0];
       })
     },
     retrieveArticle() {
@@ -207,16 +212,20 @@ export default {
         createTime: ['2019-12-12 2:2:1','2020-2-2 3:3:3']
       }
       // findArticle(query);
-      findArticleDetail(1).then(data => {
+      findArticleDetail(this.id).then(data => {
         this.article = data
       }).catch(error => {
         this.$message.error(error.message)
       })
     },
-    retrieveData() {
+    refresh() {
+      // 路径为article/new时新建文章
+      if(Number(this.id)){
+        this.retrieveArticle()
+      }
+
       this.retrieveTags();
       this.retrieveCategories();
-      this.retrieveArticle()
     },
     uploadArticleCover(file){
       uploadCover(file,'cover').then(path => {
@@ -227,12 +236,20 @@ export default {
       })
       return false;
     },
+    saveDraft(){
+      this.article.status = 0;
+      this.saveArticle();
+    },
+    publishArticle(){
+      this.article.status = 4;
+      this.saveArticle();
+    },
     saveArticle(){
       this.$refs.articleForm.validate(valid => {
         if(valid){
           this.article.htmlContent = this.$refs.md.d_render;
-          updateArticle(this.article).then(data => {
-            console.log(data)
+          updateArticle(this.article).then(() => {
+            this.$message.success("更新文章成功")
           }).catch(error => {
             this.$message.error(error.message);
           })
@@ -264,10 +281,9 @@ export default {
       return '<pre class="hljs"><code>' + preCode +
         '</code></pre>'
     }
-
     md.disable('toc')
 
-    this.retrieveData()
+    this.refresh()
   },
   watch: {
     setTopPriority: {

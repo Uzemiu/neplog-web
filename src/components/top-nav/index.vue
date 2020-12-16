@@ -67,7 +67,7 @@ export default {
     },
     forceStickyHeader(){
       const route = this.$route.fullPath;
-      return route.startsWith('/pluto') || route.startsWith('/user');
+      return route.startsWith('/pluto') || route.startsWith('/user') || route.startsWith('/install');
     }
   },
 }
