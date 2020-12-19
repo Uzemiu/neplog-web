@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import {installed,install} from "@/api/config"
+import {installed,install} from "@/api/property"
 import {Message} from "element-ui"
 import AESUtil from "@/utils/AESUtil";
 export default {

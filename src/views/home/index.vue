@@ -18,8 +18,8 @@
 <script>
 import Showcase from "../../components/showcase/index";
 import Glide from "../../components/glide/index"
-import {articleList} from "../../utils/mock";
 import ArticleCard from "../../components/article-card/ArticleCard";
+import {findArticle} from "@/api/article";
 
 export default {
   name: "About",
@@ -46,8 +46,13 @@ export default {
         img: require('@/assets/imgs/75977007_p0.jpg'),
         title: 'EXTER'
       }],
-      articles: articleList
+      articles: []
     }
+  },
+  mounted() {
+    findArticle(this.$store.getters.homePageArticle).then(data => {
+      this.articles = data;
+    })
   }
 }
 </script>

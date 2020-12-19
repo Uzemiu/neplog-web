@@ -111,7 +111,7 @@ export default {
         value: 4, label: '已发布'
       }],
       query: {
-        deleted: false
+        deleted: false,
       },
       articles: []
     }

@@ -14,6 +14,7 @@ const Login = () => import("../views/user/Login")
 
 const Pluto = () => import("../views/pluto/index")
 const PlutoArticle = () => import("../views/pluto/article/index")
+const Setting = () => import("../views/pluto/setting/index")
 
 Vue.use(VueRouter)
 
@@ -69,7 +70,9 @@ const routes = [
         redirect: 'article'
       },
       {
-        path: 'blog'
+        path: 'setting',
+        name: 'setting',
+        component: Setting
       },
       {
         path: 'article',

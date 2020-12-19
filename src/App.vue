@@ -34,7 +34,7 @@ export default {
         this.$message.warning("当前登录已过期，请重新登录")
       })
     }
-    this.$store.dispatch('getBlogConfig');
+    this.$store.dispatch('getBlogProperty');
   },
   methods: {
     closeSide(){
@@ -42,6 +42,7 @@ export default {
     }
   },
   computed: {
+    // 后台不显示页脚
     pluto(){
       return this.$route.fullPath.startsWith('/pluto');
     },
