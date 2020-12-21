@@ -4,8 +4,7 @@
       <el-tab-pane label="所有文章" name="all"></el-tab-pane>
       <el-tab-pane label="回收站" name="deleted"></el-tab-pane>
     </el-tabs>
-    <section class="search-section">
-      <el-form :model="query" class="query-group">
+    <query-group>
         <el-form-item size="small">
           <el-input style="width: 160px" type="text" v-model="query.title" placeholder="输入标题搜索"></el-input>
         </el-form-item>
@@ -50,16 +49,7 @@
               end-placeholder="结束日期">
           </el-date-picker>
         </el-form-item>
-        <div class="action-item">
-          <el-form-item size="small">
-            <el-button class="nep-button-primary inline-button">Search</el-button>
-          </el-form-item>
-          <el-form-item size="small">
-            <el-button class="nep-button-primary inline-button">Reset</el-button>
-          </el-form-item>
-        </div>
-      </el-form>
-    </section>
+    </query-group>
     <crud-operation crud="c" @create="createNewArticle"></crud-operation>
     <section>
       <ul>
@@ -90,14 +80,16 @@
 </template>
 
 <script>
-import ArticleCard from "@/components/article-card/ArticleCard";
+import ArticleCard from "@/components/article/ArticleCard";
 import CrudOperation from "@/components/form/CrudOperation";
 import {findArticle,updateDeleted} from "@/api/article";
 import {getAllCategories} from "@/api/category";
+import QueryGroup from "@/components/form/QueryGroup";
 
 export default {
   name: "index",
   components: {
+    QueryGroup,
     CrudOperation,
     ArticleCard,
   },
@@ -158,42 +150,5 @@ export default {
     right: 20px;
   }
 }
-.search-section{
-  position: relative;
-}
-.query-group{
-  display: flex;
-  overflow-x: auto;
-  flex-wrap: wrap;
-  width: 100%;
-  .el-form-item{
-    padding: 0 5px;
-    margin-bottom: 10px;
-  }
-  .action-item{
-    display: flex;
-  }
-  .inline-button{
-    padding: 8px 10px;
-    font-size: 14px;
-    line-height: 1;
-  }
-}
-@media (max-width: 576px) {
-  .query-group{
-    padding-right: 100px;
-    flex-wrap: nowrap;
-    margin-bottom: 40px;
-  }
-  .action-item{
-    position: absolute;
-    left: 0;
-    top: 44px;
-  }
-}
-@media (min-width: 577px){
-  .query-group{
 
-  }
-}
 </style>

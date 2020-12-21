@@ -1,5 +1,5 @@
 <template>
-  <div class="glide__slide">
+  <div class="glide__slide" style="width: 100vw">
     <div class="slide-caption">
       <a :href="link" class="title">{{title}}</a>
       <h3 v-if="subTitle">{{subTitle}}</h3>

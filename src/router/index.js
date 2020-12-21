@@ -5,7 +5,7 @@ import store from "@/store";
 const Home = () => import("../views/home/index");
 const Article = () => import("../views/article/index")
 const Editor = () => import("../views/pluto/article/Editor")
-const Friends = () => import("../views/friends/index");
+const Friend = () => import("../views/friend/index");
 
 const Install = () => import("../views/pluto/install/index")
 
@@ -14,6 +14,7 @@ const Login = () => import("../views/user/Login")
 
 const Pluto = () => import("../views/pluto/index")
 const PlutoArticle = () => import("../views/pluto/article/index")
+const PlutoFriend = () => import("../views/pluto/friend/index")
 const Setting = () => import("../views/pluto/setting/index")
 
 Vue.use(VueRouter)
@@ -31,9 +32,9 @@ const routes = [
     component: Article
   },
   {
-    path: '/friends',
+    path: '/friend',
     name: 'friends',
-    component: Friends
+    component: Friend
   },
   {
     path: '/install',
@@ -61,7 +62,7 @@ const routes = [
   },
   {
     path: '/pluto',
-    // meta: {requiresLevel: 6},
+    meta: {requiresLevel: 6},
     component: Pluto,
     children: [
       {
@@ -78,6 +79,11 @@ const routes = [
         path: 'article',
         name: 'pluto-article',
         component: PlutoArticle
+      },
+      {
+        path: 'friend',
+        name: 'pluto-friend',
+        component: PlutoFriend
       },
       {
         path: 'article/:id',
@@ -101,7 +107,9 @@ const router = new VueRouter({
 
 
 router.beforeEach((to,from,next) => {
-  if(to.matched.some(record => record.meta.requiresLevel)){
+  if(process.env.NODE_ENV === 'development'){
+    next();
+  } else if(to.matched.some(record => record.meta.requiresLevel)){
     // 权限验证
     let requiredLevel = Math.max(...to.matched.map(record => record.meta.requiresLevel || 1));
     let userLevel = store.getters.user.level;

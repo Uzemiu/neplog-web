@@ -2,7 +2,7 @@
   <nav-item>
     <nav-menu>
       <menu-item :link="'/'">首页</menu-item>
-      <menu-item :link="'/friends'">朋友们</menu-item>
+      <menu-item :link="'/friend'">朋友们</menu-item>
       <menu-item :link="'/article'">关于</menu-item>
       <sub-menu :title="'有什么呢'">
         <menu-item :link="'/statics'">统计信息</menu-item>

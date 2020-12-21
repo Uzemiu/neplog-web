@@ -97,12 +97,15 @@ export default {
 
 .glide {
   position: relative;
-  top: -47px;
   z-index: 50;
   cursor: pointer;
+  margin-bottom: 47px;
 
   .glide__slides .glide__slide:first-child .backdrop{
     opacity: .8;
+  }
+
+  .glide__slide{
   }
 
 }

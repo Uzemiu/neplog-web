@@ -127,6 +127,7 @@ export default {
   box-shadow: 0 0 15px rgba(31,45,61,.1);
   padding: 20px 20px;
   width: 360px;
+  margin-top: 14vh;
 
   .login-form{
     margin-top: 20px;

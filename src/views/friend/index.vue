@@ -2,7 +2,7 @@
   <div class="content-wrapper">
     <glide></glide>
 
-    <showcase class="friend-list">
+    <responsive class="friend-list">
       <div class="description">欢迎来到</div>
       <h2 class="header sharp-header">友達</h2>
       <div class="friends">
@@ -10,55 +10,33 @@
           <li class="friend"
             v-for="(friend,i) in friends"
             :key="i">
-            <friend
-                :name="friend.name"
-                :intro="friend.intro"
-                :link="friend.link"></friend>
+            <friend :friend="friend"></friend>
           </li>
         </ul>
       </div>
-    </showcase>
-
-    <section>
-
-    </section>
+    </responsive>
 
   </div>
 </template>
 
 <script>
 import Glide from "@/components/glide/index"
-import Friend from "./FriendCard";
-import Showcase from "../../components/showcase/index"
+import Friend from "../../components/friend/FriendCard";
+import Responsive from "../../components/layout/Responsive"
 export default {
   name: "index",
   components: {
     Glide,
     Friend,
-    Showcase
+    Responsive
   },
   data(){
     return{
       friends: [{
-        name: 'Nobody',
+        avatar: require("@/assets/imgs/tomorinao.jpg"),
+        name: 'Nobodydddddddddddddddd',
         intro: 'Here is my friend, nobodyboboboboboboboddddddd',
         link: 'github.com/Uzemiu'
-      },{
-        name: 'Uzemiu',
-        intro: 'Another nep',
-        link: '/friends'
-      },{
-        name: 'Uzemiu',
-        intro: 'Another nep',
-        link: '/friends'
-      },{
-        name: 'Uzemiu',
-        intro: 'Another nep',
-        link: '/friends'
-      },{
-        name: 'Uzemiu',
-        intro: 'Another nep',
-        link: '/friends'
       }]
     }
   }

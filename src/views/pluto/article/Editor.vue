@@ -23,7 +23,7 @@
             :before-upload="uploadArticleCover"
             with-credentials
             multiple>
-            <img v-if="article.cover" :src="`http://localhost/${article.cover}`" class="cover">
+            <img v-if="article.cover" :src="article.cover" class="cover">
             <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
           </el-upload>
 
@@ -36,12 +36,14 @@
               class="form-advanced-item"
               v-model="article.category"
               default-first-option
+              filterable
+              allow-create
               placeholder="文章分类">
               <el-option
                 v-for="ca in availableCategories"
                 :key="ca.id"
                 :label="ca.name"
-                :value="ca">
+                :value="ca.name">
               </el-option>
             </el-select>
           </el-form-item>
@@ -99,10 +101,10 @@
 
           <el-row :gutter="10">
             <el-col :span="8">
-              <el-button class="nep-button-common full-width" @click="saveDraft">存为草稿</el-button>
+              <el-button class="nep-button-common full-width" @click="saveArticle(0)">存为草稿</el-button>
             </el-col>
             <el-col :span="8">
-              <el-button class="nep-button-primary full-width" @click="publishArticle">发布</el-button>
+              <el-button class="nep-button-primary full-width" @click="saveArticle(4)">发布</el-button>
             </el-col>
             <el-col :span="8">
               <el-button class="nep-button-primary full-width">放弃修改</el-button>
@@ -211,7 +213,6 @@ export default {
         deleted: false,
         createTime: ['2019-12-12 2:2:1','2020-2-2 3:3:3']
       }
-      // findArticle(query);
       findArticleDetail(this.id).then(data => {
         this.article = data
       }).catch(error => {
@@ -236,20 +237,16 @@ export default {
       })
       return false;
     },
-    saveDraft(){
-      this.article.status = 0;
-      this.saveArticle();
-    },
-    publishArticle(){
-      this.article.status = 4;
-      this.saveArticle();
-    },
-    saveArticle(){
+    saveArticle(status){
+      if(status){
+        this.article.status = status;
+      }
       this.$refs.articleForm.validate(valid => {
         if(valid){
           this.article.htmlContent = this.$refs.md.d_render;
           updateArticle(this.article).then(() => {
             this.$message.success("更新文章成功")
+            this.drawer = false;
           }).catch(error => {
             this.$message.error(error.message);
           })

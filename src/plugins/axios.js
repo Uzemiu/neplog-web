@@ -4,19 +4,12 @@ import Vue from 'vue';
 import axios from "axios";
 import qs from "qs";
 
-// Full config:  https://github.com/axios/axios#request-config
-axios.defaults.baseURL = 'http://localhost/api'
-// axios.defaults.headers.form['Authorization'] = AUTH_TOKEN;
-axios.defaults.headers['Content-Type'] = 'application/json';
-axios.defaults.withCredentials = true;
-// axios.defaults.transformRequest = function(data){return data instanceof FormData ? data : JSON.stringify(data)}
-
-let config = {
-  withCredentials: true, // Check cross-site Access-Control
-};
-
-const _axios = axios.create(config);
-
+const _axios = axios.create({
+  baseURL: process.env["VUE_APP_BASE_API"] + "/api",
+  headers: {
+    'Content-Type': 'application/json'
+  }
+});
 
 _axios.interceptors.request.use(
   function(config) {
@@ -31,7 +24,6 @@ _axios.interceptors.request.use(
     return config;
   },
   function(error) {
-    // Do something with request error
     return Promise.reject(error);
   }
 );

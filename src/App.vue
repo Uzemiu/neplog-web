@@ -44,7 +44,8 @@ export default {
   computed: {
     // 后台不显示页脚
     pluto(){
-      return this.$route.fullPath.startsWith('/pluto');
+      let path = this.$route.fullPath
+      return path.startsWith('/pluto') || path.startsWith('/user');
     },
   }
 }
@@ -59,17 +60,19 @@ export default {
   Helvetica Neue, Helvetica,
   Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif;
 }
+
 #app{
-  height: 100%;
+  min-height: 100vh;
 }
-.el-form, .nep-operation{
+
+.el-form, .nep-operation, .el-popover.el-popper{
   @import "assets/css/inputs";
 }
 
 #main{
   transition: .4s ease-in-out;
   width: 100%;
-  height: calc(100%);
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
@@ -89,6 +92,7 @@ export default {
     background-color: rgba(31,45,61,.75);
     opacity: 1;
     z-index: 51;
+    min-height: 100%;
   }
 }
 

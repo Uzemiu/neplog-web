@@ -22,6 +22,9 @@ import Element from 'element-ui'
 Vue.use(Element)
 import 'element-ui/lib/theme-chalk/index.css'
 
+import level from '@/components/level/index'
+Vue.use(level)
+
 Vue.config.productionTip = false
 
 new Vue({

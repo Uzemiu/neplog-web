@@ -16,9 +16,9 @@
 </template>
 
 <script>
-import Showcase from "../../components/showcase/index";
+import Showcase from "../../components/layout/Responsive";
 import Glide from "../../components/glide/index"
-import ArticleCard from "../../components/article-card/ArticleCard";
+import ArticleCard from "../../components/article/ArticleCard";
 import {findArticle} from "@/api/article";
 
 export default {
@@ -50,7 +50,7 @@ export default {
     }
   },
   mounted() {
-    findArticle(this.$store.getters.homePageArticle).then(data => {
+    findArticle({sort: this.$store.getters.homePageArticle}).then(data => {
       this.articles = data;
     })
   }

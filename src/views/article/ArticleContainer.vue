@@ -15,7 +15,7 @@
       <p class="base-info">
         <span>
           <i class="fa fa-folder-open"></i>
-          <a href="">{{article.category.name}}</a>
+          <a href="">{{article.category}}</a>
         </span>
         <span class="tags">
           <i class="fa fa-tags"></i>
@@ -63,9 +63,7 @@ export default {
       article: {
         id: 0,
         title: 'title',
-        category: {
-          name: ''
-        },
+        category: 'cate',
         views: 1,
         comments: 2,
         likes: 3,
@@ -125,7 +123,7 @@ export default {
   .article-body{
     margin-top: 20px;
     line-height: 20px;
-    font-family: "Noto Serif SC";
+    font-family: "Noto Serif SC",serif;
 
     code{
       font-size: 100%;

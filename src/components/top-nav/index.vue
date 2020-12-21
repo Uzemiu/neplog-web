@@ -4,7 +4,7 @@
     :class="{'transparent':transparentHeader && !open && !forceStickyHeader, open}"
     ref="header">
     <div class="top-header header-item">
-      <div class="logo">Neplog</div>
+      <div class="logo"><router-link to="/">{{$store.getters.blogProperty.blogName || 'Neplog'}}</router-link></div>
       <component :is="pluto">
         <li slot="search-bar">
           <search-bar></search-bar>
@@ -139,7 +139,7 @@ header{
       }
     }
 
-    .logo{
+    .logo a{
       font-size: 24px;
       font-weight: 600;
       color: var(--text-color-darker);
@@ -205,7 +205,7 @@ header{
     box-shadow: none;
     .top-header{
       backdrop-filter: none;
-      .logo{
+      .logo a{
         color: var(--text-color-lightest);
       }
       .burger-line1,

@@ -1,10 +1,10 @@
 import axios from "@/plugins/axios"
 
-export function findArticle(params){
+export function findArticle(query){
   return axios({
     url: 'article',
     method: 'get',
-    params
+    params: query
   })
 }
 

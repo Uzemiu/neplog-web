@@ -112,4 +112,16 @@
   }
 }
 
+/**
+ * 重写挂载在#app外的popover样式
+ */
+.friend-input{
+  border: 0;
+  font-family: "Noto Serif SC", serif;
+  font-size: 14px;
+  &:hover{
+    box-shadow: 0 0 2px 1px var(--tertiary-blue);
+  }
+}
+
 
