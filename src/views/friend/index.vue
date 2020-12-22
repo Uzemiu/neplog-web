@@ -4,30 +4,49 @@
 
     <responsive class="friend-list">
       <div class="description">欢迎来到</div>
-      <h2 class="header sharp-header">友達</h2>
+      <h3 class="header sharp-header">友達</h3>
       <div class="friends">
         <ul>
           <li class="friend"
             v-for="(friend,i) in friends"
             :key="i">
-            <friend :friend="friend"></friend>
+            <friend-card :friend="friend"></friend-card>
+          </li>
+        </ul>
+      </div>
+      <h3 class="header sharp-header">成为好友吧</h3>
+
+      <div class="friends">
+        <ul>
+          <li class="friend" v-if="creating">
+            <friend-card :friend="newFriend"
+                         :disable-commit="disableFriendCommit"
+                         :enable-edit="enableEdit"
+                         ref="friend"
+                         @completeEdit="createNewFriend"></friend-card>
+          </li>
+          <li class="friend" @click="toggleCreating" v-else>
+            <friend-card-empty></friend-card-empty>
           </li>
         </ul>
       </div>
     </responsive>
-
   </div>
 </template>
 
 <script>
 import Glide from "@/components/glide/index"
-import Friend from "../../components/friend/FriendCard";
+import FriendCard from "../../components/friend/FriendCard";
 import Responsive from "../../components/layout/Responsive"
+import FriendCardEmpty from "@/components/friend/FriendCardEmpty";
+import {createFriend} from "@/api/friend";
+
 export default {
   name: "index",
   components: {
+    FriendCardEmpty,
     Glide,
-    Friend,
+    FriendCard,
     Responsive
   },
   data(){
@@ -35,9 +54,33 @@ export default {
       friends: [{
         avatar: require("@/assets/imgs/tomorinao.jpg"),
         name: 'Nobodydddddddddddddddd',
-        intro: 'Here is my friend, nobodyboboboboboboboddddddd',
+        introduction: 'Here is my friend, nobodyboboboboboboboddddddd',
         link: 'github.com/Uzemiu'
-      }]
+      }],
+      newFriend: {
+
+      },
+      enableEdit: true,
+      creating: false,
+      disableFriendCommit: false
+    }
+  },
+  methods: {
+    toggleCreating(){
+      this.creating = true;
+      this.$nextTick(() => {
+        this.$refs.friend.editing = true;
+      })
+    },
+    createNewFriend(friend){
+      this.disableFriendCommit = true;
+      createFriend(friend).then(() => {
+        this.$message.success("已提交好友申请")
+        this.enableEdit = false
+      }).catch(error => {
+        this.$message.error(error.message)
+        this.disableFriendCommit = false;
+      })
     }
   }
 }
@@ -52,7 +95,8 @@ export default {
 
   .friend-list{
     .header{
-      font-size: 36px;
+      margin: 20px 0 10px 0;
+      font-size: 30px;
     }
     .friends{
       width: 100%;
@@ -62,11 +106,10 @@ export default {
         flex-wrap: wrap;
         justify-content: flex-start;
       }
-
-      .friend{
-        margin: 5px;
-        width: 32%;
-      }
+    }
+    .friend{
+      margin: 5px;
+      width: 32%;
     }
   }
 }

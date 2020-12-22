@@ -33,7 +33,7 @@ export default {
   width: 80%;
 }
 
-@media (max-width: 992px){
+@media (max-width: 1024px){
   .pluto-content{
     width: 90%;
   }
@@ -45,4 +45,5 @@ export default {
     padding: 10px;
   }
 }
+
 </style>

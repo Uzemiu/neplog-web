@@ -1,8 +1,10 @@
 <template>
   <div>
     <el-tabs v-model="activeSection" @tab-click="changeSection">
-      <el-tab-pane label="所有文章" name="all"></el-tab-pane>
-      <el-tab-pane label="回收站" name="deleted"></el-tab-pane>
+      <el-tab-pane label="所有文章" name="all" :query="{deleted: false}"></el-tab-pane>
+      <el-tab-pane label="已发布" name="published" :query="{status: 4}"></el-tab-pane>
+      <el-tab-pane label="草稿" name="draft" :query="{status: 0}"></el-tab-pane>
+      <el-tab-pane label="回收站" name="deleted" :query="{deleted: true}"></el-tab-pane>
     </el-tabs>
     <query-group>
         <el-form-item size="small">
@@ -22,20 +24,6 @@
                 :key="ca.id"
                 :label="ca.name"
                 :value="ca.id">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item size="small">
-          <el-select
-              style="width: 110px;"
-              v-model="query.status"
-              default-first-option
-              placeholder="文章状态">
-            <el-option
-                v-for="status in availableStatus"
-                :key="status.value"
-                :label="status.label"
-                :value="status.value">
             </el-option>
           </el-select>
         </el-form-item>
@@ -113,7 +101,7 @@ export default {
   },
   methods: {
     changeSection(tab){
-      this.query.deleted = tab.name === 'deleted';
+      this.query = tab.$attrs.query;
       this.refresh();
     },
     updateTrashBin(id,deleted){
