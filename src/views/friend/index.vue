@@ -39,7 +39,7 @@ import Glide from "@/components/glide/index"
 import FriendCard from "../../components/friend/FriendCard";
 import Responsive from "../../components/layout/Responsive"
 import FriendCardEmpty from "@/components/friend/FriendCardEmpty";
-import {createFriend} from "@/api/friend";
+import {createFriend, findFriendView} from "@/api/friend";
 
 export default {
   name: "index",
@@ -51,15 +51,8 @@ export default {
   },
   data(){
     return{
-      friends: [{
-        avatar: require("@/assets/imgs/tomorinao.jpg"),
-        name: 'Nobodydddddddddddddddd',
-        introduction: 'Here is my friend, nobodyboboboboboboboddddddd',
-        link: 'github.com/Uzemiu'
-      }],
-      newFriend: {
-
-      },
+      friends: [],
+      newFriend: {},
       enableEdit: true,
       creating: false,
       disableFriendCommit: false
@@ -82,6 +75,11 @@ export default {
         this.disableFriendCommit = false;
       })
     }
+  },
+  mounted() {
+    findFriendView().then(data => {
+      this.friends = data;
+    })
   }
 }
 </script>

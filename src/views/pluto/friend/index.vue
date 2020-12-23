@@ -2,8 +2,8 @@
   <div class="pluto-friend">
     <h2 class="sharp-header">友链管理</h2>
     <el-tabs v-model="activeSection" @tab-click="changeSection">
-      <el-tab-pane label="我的好友" name="public"></el-tab-pane>
-      <el-tab-pane label="待审核" name="pendingReview"></el-tab-pane>
+      <el-tab-pane :label="`我的好友(${count.public})`" name="public" :query="{status: 1}"></el-tab-pane>
+      <el-tab-pane :label="`待审核(${count.pending})`" name="pending" :query="{status: 0}"></el-tab-pane>
     </el-tabs>
     <query-group>
       <el-form-item size="small">
@@ -14,6 +14,9 @@
           placeholder="输入好友名或简介"></el-input>
       </el-form-item>
     </query-group>
+
+    <el-checkbox v-model="multipleSelect">批量修改</el-checkbox>
+
     <el-checkbox-group v-model="selected" class="friend-wrapper" :disabled="!multipleSelect">
       <el-checkbox v-for="friend in friends" :key="friend.id" class="friend" :label="friend.id">
         <friend-card
@@ -21,14 +24,16 @@
           :friend="friend"
           @completeEdit="saveFriend">
           <el-dropdown-item v-if="friend.status === 0" slot="operation" :disabled="disableFriendCommit">
-            <span>通过</span>
+            <span @click="pass(friend)">通过</span>
           </el-dropdown-item>
           <el-dropdown-item slot="operation" :disabled="disableFriendCommit">
             <span @click="deleteFriend([friend.id])">删除</span>
           </el-dropdown-item>
         </friend-card>
       </el-checkbox>
-      <friend-card-empty class="friend"></friend-card-empty>
+      <div class="friend" @click="addNewFriend" v-if="activeSection === 'public'">
+        <friend-card-empty></friend-card-empty>
+      </div>
     </el-checkbox-group>
   </div>
 </template>
@@ -37,30 +42,16 @@
 import FriendCard from "@/components/friend/FriendCard";
 import QueryGroup from "@/components/form/QueryGroup";
 import FriendCardEmpty from "@/components/friend/FriendCardEmpty";
-// eslint-disable-next-line no-unused-vars
-import {createFriend,updateFriend,deleteFriend,findFriendBy} from "@/api/friend";
+import {updateFriend,deleteFriend,findFriendBy} from "@/api/friend";
 
 export default {
   name: "index",
   components: {FriendCardEmpty, QueryGroup, FriendCard},
   data(){
     return{
-      activeSection: 'pendingReview',
-      friends: [{
-        id: null,
-        name: 'Neptu',
-        avatar: require('@/assets/imgs/tomorinao.jpg'),
-        link: '#',
-        introduction: 'Test1',
-        status: 0,
-      },{
-        id: 2,
-        name: 'Neptu2',
-        avatar: require('@/assets/imgs/tomorinao.jpg'),
-        link: '#',
-        introduction: 'Test1',
-        status: 0,
-      }],
+      activeSection: 'passed',
+      friends: [],
+      count: {},
       multipleSelect: true,
       selected: [],
       query: {
@@ -72,24 +63,74 @@ export default {
   methods:{
     changeSection(tab){
       this.activeSection = tab.name;
+      this.query = tab.$attrs.query;
+      this.refresh();
     },
     saveFriend(friend){
-      console.log(friend)
+      // 后台新增好友默认为通过状态
+      if(friend.status === null || friend.status === undefined){
+        friend.status = 1;
+      }
+      this.disableFriendCommit = true;
+      updateFriend(friend).then(() => {
+        this.$message.success('保存成功')
+        this.refresh();
+      }).finally(() => {
+        this.disableFriendCommit = false;
+      })
+    },
+    pass(friend){
+      friend.status = 1;
+      updateFriend(friend).then(() => {
+        this.$message.success('操作成功')
+        this.refresh();
+      }).catch(error => {
+        this.$message.error(error.message)
+      })
     },
     deleteFriend(id){
-      deleteFriend(id).then(() => {
-        this.$message.success('删除好友成功');
+      if(!id) return;
+      if(id[0]){
+        this.$confirm(`确定删除id：${id} 吗`,'提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.disableFriendCommit = true;
+          deleteFriend(id).then(() => {
+            this.$message.success('删除好友成功');
+            this.refresh();
+          }).finally(() => {
+            this.disableFriendCommit = false
+          })
+        }).catch(() => {})
+      } else {
+        this.friends.pop()
+      }
+    },
+    addNewFriend(){
+      if(!this.friends.length || this.friends[this.friends.length - 1].id){
+        this.friends.push({id: null})
+      }
+    },
+    refresh(){
+      findFriendBy(this.query).then(data => {
+        this.friends = data.friends;
+        this.count = data.count;
       }).catch(error => {
         this.$message.error(error.message);
       })
     }
+  },
+  mounted() {
+    this.refresh();
   }
 }
 </script>
 
 <style lang="scss" scoped>
 .pluto-friend{
-  ::v-deep{
+  .friend-wrapper ::v-deep{
     .el-collapse-item__content{
       font-size: unset;
       line-height: unset;

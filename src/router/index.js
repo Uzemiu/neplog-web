@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from "vue-router";
 import store from "@/store";
+import NProgress from "nprogress"
+import 'nprogress/nprogress.css'
 
 const Home = () => import("../views/home/index");
 const Article = () => import("../views/article/index")
@@ -34,6 +36,9 @@ const routes = [
   {
     path: '/friend',
     name: 'friends',
+    meta: {
+      title: '朋友们'
+    },
     component: Friend
   },
   {
@@ -48,13 +53,15 @@ const routes = [
       {
         path: 'login',
         name: 'login',
-        meta: {enableRedirect: true},
+        meta: {title: '登录'},
         component: Login
       },
       {
         path: 'register',
         name: 'register',
-        meta: {enableRedirect: true},
+        meta: {
+          title: '注册'
+        },
         props: {register: true},
         component: Login
       },
@@ -73,22 +80,26 @@ const routes = [
       {
         path: 'setting',
         name: 'setting',
+        meta: {title: '设置'},
         component: Setting
       },
       {
         path: 'article',
         name: 'pluto-article',
+        meta: {title: '文章管理'},
         component: PlutoArticle
       },
       {
         path: 'friend',
         name: 'pluto-friend',
+        meta: {title: '友链管理'},
         component: PlutoFriend
       },
       {
         path: 'article/:id',
         name: 'pluto-article-edit',
         props: true,
+        meta: {title: '编辑文章'},
         component: Editor
       },
     ]
@@ -105,11 +116,13 @@ const router = new VueRouter({
   // }
 })
 
+NProgress.configure({ showSpinner: false })
 
 router.beforeEach((to,from,next) => {
-  if(process.env.NODE_ENV === 'development'){
-    next();
-  } else if(to.matched.some(record => record.meta.requiresLevel)){
+  let title = to.meta.title;
+  document.title = (title ? (title + '-') : '') + store.getters.blogProperty.blogName;
+  NProgress.start();
+  if(to.matched.some(record => record.meta.requiresLevel)){
     // 权限验证
     let requiredLevel = Math.max(...to.matched.map(record => record.meta.requiresLevel || 1));
     let userLevel = store.getters.user.level;
@@ -135,6 +148,11 @@ router.beforeEach((to,from,next) => {
   } else {
     next();
   }
+})
+
+// eslint-disable-next-line no-unused-vars
+router.afterEach((to,from) => {
+  NProgress.done();
 })
 
 export default router

@@ -4,12 +4,14 @@ import router from "@/router";
 export default {
   state: {
     blogProperty: {
-      blogName: '',
+      blogName: 'Neplog',
       visitCount: 0,
       installTime: '',
       friendPageCover: '',
       homePageGlide: 'auto',
       homePageArticle: 'updateTime,desc',
+      icp: '',
+      globalCss: '',
     }
   },
   mutations: {

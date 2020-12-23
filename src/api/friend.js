@@ -1,5 +1,12 @@
 import axios from "@/plugins/axios"
 
+export function findFriendView(){
+  return axios({
+    url: 'friend/view',
+    method: 'get'
+  })
+}
+
 export function findFriendBy(query){
   return axios({
     url: 'friend',

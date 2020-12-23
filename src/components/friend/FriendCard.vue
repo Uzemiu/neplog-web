@@ -31,6 +31,7 @@
       </span>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item :disabled="disableCommit"><span @click="toggleEdit">{{editing ? '完成编辑并提交' : '编辑'}}</span></el-dropdown-item>
+        <el-dropdown-item v-if="editing"><span @click="editing = false">结束编辑</span></el-dropdown-item>
         <slot name="operation"></slot>
       </el-dropdown-menu>
     </el-dropdown>

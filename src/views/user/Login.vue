@@ -33,7 +33,7 @@
         <el-input v-model="user.emailCode" placeholder="邮箱验证码"></el-input>
       </el-form-item>
 
-      <el-button type="primary" class="form-submit" @click="submit">{{register ? '注册' : '登录'}}</el-button>
+      <el-button type="primary" class="form-submit" @click="submit" :loading="loading">{{register ? '注册' : '登录'}}</el-button>
 
     </el-form>
 
@@ -58,6 +58,7 @@ export default {
   },
   data(){
     return {
+      loading: false,
       captcha: '',
       user: {
         username: '',
@@ -87,6 +88,7 @@ export default {
     submit(){
       let originPassword = this.user.password;
       this.user.password = AESUtil.encrypt(originPassword);
+      this.loading = true;
 
       let promise = this.register
           ? register(this.user)
@@ -105,10 +107,10 @@ export default {
         } else {
           this.$message.success('注册成功');
         }
-      }).catch(error => {
-        this.$message.error(error.message)
-      }).finally(() => {
+      }).catch(() => {}).finally(() => {
         this.user.password = originPassword;
+        this.fetchCaptcha();
+        this.loading = false;
       })
     }
   },

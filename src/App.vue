@@ -53,6 +53,8 @@ export default {
 
 <style lang="scss">
 @import "assets/css/style.css";
+@import "assets/css/popover";
+
 #app, button, textarea{
   font-family: 'Noto Serif SC',"Play",'Open Sans',-apple-system,
   Consolas,
