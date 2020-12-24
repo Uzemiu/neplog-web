@@ -28,7 +28,12 @@
           </el-upload>
 
           <el-form-item :label="'摘要'">
-            <el-input type="textarea" v-model="article.summary" placeholder="Summary"></el-input>
+            <el-input
+              type="textarea"
+              v-model="article.summary"
+              placeholder="Summary"
+              :autosize="{minRows: 2, maxRows: 5}"
+              resize="none"></el-input>
           </el-form-item>
 
           <el-form-item :label="'文章分类'">
@@ -117,8 +122,10 @@
     <mavon-editor
       ref=md
       v-model="article.content"
+      id="editor"
       style="height: 780px;z-index: unset"
-      @save="handleSave"></mavon-editor>
+      @save="handleSave"
+      @imgAdd="uploadImg"></mavon-editor>
 
   </div>
 </template>
@@ -127,12 +134,10 @@
 import 'mavon-editor/dist/css/index.css';
 import 'highlight.js/styles/vs2015.css'
 import '@/assets/css/markdown.scss'
-import anchor from 'markdown-it-anchor';
-import markdownItTocDoneRight from 'markdown-it-toc-done-right';
 import rules from '@/utils/rules/article';
 // eslint-disable-next-line no-unused-vars
 import {createArticle, updateDeleted, updateArticle, findArticleDetail} from "@/api/article";
-import {deleteFile, uploadCover} from "@/api/file";
+import {deleteFile, uploadCover, uploadImg} from "@/api/file";
 import {getAllTags} from "@/api/tag";
 import {getAllCategories} from "@/api/category";
 
@@ -176,7 +181,7 @@ export default {
         summary: '',
         content: '',
         htmlContent: '',
-        cover: require('@/assets/imgs/75977007_p0.jpg'),
+        cover: '',
         priority: 0,
         status: 0,
         commentPermission: 0,
@@ -194,6 +199,11 @@ export default {
       this.article.htmlContent = render;
       this.saveArticle();
     },
+    uploadImg(pos, file){
+      uploadImg(file).then(url => {
+        this.$refs.md.$img2Url(pos,url);
+      })
+    },
     retrieveTags() {
       getAllTags().then(data => {
         this.availableTags = this.availableTags.concat(data);
@@ -202,48 +212,39 @@ export default {
     retrieveCategories() {
       getAllCategories().then(data => {
         this.availableCategories = this.availableCategories.concat(data)
-      })
+      }).catch(() => {})
     },
     retrieveArticle() {
-      // eslint-disable-next-line no-unused-vars
-      let query = {
-        id: 33,
-        content: 'nihao',
-        categoryId: 0,
-        deleted: false,
-        createTime: ['2019-12-12 2:2:1','2020-2-2 3:3:3']
-      }
       findArticleDetail(this.id).then(data => {
         this.article = data
-      }).catch(error => {
-        this.$message.error(error.message)
-      })
+      }).catch(() => {})
     },
     refresh() {
       // 路径为article/new时新建文章
       if(Number(this.id)){
         this.retrieveArticle()
       }
-
       this.retrieveTags();
       this.retrieveCategories();
     },
     uploadArticleCover(file){
-      uploadCover(file,'cover').then(path => {
+      uploadCover(file).then(path => {
         if(this.article.cover) deleteFile(this.article.cover);
         this.article.cover = path;
-      }).catch(error => {
-        this.$message.error(error.message);
-      })
+      }).catch(() => {})
       return false;
     },
     saveArticle(status){
-      if(status){
+      if(Number.isInteger(status)){
         this.article.status = status;
       }
       this.$refs.articleForm.validate(valid => {
         if(valid){
           this.article.htmlContent = this.$refs.md.d_render;
+          if(this.article.summary.trim().length === 0){
+            let htmlNode = document.querySelector('#editor .v-show-content');
+            this.article.summary = htmlNode.textContent.substr(0,255);
+          }
           updateArticle(this.article).then(() => {
             this.$message.success("更新文章成功")
             this.drawer = false;
@@ -258,28 +259,6 @@ export default {
     }
   },
   mounted() {
-    this.$refs.md.markdownIt
-      .use(anchor)
-      .use(markdownItTocDoneRight);
-    let md = this.$refs.md.markdownIt;
-
-    md.options.highlight = function (str, lang) {
-      if (lang && window.hljs.getLanguage(lang)) {
-        const preCode = window.hljs.highlight(lang, str, true).value
-        const lines = preCode.split(/\n/).length - 1;
-        let lineNumbers = '<span class="line-numbers">';
-        for (let i = 0; i < lines; ++i) {
-          lineNumbers += '<span class="line-number"></span>'
-        }
-        lineNumbers += '</span>';
-        return preCode + lineNumbers;
-      }
-      const preCode = md.utils.escapeHtml(str)
-      return '<pre class="hljs"><code>' + preCode +
-        '</code></pre>'
-    }
-    md.disable('toc')
-
     this.refresh()
   },
   watch: {

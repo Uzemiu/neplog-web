@@ -44,7 +44,6 @@ import '@/assets/css/markdown.scss'
 import '@/assets/css/highlight/highlight-css.scss'
 import '@/assets/css/highlight/highlight-html.scss'
 import {RemoteCss, RemoteJs} from "@/utils/remote-tags";
-import {findArticleView} from "@/api/article";
 
 export default {
   name: "ArticleContainer",
@@ -53,36 +52,11 @@ export default {
     RemoteJs
   },
   props: {
-    id: {
-      type: [Number,String],
+    article: {
+      type: Object,
       required: true
     }
   },
-  data(){
-    return {
-      article: {
-        id: 0,
-        title: 'title',
-        category: 'cate',
-        views: 1,
-        comments: 2,
-        likes: 3,
-        cover: '',
-        createTime: '',
-        updateTime: '',
-        tags: [],
-        htmlContent: ''
-      }
-    }
-  },
-  mounted() {
-    findArticleView(this.id).then(data => {
-      this.article = data;
-    })
-  },
-  methods: {
-
-  }
 }
 </script>
 

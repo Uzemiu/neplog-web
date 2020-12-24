@@ -21,6 +21,13 @@ module.exports = {
         pathRewrite: {
           '^/api': 'api'
         }
+      },
+      // 本地前后端分离图片等静态资源路径重写
+      '/uploads': {
+        target: process.env.VUE_APP_BASE_API,
+        pathRewrite: {
+          '^/uploads': 'uploads'
+        }
       }
     }
   }

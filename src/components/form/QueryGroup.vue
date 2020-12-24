@@ -4,10 +4,10 @@
       <slot></slot>
       <div class="action-item">
         <el-form-item size="small">
-          <el-button class="nep-button-primary inline-button" @click="search">Search</el-button>
+          <el-button class="nep-button-primary inline-button" @click="search">搜索</el-button>
         </el-form-item>
         <el-form-item size="small">
-          <el-button class="nep-button-primary inline-button">Reset</el-button>
+          <el-button class="nep-button-primary inline-button">重置</el-button>
         </el-form-item>
       </div>
     </el-form>

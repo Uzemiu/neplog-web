@@ -3,7 +3,7 @@
     <glide :glides="glides" class="article-glide"></glide>
 
     <section class="flex-section article-section" ref="articleSection">
-      <article-container :id="id"></article-container>
+      <article-container :article="article"></article-container>
       <div class="toc" ref="toc" :class="{drawn}" v-if="tocDone">
         <div class="drawer" @click="doDraw" :class="{'show':showDrawer}">
           <i class="fa fa-angle-left"></i>
@@ -31,6 +31,8 @@ import Glide from '../../components/glide/index';
 import ArticleContainer from "./ArticleContainer";
 import CommentForm from "../../components/comment/CommentForm";
 import CommentList from "@/components/comment/CommentList";
+import {findArticleView} from "@/api/article";
+import {fromArticle} from "@/utils/glide";
 
 let links, anchors;
 
@@ -44,53 +46,61 @@ export default {
   },
   props: {
     id: {
-      type: [Number,String],
+      type: [Number, String],
       required: true
     }
   },
-  data(){
+  data() {
     return {
+      article: {},
       tocDone: true,
       drawn: false,
       showDrawer: false,
-      glides: [{
-        id: 123,
-        link: '#',
-        img: require('@/assets/imgs/71891897_p0.jpg'),
-        title: 'TIPS：本博客仅部署了前端样式'
-      }]
+      glides: []
     }
   },
   mounted() {
     let toc = document.querySelector('.table-of-contents');
-    if(toc){
+    if (toc) {
       this.$refs.toc.appendChild(toc);
       links = toc.querySelectorAll('li');
       anchors = this.$refs.articleSection
         .querySelectorAll('.comment-body h1, h2, h3, h4, h5, h6');
-      window.addEventListener('scroll',this.scrollToc);
-      window.addEventListener('scroll',this.displayDrawer)
+      window.addEventListener('scroll', this.scrollToc);
+      window.addEventListener('scroll', this.displayDrawer)
       this.smoothAnchorScroll();
     } else {
       this.tocDone = false;
     }
+    this.getArticle();
   },
   methods: {
-    scrollToc(){
-      if(!links) return;
+    getArticle() {
+      if (Number(this.id)) {
+        findArticleView(this.id).then(data => {
+          this.article = data;
+          this.glides = fromArticle(data);
+          document.title = data.title + ' - ' + this.$store.getters.blogProperty.blogName;
+        })
+      } else {
+        this.$router.push({path: '/404'})
+      }
+    },
+    scrollToc() {
+      if (!links) return;
       let scrollTop = document.documentElement.scrollTop
         || window.pageYOffset
         || document.body.scrollTop;
       let bodyHeight = document.body.clientHeight
         && document.documentElement.clientHeight;
-      links.forEach(e => e.classList.remove('toc-active','toc-active-only'));
-      for(let i=0;i<anchors.length;i++){
-        if(anchors[i].offsetTop > scrollTop - 50 - bodyHeight * 0.4){ // glide height
+      links.forEach(e => e.classList.remove('toc-active', 'toc-active-only'));
+      for (let i = 0; i < anchors.length; i++) {
+        if (anchors[i].offsetTop > scrollTop - 50 - bodyHeight * 0.4) { // glide height
           links[i].classList.add('toc-active-only');
-          for(let parent = links[i];
-              parent && parent !== this.$refs.toc;
-              parent = parent.parentNode){
-            if(parent.tagName === 'LI'){
+          for (let parent = links[i];
+               parent && parent !== this.$refs.toc;
+               parent = parent.parentNode) {
+            if (parent.tagName === 'LI') {
               parent.classList.add('toc-active');
             }
           }
@@ -98,10 +108,10 @@ export default {
         }
       }
     },
-    smoothAnchorScroll(){
-      if(!links) return;
+    smoothAnchorScroll() {
+      if (!links) return;
       let bodyHeight = document.body.clientHeight && document.documentElement.clientHeight;
-      links.forEach((e,i) => {
+      links.forEach((e, i) => {
         e.addEventListener('click', (e) => {
           e.preventDefault();
           e.stopPropagation();
@@ -112,16 +122,16 @@ export default {
         })
       })
     },
-    displayDrawer(){
+    displayDrawer() {
       let bodyHeight = document.body.clientHeight && document.documentElement.clientHeight;
-      if(window.pageYOffset > bodyHeight * .4){
+      if (window.pageYOffset > bodyHeight * .4) {
         this.showDrawer = true;
       } else {
         this.showDrawer = false;
         this.drawn = false;
       }
     },
-    doDraw(){
+    doDraw() {
       this.drawn = !this.drawn;
     }
   },
@@ -129,7 +139,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.content-wrapper{
+.content-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -137,36 +147,36 @@ export default {
   background-color: #fafafa;
 }
 
-.flex-section{
+.flex-section {
   width: 80%;
   margin-bottom: 20px;
   background-color: #fff;
-  box-shadow: 0 13px 15px rgba(31,45,61,.1);
+  box-shadow: 0 13px 15px rgba(31, 45, 61, .1);
 }
 
-.avatar-area{
+.avatar-area {
   width: 150px;
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  .avatar{
+  .avatar {
     margin-bottom: 10px;
     width: 100px;
     border-radius: 50%;
   }
 }
 
-.article-section{
+.article-section {
   position: relative;
   display: flex;
   flex-direction: row;
 
-  .toc{
+  .toc {
     width: 150px;
     position: relative;
 
-    .table-of-contents{
+    .table-of-contents {
       width: 150px;
       height: auto;
       position: sticky;
@@ -176,22 +186,22 @@ export default {
       font-size: 18px;
       line-height: 24px;
 
-      ol{
+      ol {
         word-wrap: anywhere;
         padding-left: 14px;
         padding-right: 5px;
       }
 
-      li > ol{
+      li > ol {
         display: none;
       }
 
-      a{
+      a {
         height: 100%;
         color: #000;
       }
 
-      a:before{
+      a:before {
         content: "";
         position: absolute;
         display: block;
@@ -201,17 +211,18 @@ export default {
         background-color: #eeeeee;
       }
 
-      .toc-active{
-        ol{
+      .toc-active {
+        ol {
           display: block;
         }
       }
-      .toc-active-only a:before{
+
+      .toc-active-only a:before {
         background-color: #0097e6;
       }
     }
 
-    .drawer{
+    .drawer {
       display: none;
       position: absolute;
       width: 17px;
@@ -219,7 +230,7 @@ export default {
       border-bottom-left-radius: 5px;
       border-top-left-radius: 5px;
       background-color: #fafafa;
-      box-shadow: -3px 0 15px rgba(31,45,61,.2);
+      box-shadow: -3px 0 15px rgba(31, 45, 61, .2);
       cursor: pointer;
       transition: .4s ease-in-out;
     }
@@ -227,32 +238,33 @@ export default {
 }
 
 @media (max-width: 1100px) {
-  .flex-section{
+  .flex-section {
     width: 90%;
   }
 }
+
 @media (max-width: 838px) {
-  .article-section{
-    .toc{
+  .article-section {
+    .toc {
       background-color: #fff;
       position: fixed;
       top: 67px;
       right: -150px;
       border-bottom-left-radius: 10px;
       transition: .4s ease-in-out;
-      box-shadow: 0 0 15px rgba(31,45,61,.2);
+      box-shadow: 0 0 15px rgba(31, 45, 61, .2);
       z-index: 999;
 
-      &.drawn{
+      &.drawn {
         right: 0;
       }
 
-      .drawer{
+      .drawer {
         display: flex;
         justify-content: center;
         align-items: center;
 
-        &.show{
+        &.show {
           left: -17px;
         }
       }
@@ -260,13 +272,14 @@ export default {
   }
 }
 
-@media (max-width: 768px){
-  .flex-section{
+@media (max-width: 768px) {
+  .flex-section {
     width: 100%;
   }
 }
-@media (max-width: 576px){
-  .avatar-area{
+
+@media (max-width: 576px) {
+  .avatar-area {
     display: none;
   }
 }

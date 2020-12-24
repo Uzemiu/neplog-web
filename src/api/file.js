@@ -1,15 +1,25 @@
 import axios from "@/plugins/axios";
 
-export function uploadCover(file,path){
+const config = {
+  headers: {
+    'Content-Type': 'multipart/form-data'
+  }
+}
+
+function buildParam(file){
   const param = new FormData();
   param.append("file", file);
-  const config = {
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    }
-  }
-  return axios.post("file/" + path, param, config)
+  return param;
 }
+
+export function uploadCover(file){
+  return axios.post("file/cover", buildParam(file), config)
+}
+
+export function uploadImg(file){
+  return axios.post("file/image", buildParam(file), config);
+}
+
 
 export function deleteFile(path){
   return axios({

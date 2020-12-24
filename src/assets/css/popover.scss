@@ -5,10 +5,14 @@
   .el-dropdown-menu__item{
     padding: 0;
 
-    *{
+    span{
       padding: 0 20px;
       display: inline-block;
       height: 100%;
+    }
+    a{
+      display: inline-block;
+      width: 100%;
     }
   }
 }

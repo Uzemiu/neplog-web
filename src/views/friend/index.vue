@@ -1,6 +1,6 @@
 <template>
   <div class="content-wrapper">
-    <glide></glide>
+    <glide :glides="glides"></glide>
 
     <responsive class="friend-list">
       <div class="description">欢迎来到</div>
@@ -52,6 +52,10 @@ export default {
   data(){
     return{
       friends: [],
+      glides: [{
+        img: this.$store.getters.blogProperty.friendPageCover,
+        title: 'Welcome to Nepfriend'
+      }],
       newFriend: {},
       enableEdit: true,
       creating: false,
@@ -77,6 +81,7 @@ export default {
     }
   },
   mounted() {
+
     findFriendView().then(data => {
       this.friends = data;
     })

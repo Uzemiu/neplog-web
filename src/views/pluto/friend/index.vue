@@ -49,9 +49,12 @@ export default {
   components: {FriendCardEmpty, QueryGroup, FriendCard},
   data(){
     return{
-      activeSection: 'passed',
+      activeSection: 'public',
       friends: [],
-      count: {},
+      count: {
+        public: '?',
+        pending: '?'
+      },
       multipleSelect: true,
       selected: [],
       query: {
@@ -63,7 +66,7 @@ export default {
   methods:{
     changeSection(tab){
       this.activeSection = tab.name;
-      this.query = tab.$attrs.query;
+      this.query.status = tab.$attrs.query.status;
       this.refresh();
     },
     saveFriend(friend){

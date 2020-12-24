@@ -1,7 +1,7 @@
 <template>
   <div class="glide__slide" style="width: 100vw">
     <div class="slide-caption">
-      <a :href="link" class="title">{{title}}</a>
+      <router-link :to="link" class="title">{{title}}</router-link>
       <h3 v-if="subTitle">{{subTitle}}</h3>
     </div>
     <div class="backdrop"></div>

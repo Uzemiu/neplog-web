@@ -15,7 +15,7 @@ Vue.use(VueLazyload,{
   lazyComponent: true
 })
 
-import mavonEditor from '@neptu/mavon-editor'
+import mavonEditor from '@/utils/editor'
 Vue.use(mavonEditor)
 
 import Element from 'element-ui'

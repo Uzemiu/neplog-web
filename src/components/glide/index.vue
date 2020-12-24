@@ -1,6 +1,5 @@
 <template>
   <div class="glide">
-
     <div class="glide__track" data-glide-el="track">
       <div class="glide__slides" ref="glide">
         <glide-slide
@@ -8,14 +7,12 @@
           :key="i"
           :link="glide.link"
           :title="glide.title"
-          :img="glide.img"
-          :info="'12323123'">
-
+          :img="glide.img">
         </glide-slide>
       </div>
     </div>
 
-    <div class="glide__arrows" data-glide-el="controls" v-if="isSingleSlide">
+    <div class="glide__arrows" data-glide-el="controls" v-if="isMultiSlide">
       <button class="glide__arrow glide__arrow--left" data-glide-dir="<">
         &lt;
       </button>
@@ -24,14 +21,13 @@
       </button>
     </div>
 
-    <div class="glide__bullets" data-glide-el="controls[nav]" v-if="isSingleSlide">
+    <div class="glide__bullets" data-glide-el="controls[nav]" v-if="isMultiSlide">
       <button
         class="glide__bullet"
         v-for="i in glides.length || 0"
         :key="i"
         :data-glide-dir="`=${i-1}`"></button>
     </div>
-
   </div>
 </template>
 
@@ -48,7 +44,7 @@ export default {
     glides: {
       type: Array,
       default: () => {
-        return [{img:require("@/assets/imgs/glide/322529.jpg")}]
+        return [{img: require("@/assets/imgs/glide/322529.jpg")}]
       }
     },
     arrows: {
@@ -60,32 +56,39 @@ export default {
       default: undefined
     }
   },
-  mounted() {
-    this.initSlide();
-  },
   methods: {
-    initSlide(){
-      this.$nextTick(() => {
-        let glide = new Glide('.glide').mount();
-        let glides = this.$refs.glide.querySelectorAll('.slide-caption');
-        glide.on(['mount.after','run.after'], () => {
-          this.$anime({
-            targets: glides[glide.index].children,
-            opacity: [0,1],
-            duration: 400,
-            easing: 'linear',
-          })
-        });
-        let glidesChildren = this.$refs.glide.querySelectorAll('.slide-caption > *');
-        glide.on(['run.before'], () => {
-          glidesChildren.forEach(e => e.style.opacity = 0)
+    initSlide() {
+      let glide = new Glide('.glide').mount();
+      let glides = this.$refs.glide.querySelectorAll('.slide-caption');
+      glide.on(['mount.after', 'run.after'], () => {
+        this.$anime({
+          targets: glides[glide.index].children,
+          opacity: [0, 1],
+          duration: 400,
+          easing: 'linear',
         })
+      });
+      let glidesChildren = this.$refs.glide.querySelectorAll('.slide-caption > *');
+      glide.on(['run.before'], () => {
+        glidesChildren.forEach(e => e.style.opacity = 0)
       })
     }
   },
   computed: {
-    isSingleSlide(){
+    isMultiSlide() {
       return this.glides.length > 1;
+    }
+  },
+  watch: {
+    /**
+     * 如果需要启用glide滑动或需要动画时
+     *   如果glides动态传入, 需要通过watch监听glides变化来初始化glide
+     *   如果glides静态传入, 需手动调用initSlide
+     */
+    glides(){
+      this.$nextTick(() => {
+        this.initSlide();
+      })
     }
   }
 }
@@ -101,11 +104,12 @@ export default {
   cursor: pointer;
   margin-bottom: 47px;
 
-  .glide__slides .glide__slide:first-child .backdrop{
+  .glide__slides .glide__slide:first-child .backdrop {
     opacity: .8;
   }
 
-  .glide__slide{
+  .glide__slides, .glide__slide {
+    width: 100vw !important;
   }
 
 }

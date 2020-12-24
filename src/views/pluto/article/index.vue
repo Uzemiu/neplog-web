@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h2 class="sharp-header">文章管理</h2>
     <el-tabs v-model="activeSection" @tab-click="changeSection">
       <el-tab-pane label="所有文章" name="all" :query="{deleted: false}"></el-tab-pane>
       <el-tab-pane label="已发布" name="published" :query="{status: 4}"></el-tab-pane>
@@ -51,13 +52,17 @@
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item v-if="!article.deleted">
-                <i class="fa fa-pencil"></i><router-link :to="`article/${article.id}`">Edit</router-link>
+                <router-link :to="`article/${article.id}`">
+                  <span>
+                    <i class="fa fa-pencil"> Edit</i>
+                  </span>
+                </router-link>
               </el-dropdown-item>
-<!--              todo  更改drop down item样式-->
               <el-dropdown-item>
-                <i class="fa"
-                   :class="article.deleted ? 'fa-undo' : 'fa-trash'"
-                   @click="updateTrashBin(article.id, !article.deleted)"> {{article.deleted ? 'Restore' : 'Delete'}}</i>
+                <span @click="updateTrashBin(article.id, !article.deleted)">
+                  <i class="fa"
+                     :class="article.deleted ? 'fa-undo' : 'fa-trash'"> {{article.deleted ? 'Restore' : 'Delete'}}</i>
+                </span>
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
