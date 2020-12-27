@@ -7,7 +7,6 @@
       <sub-menu :title="'有什么呢'">
         <menu-item :link="'/statics'">统计信息</menu-item>
         <menu-item :link="'/another'">其他1</menu-item>
-        <menu-item :link="'/clock'">>打卡</menu-item>
         <menu-item :link="'/user/login'">登录</menu-item>
         <menu-item :link="'/user/register'">注册</menu-item>
       </sub-menu>

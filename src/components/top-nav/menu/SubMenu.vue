@@ -37,7 +37,7 @@ export default {
     position: relative;
   }
 }
-a{
+a, span{
   transition: .4s;
 }
 .menu-item{
@@ -45,7 +45,7 @@ a{
   position: relative;
   font-weight: 600;
 
-  a:hover{
+  a:hover, span:hover{
     color: var(--secondary-blue);
   }
 

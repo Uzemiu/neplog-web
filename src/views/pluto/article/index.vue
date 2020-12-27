@@ -2,17 +2,14 @@
   <div>
     <h2 class="sharp-header">文章管理</h2>
     <el-tabs v-model="activeSection" @tab-click="changeSection">
-      <el-tab-pane label="所有文章" name="all" :query="{deleted: false}"></el-tab-pane>
-      <el-tab-pane label="已发布" name="published" :query="{status: 4}"></el-tab-pane>
-      <el-tab-pane label="草稿" name="draft" :query="{status: 0}"></el-tab-pane>
-      <el-tab-pane label="回收站" name="deleted" :query="{deleted: true}"></el-tab-pane>
+      <el-tab-pane :label="`所有文章(${allArticleCount})`" name="all" :query="{deleted: false}"></el-tab-pane>
+      <el-tab-pane :label="`已发布(${count.published})`" name="published" :query="{status: 4,deleted: false}"></el-tab-pane>
+      <el-tab-pane :label="`草稿(${count.draft})`" name="draft" :query="{status: 0,deleted: false}"></el-tab-pane>
+      <el-tab-pane :label="`回收站(${count.deleted})`" name="deleted" :query="{deleted: true}"></el-tab-pane>
     </el-tabs>
     <query-group>
         <el-form-item size="small">
-          <el-input style="width: 160px" type="text" v-model="query.title" placeholder="输入标题搜索"></el-input>
-        </el-form-item>
-        <el-form-item size="small">
-          <el-input style="width: 200px" type="text" v-model="query.content" placeholder="输入文章内容搜索"></el-input>
+          <el-input style="width: 230px" type="text" v-model="query.content" placeholder="输入文章标题或内容搜索"></el-input>
         </el-form-item>
         <el-form-item size="small">
           <el-select
@@ -75,7 +72,7 @@
 <script>
 import ArticleCard from "@/components/article/ArticleCard";
 import CrudOperation from "@/components/form/CrudOperation";
-import {findArticle,updateDeleted} from "@/api/article";
+import {privateQueryBy,updateDeleted} from "@/api/article";
 import {getAllCategories} from "@/api/category";
 import QueryGroup from "@/components/form/QueryGroup";
 
@@ -98,11 +95,19 @@ export default {
       query: {
         deleted: false,
       },
-      articles: []
+      articles: [],
+      count: {
+        published: '--',
+        draft: '--',
+        deleted: '--'
+      },
     }
   },
   mounted() {
     this.refresh();
+    getAllCategories().then(data => {
+      this.availableCategories = data;
+    })
   },
   methods: {
     changeSection(tab){
@@ -118,15 +123,20 @@ export default {
       })
     },
     refresh(){
-      findArticle(this.query).then(data => {
-        this.articles = data;
+      privateQueryBy(this.query).then(data => {
+        this.articles = data.articles;
+        this.count = data.count;
       });
-      getAllCategories().then(data => {
-        this.availableCategories = data;
-      })
     },
     createNewArticle(){
       this.$router.push('/pluto/article/new')
+    }
+  },
+  computed: {
+    allArticleCount(){
+      return Number.isInteger(this.count.published)
+          ? this.count.published + this.count.draft + this.count.deleted
+          : '--'
     }
   }
 }

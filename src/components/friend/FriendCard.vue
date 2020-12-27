@@ -110,10 +110,10 @@
       font-size: 16px;
       font-weight: 600;
       line-height: 15px;
-      border-bottom: 1px solid var(--tertiary-blue);
+      border-bottom: 1px solid $friend-border-color;
 
       &:hover{
-        box-shadow: 0 0 2px 1px var(--tertiary-blue);
+        box-shadow: 0 0 2px 1px $friend-border-color;
       }
     }
 
@@ -123,7 +123,7 @@
       overflow: hidden;
       resize: none;
       &:hover{
-        box-shadow:  0 0 2px 1px var(--tertiary-blue);
+        box-shadow:  0 0 2px 2px $friend-border-color;
       }
     }
 
@@ -135,6 +135,7 @@
       border: 1px solid #ddd;
       padding: 2px;
       margin-right: 10px;
+      object-fit: cover;
     }
     .name{
       color: var(--secondary-blue);
@@ -168,6 +169,7 @@
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 2;
       max-height: 170px;
+      white-space: normal;
     }
     &:hover{
       border-color: var(--primary-blue);

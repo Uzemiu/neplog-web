@@ -32,12 +32,11 @@ _axios.interceptors.request.use(
 
 _axios.interceptors.response.use(
   function(response) {
-    if(response.data.data){
+    if(response.data){
       return response.data.data;
     } else {
-      return response.data
+      return response
     }
-
   },
   function(error) {
     let resp = error.response;

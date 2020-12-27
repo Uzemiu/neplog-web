@@ -103,7 +103,7 @@ export default {
           localStorage.setItem('jwt',data.jwt);
           this.$store.commit('setUser',data.user);
           this.$message.success('登陆成功');
-          this.$router.push("/pluto")
+          this.$router.push(this.$route.query.redirect || '/')
         } else {
           this.$message.success('注册成功');
         }

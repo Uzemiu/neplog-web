@@ -95,7 +95,7 @@ header{
   }
   .top-header{
     display: grid;
-    grid-template-columns: 100px 2fr;
+    grid-template-columns: 1fr 2fr;
     align-items: center;
     position: relative;
     height: 100%;
@@ -197,7 +197,6 @@ header{
         }
       }
     }
-
   }
 
   &.transparent{
@@ -243,7 +242,6 @@ header{
         }
       }
     }
-
   }
   .side-nav{
     position: fixed;
@@ -313,7 +311,6 @@ header{
     }
   }
 
-
   &.open{
     .burger-line1 {
       transform: rotate(45deg) translate(3px, 5px);
@@ -339,9 +336,8 @@ header{
 
 @media (max-width: 992px) {
   header {
-    grid-template-columns: repeat(2,1fr);
-
     .top-header{
+      grid-template-columns: 1fr 30px;
       ::v-deep .nav-item{
         display: none;
       }
@@ -364,16 +360,12 @@ header{
       }
     }
   }
-
 }
 
-@media (max-width: 992px) {
-
-}
-@media (max-width: 768px){
-
-}
-@media (max-width: 576px){
+@media (max-width: 768px) {
+  header .top-header{
+    padding: 0 20px 0 20px;
+  }
 
 }
 </style>

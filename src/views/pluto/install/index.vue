@@ -61,9 +61,7 @@ export default {
       install(this.installParam).then(() => {
         this.$message.success("创建博客成功");
         this.$router.push("/user/login");
-      }).catch(error => {
-        this.$message.error("创建博客失败： " + error.message)
-      }).finally(() => {
+      }).catch(() => {}).finally(() => {
         this.installParam.password = originPassword;
       })
     }
@@ -89,5 +87,6 @@ export default {
   box-shadow: 0 0 15px rgba(31,45,61,.1);
   padding: 20px 20px;
   width: 360px;
+  margin-top: 14vh;
 }
 </style>

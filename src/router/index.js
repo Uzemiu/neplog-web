@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import store from "@/store";
 import NProgress from "nprogress"
 import 'nprogress/nprogress.css'
+import {Message} from "element-ui";
 
 const Home = () => import("../views/home/index");
 const Article = () => import("../views/article/index")
@@ -116,34 +117,33 @@ const router = new VueRouter({
   // }
 })
 
-NProgress.configure({ showSpinner: false })
+NProgress.configure({showSpinner: false})
 
-router.beforeEach((to,from,next) => {
+router.beforeEach((to, from, next) => {
   let title = to.meta.title;
   document.title = (title ? (title + ' - ') : '') + store.getters.blogProperty.blogName;
   NProgress.start();
-  if(to.matched.some(record => record.meta.requiresLevel)){
+  if (to.matched.some(record => record.meta.requiresLevel)) {
     // 权限验证
     let requiredLevel = Math.max(...to.matched.map(record => record.meta.requiresLevel || 1));
     let userLevel = store.getters.user.level;
-    if(userLevel === undefined){
+    if (userLevel === undefined) {
       // Vuex中没有存储user信息，尝试获取信息
-      if(localStorage['jwt']){
-        store.dispatch('getUserInfo')
-          .then((user) => {
-            if(user.level >= requiredLevel){
-              next();
-            } else {
-              next(`/user/login?redirect=${to.fullPath}`)
-            }
-          });
-      } else {
+      store.dispatch('getUserInfo').then((user) => {
+        if (user.level >= requiredLevel) {
+          next();
+        } else {
+          Message.error('对不起，你没有权限访问此页面')
+          next({path: '/403'})
+        }
+      }).catch(() => {
+        Message.error('你当前还未登陆')
         next(`/user/login?redirect=${to.fullPath}`)
-      }
-    } else if(userLevel >= requiredLevel){
+      });
+    } else if (userLevel >= requiredLevel) {
       next();
     } else {
-      next(`/403`)
+      next({path: '/403'})
     }
   } else {
     next();
@@ -151,7 +151,7 @@ router.beforeEach((to,from,next) => {
 })
 
 // eslint-disable-next-line no-unused-vars
-router.afterEach((to,from) => {
+router.afterEach((to, from) => {
   NProgress.done();
 })
 

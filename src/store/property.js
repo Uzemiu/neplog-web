@@ -1,10 +1,13 @@
-import {getBlogProperty} from "@/api/property";
 import router from "@/router";
+import {getBlogProperty} from "@/api/property";
+import {copyProperties} from "@/utils/object";
 
 export default {
   state: {
     blogProperty: {
       blogName: 'Neplog',
+      blogAvatar: '',
+      authorName: '',
       visitCount: 0,
       installTime: '',
       friendPageCover: '',
@@ -16,7 +19,7 @@ export default {
   },
   mutations: {
     setBlogConfig(state, property){
-      state.blogProperty = property;
+      copyProperties(property, state.blogProperty)
     },
   },
   actions: {

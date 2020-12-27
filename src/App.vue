@@ -27,13 +27,7 @@ export default {
     FootMenu
   },
   created() {
-    if(localStorage['jwt']){
-      store.dispatch('getUserInfo').catch(() => {
-        localStorage.removeItem('jwt')
-        store.commit('removeUser');
-        this.$message.warning("当前登录已过期，请重新登录")
-      })
-    }
+    this.$store.dispatch('getUserInfo').catch(() => {});
     this.$store.dispatch('getBlogProperty');
   },
   methods: {

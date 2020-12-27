@@ -52,8 +52,8 @@ export default {
       activeSection: 'public',
       friends: [],
       count: {
-        public: '?',
-        pending: '?'
+        public: '--',
+        pending: '--'
       },
       multipleSelect: true,
       selected: [],
@@ -69,7 +69,7 @@ export default {
       this.query.status = tab.$attrs.query.status;
       this.refresh();
     },
-    saveFriend(friend){
+    saveFriend(friend,callback){
       // 后台新增好友默认为通过状态
       if(friend.status === null || friend.status === undefined){
         friend.status = 1;
@@ -77,6 +77,7 @@ export default {
       this.disableFriendCommit = true;
       updateFriend(friend).then(() => {
         this.$message.success('保存成功')
+        callback(true);
         this.refresh();
       }).finally(() => {
         this.disableFriendCommit = false;
@@ -87,9 +88,7 @@ export default {
       updateFriend(friend).then(() => {
         this.$message.success('操作成功')
         this.refresh();
-      }).catch(error => {
-        this.$message.error(error.message)
-      })
+      }).catch(() => {})
     },
     deleteFriend(id){
       if(!id) return;
@@ -178,13 +177,13 @@ export default {
 }
 
 @media (max-width: 1024px) {
-  .friend-list .friend{
+  .pluto-friend .friend{
     width: calc(50% - 10px);
   }
 }
 
 @media (max-width: 576px) {
-  .friend-list .friend{
+  .pluto-friend .friend{
     width: 100%;
   }
 }

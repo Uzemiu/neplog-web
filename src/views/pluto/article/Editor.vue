@@ -1,7 +1,7 @@
 <template>
   <div class="article-edit">
 
-    <el-form :model="article" :label-position="'top'" :rules="rules" ref="articleForm">
+    <el-form :model="article" label-position="top" :rules="rules" ref="articleForm">
       <el-form-item prop="title">
         <el-input v-model="article.title" placeholder="Title"></el-input>
       </el-form-item>
@@ -27,7 +27,7 @@
             <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
           </el-upload>
 
-          <el-form-item :label="'摘要'">
+          <el-form-item label="摘要">
             <el-input
               type="textarea"
               v-model="article.summary"
@@ -36,7 +36,7 @@
               resize="none"></el-input>
           </el-form-item>
 
-          <el-form-item :label="'文章分类'">
+          <el-form-item label="文章分类" prop="category">
             <el-select
               class="form-advanced-item"
               v-model="article.category"
@@ -53,7 +53,7 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item :label="'阅读权限'">
+          <el-form-item label="阅读权限">
             <el-select
               class="form-advanced-item"
               v-model="article.viewPermission"
@@ -68,7 +68,7 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item :label="'评论权限'">
+          <el-form-item label="评论权限">
             <el-select
               class="form-advanced-item"
               v-model="article.commentPermission"
@@ -82,7 +82,7 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item :label="'标签'">
+          <el-form-item label="标签">
             <el-select
               class="form-advanced-item"
               multiple
@@ -186,10 +186,7 @@ export default {
         status: 0,
         commentPermission: 0,
         viewPermission: 0,
-        category: {
-          id: Number,
-          name: String
-        },
+        // category: '',
         tags: []
       },
     }
@@ -241,18 +238,22 @@ export default {
       this.$refs.articleForm.validate(valid => {
         if(valid){
           this.article.htmlContent = this.$refs.md.d_render;
+          // 生成摘要
           if(this.article.summary.trim().length === 0){
             let htmlNode = document.querySelector('#editor .v-show-content');
             this.article.summary = htmlNode.textContent.substr(0,255);
           }
-          updateArticle(this.article).then(() => {
+          updateArticle(this.article).then(data => {
             this.$message.success("更新文章成功")
             this.drawer = false;
-          }).catch(error => {
-            this.$message.error(error.message);
-          })
+            if(!this.article.id && data){
+              this.article.id = data;
+              let paths = this.$route.fullPath.split('/');
+              paths[paths.length - 1] = data;
+              this.$router.replace({path: paths.join('/')})
+            }
+          }).catch(() => {})
         } else {
-          console.log('error')
           return false;
         }
       })

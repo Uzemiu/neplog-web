@@ -19,11 +19,13 @@
       <div class="friends">
         <ul>
           <li class="friend" v-if="creating">
-            <friend-card :friend="newFriend"
-                         :disable-commit="disableFriendCommit"
-                         :enable-edit="enableEdit"
-                         ref="friend"
-                         @completeEdit="createNewFriend"></friend-card>
+            <friend-card
+                :friend="newFriend"
+                :disable-commit="disableFriendCommit"
+                :enable-edit="enableEdit"
+                ref="friend"
+                @completeEdit="createNewFriend">
+            </friend-card>
           </li>
           <li class="friend" @click="toggleCreating" v-else>
             <friend-card-empty></friend-card-empty>
