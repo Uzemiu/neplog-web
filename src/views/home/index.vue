@@ -20,6 +20,7 @@ import Showcase from "../../components/layout/Responsive";
 import Glide from "../../components/glide/index"
 import ArticleCard from "../../components/article/ArticleCard";
 import {queryBy} from "@/api/article";
+import {fromArticle} from "@/utils/glide";
 
 export default {
   name: "About",
@@ -30,28 +31,22 @@ export default {
   },
   data(){
     return {
-      glides: [{
-        id: 123,
-        link: `/article/${this.id}`,
-        img: require('@/assets/imgs/71891897_p0.jpg'),
-        title: 'TIPS：本博客仅部署了前端样式'
-      }, {
-        id: 456,
-        link: `/article/${this.id}`,
-        img: require('@/assets/imgs/71773962_p0.jpg'),
-        title: 'EXTER'
-      }, {
-        id: 456,
-        link: `/article/${this.id}`,
-        img: require('@/assets/imgs/75977007_p0.jpg'),
-        title: 'EXTER'
-      }],
+      glides: [],
       articles: []
     }
   },
   mounted() {
+    let cover = this.$store.getters.blogProperty.homePageCover;
+    if(!Number.parseInt(cover)){
+      this.glides.push({
+        img:cover
+      })
+    }
     queryBy({sort: this.$store.getters.homePageArticle}).then(data => {
       this.articles = data;
+      if(this.glides.length === 0){
+        this.glides = fromArticle(...(data.slice(0, Number.parseInt(cover))));
+      }
     })
   }
 }

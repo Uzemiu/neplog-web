@@ -25,6 +25,9 @@ import 'element-ui/lib/theme-chalk/index.css'
 import level from '@/components/level/index'
 Vue.use(level)
 
+import Cropper from "@/components/cropper";
+Vue.use(Cropper)
+
 Vue.config.productionTip = false
 
 new Vue({

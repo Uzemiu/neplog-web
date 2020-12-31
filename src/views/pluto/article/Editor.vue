@@ -250,7 +250,8 @@ export default {
               this.article.id = data;
               let paths = this.$route.fullPath.split('/');
               paths[paths.length - 1] = data;
-              this.$router.replace({path: paths.join('/')})
+              this.$router.replace({path: paths.join('/')});
+              location.reload();
             }
           }).catch(() => {})
         } else {

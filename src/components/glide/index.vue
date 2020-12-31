@@ -109,7 +109,6 @@ export default {
   }
 
   .glide__slides, .glide__slide {
-    width: 100vw !important;
   }
 
 }

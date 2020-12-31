@@ -17,11 +17,9 @@
           <i class="fa fa-folder-open"></i>
           <a href="">{{article.category}}</a>
         </span>
-        <span class="tags">
+        <span class="tags" v-if="article.tags && article.tags.length">
           <i class="fa fa-tags"></i>
-          <a href="">Java</a>
-          <span class="bull">·</span>
-          <a href="">AvaJ</a>
+          <a href="" v-for="tag in article.tags" :key="tag"> {{tag}} </a>
         </span>
         <span><i class="fa fa-user"></i>{{article.views}}</span>
       </p>

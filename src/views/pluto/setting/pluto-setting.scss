@@ -1,0 +1,27 @@
+::v-deep {
+  .el-form-item {
+    display: flex;
+    flex-direction: row;
+  }
+  .el-form-item__content{
+    width: 100%;
+  }
+  .el-form-item__label {
+    font-size: 15px;
+    padding-right: 5px;
+    min-width: 75px;
+  }
+}
+
+
+@media (max-width: 576px) {
+  ::v-deep {
+    .el-form-item {
+      flex-direction: column;
+    }
+
+    .el-form-item__label {
+      padding-bottom: 0;
+    }
+  }
+}

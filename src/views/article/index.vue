@@ -60,30 +60,33 @@ export default {
     }
   },
   mounted() {
-    let toc = document.querySelector('.table-of-contents');
-    if (toc) {
-      this.$refs.toc.appendChild(toc);
-      links = toc.querySelectorAll('li');
-      anchors = this.$refs.articleSection
-        .querySelectorAll('.comment-body h1, h2, h3, h4, h5, h6');
-      window.addEventListener('scroll', this.scrollToc);
-      window.addEventListener('scroll', this.displayDrawer)
-      this.smoothAnchorScroll();
-    } else {
-      this.tocDone = false;
-    }
+
     this.getArticle();
   },
   methods: {
     getArticle() {
-      if (Number(this.id)) {
-        findArticleView(this.id).then(data => {
-          this.article = data;
-          this.glides = fromArticle(data);
-          document.title = data.title + ' - ' + this.$store.getters.blogProperty.blogName;
+      findArticleView(this.id).then(data => {
+        this.article = data;
+        this.glides = fromArticle(data);
+        document.title = data.title + ' - ' + this.$store.getters.blogProperty.blogName;
+        this.$nextTick(() => {
+          this.appendToc()
         })
+      })
+    },
+    appendToc(){
+      let toc = document.querySelector('.table-of-contents');
+      if (toc) {
+        this.$refs.toc.appendChild(toc);
+        links = toc.querySelectorAll('li');
+        anchors = this.$refs.articleSection
+          .querySelectorAll('.article-body h1, h2, h3, h4, h5, h6');
+
+        window.addEventListener('scroll', this.scrollToc);
+        window.addEventListener('scroll', this.displayDrawer)
+        this.smoothAnchorScroll();
       } else {
-        this.$router.push({path: '/404'})
+        this.tocDone = false;
       }
     },
     scrollToc() {
@@ -148,7 +151,7 @@ export default {
 }
 
 .flex-section {
-  width: 80%;
+  width: 90%;
   margin-bottom: 20px;
   background-color: #fff;
   box-shadow: 0 13px 15px rgba(31, 45, 61, .1);
@@ -173,23 +176,25 @@ export default {
   flex-direction: row;
 
   .toc {
-    width: 150px;
+    width: 200px;
     position: relative;
 
-    .table-of-contents {
+    ::v-deep .table-of-contents {
+      margin: 20px 0;
       width: 150px;
       height: auto;
       position: sticky;
       top: 67px;
       z-index: 1;
       overflow: hidden;
-      font-size: 18px;
-      line-height: 24px;
+      font-size: 15px;
+      line-height: 20px;
 
       ol {
         word-wrap: anywhere;
-        padding-left: 14px;
-        padding-right: 5px;
+        //white-space: nowrap;
+        padding-left: 17px;
+        //padding-right: 7px;
       }
 
       li > ol {
@@ -211,10 +216,8 @@ export default {
         background-color: #eeeeee;
       }
 
-      .toc-active {
-        ol {
-          display: block;
-        }
+      .toc-active > ol {
+        display: block;
       }
 
       .toc-active-only a:before {
@@ -246,6 +249,8 @@ export default {
 @media (max-width: 838px) {
   .article-section {
     .toc {
+      display: none;
+
       background-color: #fff;
       position: fixed;
       top: 67px;

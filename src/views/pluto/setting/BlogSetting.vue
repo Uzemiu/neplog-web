@@ -1,5 +1,9 @@
 <template>
-  <el-form :model="property" label-position="top" label-width="75px" class="blog-setting">
+  <el-form
+      :model="property"
+      label-position="top"
+      label-width="75px"
+      class="blog-setting">
     <el-form-item label="博客名称:">
       <el-input
           style="max-width: 240px"
@@ -7,52 +11,102 @@
           @blur="updateProperty('blogName')"></el-input>
     </el-form-item>
     <el-form-item label="博客头像:">
+      <vue-cropper
+        v-if="isCopping"
+        ref="cropper"
+        style="width: 200px;height: 200px"
+        :img="imgBase64"
+        :fixed-box="false"
+        :fixed="true"
+        :canMoveBox="false"
+        :centerBox="true"
+        :autoCrop="true"
+        :autoCropWidth="'200px'"
+        :autoCropHeight="'200px'">
+      </vue-cropper>
       <el-upload
+          v-if="!isCopping"
           :disabled="disableBlogAvatar"
           class="avatar-upload"
           drag
           action="#"
-          :before-upload="uploadBlogAvatar"
-          with-credentials
-          multiple>
-        <img v-if="property.blogAvatar" :src="property.blogAvatar" class="blog-avatar">
-        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+          :before-upload="cropAvatar"
+          :http-request="uploadImg"
+          :show-file-list="false">
+        <img v-if="property.blogAvatar"
+             slot="trigger"
+             :src="property.blogAvatar"
+             class="blog-avatar">
       </el-upload>
-      <el-radio-group v-model="property.blogAvatarType">
+      <el-radio-group v-model="property.customBlogAvatar">
         <el-radio :label="'auto'">用户头像</el-radio>
         <el-radio :label="'custom'">自定义头像</el-radio>
       </el-radio-group>
+      <el-button @click="completeCrop">Complete</el-button>
       <el-input v-model="property.blogAvatar" :disabled="disableBlogAvatar"></el-input>
     </el-form-item>
+<!--    <el-form-item label="作者名称:">-->
+<!--      <el-radio-group v-model="property.authorNameType">-->
+<!--        <el-radio :label="'auto'">用户昵称</el-radio>-->
+<!--        <el-radio :label="'custom'">自定义名称</el-radio>-->
+<!--      </el-radio-group>-->
+<!--      <el-input v-model="property.authorName"></el-input>-->
+<!--    </el-form-item>-->
   </el-form>
 </template>
 
 <script>
-import property from "@/views/pluto/setting/property";
+import {VueCropper} from "vue-cropper"
+import property from "@/mixins/property";
+import {getBase64FromFile} from "@/utils/image";
+import {uploadAvatar} from "@/api/file";
 
 export default {
   name: "BlogSetting",
   mixins: [property],
+  components:{
+    VueCropper
+  },
   data() {
     return {
       property: {
         blogName: this.$store.getters.blogProperty.blogName,
-        blogAvatarType: 'auto',
-        blogAvatar: require("@/assets/imgs/tomorinao.jpg"),
+        customBlogAvatar: 'auto',
+        blogAvatar: this.$store.getters.blogProperty.blogAvatar,
+        authorNameType: 'auto',
+        authorName: this.$store.getters.blogProperty.authorName,
       },
+      imgBase64: '',
+      isCopping: false,
+      imgName: '',
     }
   },
   mounted() {
-
+    this.property.customBlogAvatar =
+      this.$store.getters.user.avatar === this.property.blogAvatar ? 'auto' : 'custom'
   },
   methods: {
-    uploadBlogAvatar() {
-
+    cropAvatar(file) {
+      this.imgName = file.name;
+      getBase64FromFile(file).then(e => {
+        this.imgBase64 = e;
+        this.isCopping = true
+      })
     },
+    completeCrop(){
+      this.$refs.cropper.getCropBlob(blob => {
+        uploadAvatar(blob,this.imgName).then(url => {
+          this.property.blogAvatar = url;
+          this.isCopping = false;
+          this.updateProperty('blogAvatar')
+        })
+      });
+    },
+    uploadImg(){}
   },
   computed: {
     disableBlogAvatar() {
-      return this.property.blogAvatarType === 'auto';
+      return this.property.customBlogAvatar === 'auto';
     },
   }
 }
@@ -60,19 +114,14 @@ export default {
 
 <style lang="scss" scoped>
 .blog-setting {
+
+  @import "pluto-setting";
+
   ::v-deep {
-    .el-form-item__label {
-      font-size: 15px;
-      padding-right: 5px;
-      min-width: 75px;
-    }
     .el-upload-dragger {
       width: 200px;
       height: 200px;
-    }
-    .el-form-item{
-      display: flex;
-      flex-direction: row;
+      overflow: unset;
     }
   }
 
@@ -80,19 +129,6 @@ export default {
     width: 100%;
     height: 100%;
     object-fit: cover;
-  }
-}
-
-@media (max-width: 576px) {
-  .blog-setting{
-    ::v-deep{
-      .el-form-item{
-        flex-direction: column;
-      }
-      .el-form-item__label {
-        padding-bottom: 0;
-      }
-    }
   }
 }
 </style>

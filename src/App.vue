@@ -17,8 +17,6 @@ import NavBar from "@/components/top-nav/index";
 import Foot from "@/components/foot/index";
 import FootMenu from "@/components/foot/FootMenu"
 
-import store from "@/store";
-
 export default {
   name: 'App',
   components: {
