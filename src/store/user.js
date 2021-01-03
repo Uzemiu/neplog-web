@@ -7,19 +7,22 @@ export default {
       username: '',
       nickname: '',
       avatar: '',
-      level: undefined
+      level: undefined,
+      isLogin: false
     }
   },
   mutations: {
     setUser(state, user){
       state.user = user;
+      state.user.isLogin = true;
     },
     removeUser(state){
       state.user = {
         username: '',
         nickname: '',
         avatar: '',
-        level: undefined
+        level: undefined,
+        isLogin: false
       }
     }
   },

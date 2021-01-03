@@ -35,6 +35,7 @@
         <pre class="hljs"><code>md without lang
 </code></pre>
       </div>
+
       <div slot="main" class="comment-foot">
         <span class="date">2020-11-21 25:81:22</span>
         <span class="pointer"><i class="fa fa-smile-o"></i> 1</span>
@@ -206,38 +207,6 @@ export default {
     .reply {
       color: #a0cfff;
       cursor: pointer;
-    }
-
-    .more-action {
-      margin-right: 12px;
-      margin-left: auto;
-      cursor: pointer;
-      position: relative;
-
-      .action-list {
-        display: none;
-        background-color: #fff;
-        position: absolute;
-        width: 80px;
-        top: -50px;
-        left: -33px;
-        text-align: center;
-        border: 1px solid #e5e9ef;
-        box-shadow: 0 0 5px rgba(0, 0, 0, .2);
-        font-size: 14px;
-
-        li {
-          line-height: 24px;
-          height: 24px;
-        }
-        li:hover {
-          background-color: var(--text-color-lightest);
-        }
-      }
-
-      &:hover .action-list {
-        display: block;
-      }
     }
   }
 

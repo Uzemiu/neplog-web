@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <nav-bar ref="nav"></nav-bar>
-    <main id="main">
+    <main id="main" class="main">
       <keep-alive>
         <router-view></router-view>
       </keep-alive>
@@ -59,7 +59,7 @@ export default {
   min-height: 100vh;
 }
 
-.el-form, .nep-operation, .el-popover.el-popper{
+.main{
   @import "assets/css/inputs";
 }
 
