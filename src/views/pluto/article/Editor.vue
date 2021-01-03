@@ -5,7 +5,6 @@
       <el-form-item prop="title">
         <el-input v-model="article.title" placeholder="Title"></el-input>
       </el-form-item>
-      <el-button @click="drawer = true" type="primary">More</el-button>
 
       <el-drawer
         title="更多选项"
@@ -112,7 +111,7 @@
               <el-button class="nep-button-primary full-width" @click="saveArticle(4)">发布</el-button>
             </el-col>
             <el-col :span="8">
-              <el-button class="nep-button-primary full-width">放弃修改</el-button>
+              <el-button class="nep-button-primary full-width">返回</el-button>
             </el-col>
           </el-row>
         </div>
@@ -123,9 +122,15 @@
       ref=md
       v-model="article.content"
       id="editor"
-      style="height: 780px;z-index: unset"
+      style="height: 720px;z-index: unset"
       @save="handleSave"
       @imgAdd="uploadImg"></mavon-editor>
+
+    <div class="action">
+      <el-button @click="drawer = true" type="primary">更多设置</el-button>
+      <el-button class="nep-button-common" @click="saveArticle(0)">存为草稿</el-button>
+      <el-button class="nep-button-primary" @click="saveArticle(4)">发布</el-button>
+    </div>
 
   </div>
 </template>
@@ -136,7 +141,7 @@ import 'highlight.js/styles/vs2015.css'
 import '@/assets/css/markdown.scss'
 import rules from '@/utils/rules/article';
 // eslint-disable-next-line no-unused-vars
-import {createArticle, updateDeleted, updateArticle, findArticleDetail} from "@/api/article";
+import {updateDeleted, updateArticle, findArticleDetail} from "@/api/article";
 import {deleteFile, uploadCover, uploadImg} from "@/api/file";
 import {getAllTags} from "@/api/tag";
 import {getAllCategories} from "@/api/category";
@@ -290,6 +295,18 @@ export default {
       font-size: 16px;
       padding-bottom: 0;
     }
+  }
+
+  .action{
+    display: flex;
+    justify-content: flex-end;
+    position: fixed;
+    padding: 10px;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: #fff;
+    box-shadow: 0 2px 10px 1px rgba(0,0,0,.15);;
   }
 
   .form-advanced {

@@ -16,6 +16,8 @@
       :autoCropHeight="option.autoCropHeight"
       :centerBox="option.centerBox"
       :infoTrue="option.infoTrue"
+      :fixed="option.fixed"
+      :fixedBox="option.fixedBox"
       :full="option.full">
 
     </vue-cropper>
@@ -69,7 +71,20 @@ export default {
         this.dialogVisible = this.done && !this.done(e, this.filename);
       })
     },
+    defaultOption(){
+      return {
+        autoCrop: true,
+        autoCropWidth: 200,
+        autoCropHeight: 200,
+        fixed: false,
+        fixedBox: false,
+        centerBox: true,
+        infoTrue: true,
+        full: true,
+      }
+    },
     startCrop(file,done,option){
+      this.option = this.defaultOption();
       copyProperties(option,this.option)
       this.filename = file.name;
       this.done = done;

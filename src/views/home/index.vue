@@ -1,6 +1,6 @@
 <template>
   <div class="content-wrapper">
-    <glide :glides="glides" class="home-slides"></glide>
+    <glide :glides="glides" class="home-slides" ref="glide"></glide>
     <div></div>
     <showcase class="article-list">
       <ul>

@@ -35,24 +35,17 @@
         <pre class="hljs"><code>md without lang
 </code></pre>
       </div>
+
       <div slot="main" class="comment-foot">
         <span class="date">2020-11-21 25:81:22</span>
         <span class="pointer"><i class="fa fa-smile-o"></i> 1</span>
         <span class="pointer"><i class="fa fa-frown-o"></i> 0</span>
         <span class="reply" @click="activeReply(i)">Reply</span>
-        <div class="more-action">
-          <i class="fa fa-ellipsis-v"></i>
-          <div class="action-list">
-            <ul>
-              <li>删除评论</li>
-              <li>删除</li>
-            </ul>
-          </div>
-        </div>
       </div>
 
       <component slot="main"
                  class="comment-reply"
+                 :father-id="i"
                  :is="reply[i]"
                  v-show="collapse[i]"/>
 
@@ -86,6 +79,7 @@ export default {
     activeReply(i) {
       if (!this.reply[i]) {
         this.$set(this.reply, i, Reply);
+        console.log(this.reply)
       }
       this.$set(this.collapse, i, !this.collapse[i]);
     },
@@ -181,7 +175,7 @@ export default {
     flex-wrap: nowrap;
     position: relative;
 
-    span, .more-action {
+    span,{
       background-color: #fff;
       z-index: 1;
       color: #8b8b8b;
@@ -206,38 +200,6 @@ export default {
     .reply {
       color: #a0cfff;
       cursor: pointer;
-    }
-
-    .more-action {
-      margin-right: 12px;
-      margin-left: auto;
-      cursor: pointer;
-      position: relative;
-
-      .action-list {
-        display: none;
-        background-color: #fff;
-        position: absolute;
-        width: 80px;
-        top: -50px;
-        left: -33px;
-        text-align: center;
-        border: 1px solid #e5e9ef;
-        box-shadow: 0 0 5px rgba(0, 0, 0, .2);
-        font-size: 14px;
-
-        li {
-          line-height: 24px;
-          height: 24px;
-        }
-        li:hover {
-          background-color: var(--text-color-lightest);
-        }
-      }
-
-      &:hover .action-list {
-        display: block;
-      }
     }
   }
 

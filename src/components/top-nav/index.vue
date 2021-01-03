@@ -213,10 +213,15 @@ header{
         background-color: var(--text-color-lightest);
       }
       ::v-deep .nav-item{
+        .menu-item{
+          span{
+            color: var(--text-color-lightest);
+          }
+        }
         a, .fa{
           color: var(--text-color-lightest);
         }
-        a:hover, .link-active.router-link-exact-active{
+        a:hover, .link-active.router-link-exact-active, span:hover{
           color: var(--secondary-blue);
         }
         .sub-menu{

@@ -10,8 +10,6 @@ const Article = () => import("../views/article/index")
 const Editor = () => import("../views/pluto/article/Editor")
 const Friend = () => import("../views/friend/index");
 
-const Install = () => import("../views/pluto/install/index")
-
 const User = () => import("../views/user/index")
 const Login = () => import("../views/user/Login")
 
@@ -41,11 +39,6 @@ const routes = [
       title: '朋友们'
     },
     component: Friend
-  },
-  {
-    path: '/install',
-    name: 'install',
-    component: Install
   },
   {
     path: '/user',
@@ -126,8 +119,8 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresLevel)) {
     // 权限验证
     let requiredLevel = Math.max(...to.matched.map(record => record.meta.requiresLevel || 1));
-    let userLevel = store.getters.user.level;
-    if (userLevel === undefined) {
+    let user = store.getters.user;
+    if (!user.isLogin) {
       // Vuex中没有存储user信息，尝试获取信息
       store.dispatch('getUserInfo').then((user) => {
         if (user.level >= requiredLevel) {
@@ -140,7 +133,7 @@ router.beforeEach((to, from, next) => {
         Message.error('你当前还未登陆')
         next(`/user/login?redirect=${to.fullPath}`)
       });
-    } else if (userLevel >= requiredLevel) {
+    } else if (user.level >= requiredLevel) {
       next();
     } else {
       next({path: '/403'})

@@ -26,7 +26,6 @@ export default {
   },
   created() {
     this.$store.dispatch('getUserInfo').catch(() => {});
-    this.$store.dispatch('getBlogProperty');
   },
   methods: {
     closeSide(){

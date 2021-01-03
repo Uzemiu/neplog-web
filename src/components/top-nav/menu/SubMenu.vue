@@ -1,6 +1,7 @@
 <template>
   <li class="menu-item">
-    <router-link :to="link">{{title}}</router-link>
+    <router-link :to="link" v-if="link">{{title}}</router-link>
+    <span v-else>{{title}}</span>
     <ul class="sub-menu"><slot></slot></ul>
   </li>
 </template>
@@ -13,10 +14,7 @@ export default {
       type: String,
       default: 'SubTitle'
     },
-    link: {
-      type: String,
-      default: '#'
-    }
+    link: String,
   }
 }
 </script>
@@ -38,12 +36,16 @@ export default {
   }
 }
 a, span{
+  cursor: pointer;
   transition: .4s;
 }
 .menu-item{
   display: block;
   position: relative;
   font-weight: 600;
+  span{
+    color: #666;
+  }
 
   a:hover, span:hover{
     color: var(--secondary-blue);

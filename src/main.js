@@ -18,9 +18,9 @@ Vue.use(VueLazyload,{
 import mavonEditor from '@/utils/editor'
 Vue.use(mavonEditor)
 
-import Element from 'element-ui'
-Vue.use(Element)
+import Element, {Notification} from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+Vue.use(Element)
 
 import level from '@/components/level/index'
 Vue.use(level)
@@ -30,8 +30,14 @@ Vue.use(Cropper)
 
 Vue.config.productionTip = false
 
-new Vue({
-  router,
-  store,
-  render: h => h(App),
-}).$mount('#app')
+store.dispatch('getBlogProperty').then(() => {
+  new Vue({
+    router,
+    store,
+    render: h => h(App),
+  }).$mount('#app')
+}).catch(() => {
+  Notification.error({title: '获取博客信息失败'})
+})
+
+

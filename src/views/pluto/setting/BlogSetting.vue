@@ -42,7 +42,6 @@
         <el-radio :label="'auto'">用户头像</el-radio>
         <el-radio :label="'custom'">自定义头像</el-radio>
       </el-radio-group>
-      <el-button @click="completeCrop">Complete</el-button>
       <el-input v-model="property.blogAvatar" :disabled="disableBlogAvatar"></el-input>
     </el-form-item>
 <!--    <el-form-item label="作者名称:">-->
@@ -59,7 +58,7 @@
 import {VueCropper} from "vue-cropper"
 import property from "@/mixins/property";
 import {getBase64FromFile} from "@/utils/image";
-import {uploadAvatar} from "@/api/file";
+import {uploadAvatar, uploadCover} from "@/api/file";
 
 export default {
   name: "BlogSetting",
@@ -79,6 +78,12 @@ export default {
       imgBase64: '',
       isCopping: false,
       imgName: '',
+
+      cropAvatarOption: {
+        autoCropWidth: 200,
+        autoCropHeight: 200,
+        fixed:true,
+      }
     }
   },
   mounted() {
@@ -87,11 +92,13 @@ export default {
   },
   methods: {
     cropAvatar(file) {
-      this.imgName = file.name;
-      getBase64FromFile(file).then(e => {
-        this.imgBase64 = e;
-        this.isCopping = true
-      })
+      this.$crop(file,(blob, filename) => {
+        uploadCover(blob, filename).then((url) => {
+          this.property.blogAvatar = url;
+          this.updateProperty('blogAvatar');
+        })
+        return true;
+      },this.cropAvatarOption)
     },
     completeCrop(){
       this.$refs.cropper.getCropBlob(blob => {

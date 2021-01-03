@@ -1,5 +1,5 @@
 export default {
-  homePageGlide: '3',
+  homePageCover: '3',
   homePageTitle: '',
   friendPageCover: '',
   authorName: '',

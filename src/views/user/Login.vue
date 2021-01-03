@@ -20,7 +20,10 @@
       </el-form-item>
 
       <el-form-item :rules="[{required: true,message: '请输入验证码'}]">
-          <el-input v-model="user.captcha" placeholder="验证码" class="captcha-input"></el-input>
+          <el-input class="captcha-input"
+                    v-model="user.captcha"
+                    placeholder="验证码"
+                    @keyup.enter.native="submit"></el-input>
           <img :src="captcha" class="captcha" alt="" @click="fetchCaptcha">
       </el-form-item>
 
@@ -33,7 +36,11 @@
         <el-input v-model="user.emailCode" placeholder="邮箱验证码"></el-input>
       </el-form-item>
 
-      <el-button type="primary" class="form-submit" @click="submit" :loading="loading">{{register ? '注册' : '登录'}}</el-button>
+      <el-button
+          type="primary"
+          class="form-submit"
+          @click="submit"
+          :loading="loading">{{register ? '注册' : '登录'}}</el-button>
 
     </el-form>
 

@@ -27,7 +27,8 @@ export default {
     BaseComment
   },
   props: {
-    placeholder: String
+    placeholder: String,
+    fatherId: Number
   },
   data() {
     return {
@@ -36,6 +37,9 @@ export default {
       email: '',
       site: ''
     }
+  },
+  mounted() {
+    console.log(this.fatherId)
   },
   computed: {
     leftWordCount() {

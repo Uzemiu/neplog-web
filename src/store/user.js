@@ -1,5 +1,4 @@
 import { userInfo } from '@/api/user'
-import {Message} from "element-ui";
 
 export default {
   state: {
@@ -7,7 +6,8 @@ export default {
       username: '',
       nickname: '',
       avatar: '',
-      level: undefined
+      level: undefined,
+      isLogin: false,
     }
   },
   mutations: {
@@ -19,7 +19,8 @@ export default {
         username: '',
         nickname: '',
         avatar: '',
-        level: undefined
+        level: undefined,
+        isLogin: false
       }
     }
   },
