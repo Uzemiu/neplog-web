@@ -14,7 +14,10 @@
           show-word-limit
           resize="none"></el-input>
       </el-form-item>
-      <div class="anonymous-input">
+      <span v-if="$store.getters.user.isLogin">
+        以{{$store.getters.user.nickname}}登录
+      </span>
+      <div class="anonymous-input" v-else>
         <el-form-item class="comment-input">
           <el-input placeholder="*昵称" v-model="comment.nickname"></el-input>
         </el-form-item>
@@ -25,20 +28,23 @@
           <el-input placeholder="个人站点" v-model="comment.link"></el-input>
         </el-form-item>
       </div>
-<!--      <div class="submit-button">-->
-        <el-button class="nep-button-primary" @click="postComment">评论</el-button>
-<!--      </div>-->
+      <el-button
+        class="nep-button-primary"
+        :loading="loading"
+        @click="postComment">评论</el-button>
     </el-form>
   </div>
 </template>
 
 <script>
-
 import {postComment} from "@/api/comment";
+import UserAgent from "@/utils/user-agent";
+const {browser, os} = UserAgent;
 
 export default {
   name: "CommentForm",
   components: {
+
   },
   props: {
     placeholder: {
@@ -64,23 +70,35 @@ export default {
   },
   data() {
     return {
+      loading: false,
       comment: {
         fatherId: null,
         articleId: null,
         content: '',
         nickname: '',
         email: '',
-        link: ''
+        link: '',
+        userAgent: 'Unknown',
+        operatingSystem: 'Unknown',
       }
     }
   },
+  mounted() {
+    this.comment.userAgent = browser.name + " " + browser.version;
+    this.comment.operatingSystem = os.name + " " + os.version;
+    this.comment.nickname = this.$store.getters.user.nickname;
+  },
   methods: {
     postComment(){
+      this.loading = true;
       this.comment.fatherId = this.fatherId;
       this.comment.articleId = this.articleId;
-      postComment(this.comment).then((data) => {
+      postComment(this.comment).then(() => {
         this.$message.success("提交评论成功")
-      }).catch(() => {});
+        location.reload();
+      }).catch(() => {
+        this.loading = false;
+      });
     }
   }
 }

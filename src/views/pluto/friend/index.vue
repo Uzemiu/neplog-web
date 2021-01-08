@@ -1,38 +1,57 @@
 <template>
-  <div class="pluto-friend">
+  <div class="pluto-friend" v-loading="loading">
     <h2 class="sharp-header">友链管理</h2>
     <el-tabs v-model="activeSection" @tab-click="changeSection">
       <el-tab-pane :label="`我的好友(${count.public})`" name="public" :query="{status: 1}"></el-tab-pane>
       <el-tab-pane :label="`待审核(${count.pending})`" name="pending" :query="{status: 0}"></el-tab-pane>
     </el-tabs>
-    <query-group>
+
+    <query-group @search="refresh">
       <el-form-item size="small">
         <el-input
           style="width: 160px"
           type="text"
-          v-model="query.title"
+          v-model="query.name"
           placeholder="输入好友名或简介"></el-input>
       </el-form-item>
     </query-group>
 
-    <el-checkbox v-model="multipleSelect">批量修改</el-checkbox>
+    <crud-operation crud="ud" :multi-select="multipleSelect" @delete="deleteInBatch">
+      <el-checkbox v-model="multipleSelect">批量修改</el-checkbox>
+    </crud-operation>
 
-    <el-checkbox-group v-model="selected" class="friend-wrapper" :disabled="!multipleSelect">
-      <el-checkbox v-for="friend in friends" :key="friend.id" class="friend" :label="friend.id">
-        <friend-card
-          :enable-edit="true"
-          :friend="friend"
-          @completeEdit="saveFriend">
-          <el-dropdown-item v-if="friend.status === 0" slot="operation" :disabled="disableFriendCommit">
-            <span @click="pass(friend)">通过</span>
-          </el-dropdown-item>
-          <el-dropdown-item slot="operation" :disabled="disableFriendCommit">
-            <span @click="deleteFriend([friend.id])">删除</span>
-          </el-dropdown-item>
-        </friend-card>
-      </el-checkbox>
-      <div class="friend" @click="addNewFriend" v-if="activeSection === 'public'">
-        <friend-card-empty></friend-card-empty>
+    <el-checkbox-group
+      v-model="selected"
+      @change="preventNull">
+      <transition-group
+        class="friend-wrapper"
+        name="friends"
+        tag="ul">
+        <li v-for="friend in friends" :key="String(friend.id)" class="friend">
+          <el-checkbox :label="friend">
+            <friend-card
+              :enable-edit="true"
+              :friend="friend"
+              @completeEdit="createFriend">
+              <el-dropdown-item v-if="friend.status === 0" slot="operation" :disabled="disableFriendCommit">
+                <span @click="pass(friend)">通过</span>
+              </el-dropdown-item>
+              <el-dropdown-item slot="operation" :disabled="disableFriendCommit">
+                <span @click="deleteSingle(friend)">删除</span>
+              </el-dropdown-item>
+            </friend-card>
+          </el-checkbox>
+        </li>
+        <li class="friend"
+            key="newFriend"
+            @click="addNewFriend"
+            v-if="activeSection === 'public'">
+          <friend-card-empty></friend-card-empty>
+        </li>
+      </transition-group>
+
+      <div class="friend">
+
       </div>
     </el-checkbox-group>
   </div>
@@ -42,11 +61,12 @@
 import FriendCard from "@/components/friend/FriendCard";
 import QueryGroup from "@/components/form/QueryGroup";
 import FriendCardEmpty from "@/components/friend/FriendCardEmpty";
+import CrudOperation from "@/components/form/CrudOperation";
 import {updateFriend,deleteFriend,findFriendBy} from "@/api/friend";
 
 export default {
-  name: "index",
-  components: {FriendCardEmpty, QueryGroup, FriendCard},
+  name: "PlutoFriend",
+  components: {CrudOperation, FriendCardEmpty, QueryGroup, FriendCard},
   data(){
     return{
       activeSection: 'public',
@@ -55,12 +75,13 @@ export default {
         public: '--',
         pending: '--'
       },
-      multipleSelect: true,
       selected: [],
       query: {
         status: 1,
       },
-      disableFriendCommit: false
+      multipleSelect: false,
+      disableFriendCommit: false,
+      loading: true
     }
   },
   methods:{
@@ -69,7 +90,7 @@ export default {
       this.query.status = tab.$attrs.query.status;
       this.refresh();
     },
-    saveFriend(friend,callback){
+    createFriend(friend, callback){
       // 后台新增好友默认为通过状态
       if(friend.status === null || friend.status === undefined){
         friend.status = 1;
@@ -78,7 +99,7 @@ export default {
       updateFriend(friend).then(() => {
         this.$message.success('保存成功')
         callback(true);
-        this.refresh();
+        // this.refresh();
       }).finally(() => {
         this.disableFriendCommit = false;
       })
@@ -90,24 +111,37 @@ export default {
         this.refresh();
       }).catch(() => {})
     },
-    deleteFriend(id){
-      if(!id) return;
-      if(id[0]){
-        this.$confirm(`确定删除id：${id} 吗`,'提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.disableFriendCommit = true;
-          deleteFriend(id).then(() => {
-            this.$message.success('删除好友成功');
-            this.refresh();
-          }).finally(() => {
-            this.disableFriendCommit = false
-          })
-        }).catch(() => {})
+    deleteSingle(friend){
+      if(!friend) return;
+      if(friend.id){
+        this.deleteFriend([friend.id],friend.name);
       } else {
         this.friends.pop()
+      }
+    },
+    deleteInBatch(){
+      const names = this.selected.map(friend => friend.name).slice(0,3);
+      const ids = this.selected.map(friend => friend.id);
+      this.deleteFriend(ids,`${names}等共${this.selected.length}个好友`);
+    },
+    deleteFriend(ids,tip){
+      this.$confirm(`确定删除${tip}吗`,'提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.disableFriendCommit = true;
+        return deleteFriend(ids);
+      }).then(() => {
+        this.$message.success('删除好友成功');
+        this.refresh();
+      }).catch(() => {}).finally(() => {
+        this.disableFriendCommit = false
+      })
+    },
+    preventNull(selected){
+      if(selected.length && !selected[selected.length - 1].id){
+        selected.pop();
       }
     },
     addNewFriend(){
@@ -116,11 +150,12 @@ export default {
       }
     },
     refresh(){
+      this.loading = true;
       findFriendBy(this.query).then(data => {
         this.friends = data.friends;
         this.count = data.count;
-      }).catch(error => {
-        this.$message.error(error.message);
+      }).catch(() => {}).finally(() => {
+        this.loading = false;
       })
     }
   },
@@ -166,7 +201,29 @@ export default {
   }
   .friend{
     margin: 5px;
+    //display: inline-block;
     width: calc(25% - 10px);
+    .el-checkbox{
+      width: 100%;
+    }
+  }
+
+  /**
+   * 过渡动画
+   */
+  .friends-enter-active,
+  .friends-leave-active{
+    transition: all .5s;
+  }
+  .friends-enter, .friends-leave-to{
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  .friends-leave-active{
+    position: absolute;
+  }
+  .friends-move{
+    transition: transform .5s;
   }
 }
 

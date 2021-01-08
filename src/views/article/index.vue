@@ -18,7 +18,7 @@
     <section class="flex-section">
       <ul>
         <li
-          v-for="(comment,i) in comments"
+          v-for="comment in comments"
           :key="comment.id">
           <comment-view :comment="comment"></comment-view>
         </li>

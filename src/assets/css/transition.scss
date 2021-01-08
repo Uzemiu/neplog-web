@@ -1,0 +1,20 @@
+.slide-right-enter-active,
+.slide-right-leave-active{
+  will-change: transform;
+  transition: all .66s ease;
+  position: absolute !important;
+  width: 100%;
+}
+.slide-right-enter{
+  transform: translateX(110%);
+}
+.slide-right-enter-to{
+  transform: translateX(0);
+}
+.slide-right-leave{
+  transform: translateX(0);
+}
+.slide-right-leave-active{
+  transform: translateX(-110%);
+}
+

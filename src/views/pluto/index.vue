@@ -6,7 +6,11 @@
         <el-breadcrumb-item :to="'/pluto'">首页</el-breadcrumb-item>
       </el-breadcrumb>
     </section>
-    <router-view class="pluto-content"></router-view>
+    <section class="pluto-content">
+      <transition :name="'slide-right'">
+        <router-view></router-view>
+      </transition>
+    </section>
   </div>
 </template>
 
@@ -17,6 +21,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 .pluto{
   width: 100%;
   padding-top: 47px;
@@ -31,6 +36,14 @@ export default {
 }
 .pluto-content{
   width: 80%;
+  position: relative;
+}
+.pluto-view{
+  position: absolute;
+}
+
+@media (min-width: 993px){
+  @import "src/assets/css/transition";
 }
 
 @media (max-width: 1024px){

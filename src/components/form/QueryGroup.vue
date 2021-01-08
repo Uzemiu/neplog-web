@@ -4,10 +4,14 @@
       <slot></slot>
       <div class="action-item">
         <el-form-item size="small">
-          <el-button class="nep-button-primary inline-button" @click="search">搜索</el-button>
+          <el-button
+            class="nep-button-primary inline-button"
+            @click="$emit('search',model)">搜索</el-button>
         </el-form-item>
         <el-form-item size="small">
-          <el-button class="nep-button-primary inline-button">重置</el-button>
+          <el-button
+            class="nep-button-primary inline-button"
+            @click="$emit('reset',model)">重置</el-button>
         </el-form-item>
       </div>
     </el-form>
@@ -19,11 +23,6 @@ export default {
   name: "QueryGroup",
   props: {
     model: Object
-  },
-  methods: {
-    search(){
-      this.$emit('search',this.model);
-    }
   }
 }
 </script>
@@ -45,7 +44,7 @@ export default {
     display: flex;
   }
   .inline-button{
-    padding: 8px 10px;
+    padding: 8px 16px;
     font-size: 14px;
     line-height: 1;
   }
