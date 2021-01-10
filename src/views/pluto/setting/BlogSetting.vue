@@ -1,29 +1,16 @@
 <template>
   <el-form
       :model="property"
-      label-position="top"
-      label-width="75px"
+      label-position="left"
+      label-width="80px"
       class="blog-setting">
     <el-form-item label="博客名称:">
       <el-input
           style="max-width: 240px"
           v-model="property.blogName"
-          @blur="updateProperty('blogName')"></el-input>
+          @blur="updatePropertyByKey('blogName')"></el-input>
     </el-form-item>
     <el-form-item label="博客头像:">
-      <vue-cropper
-        v-if="isCopping"
-        ref="cropper"
-        style="width: 200px;height: 200px"
-        :img="imgBase64"
-        :fixed-box="false"
-        :fixed="true"
-        :canMoveBox="false"
-        :centerBox="true"
-        :autoCrop="true"
-        :autoCropWidth="'200px'"
-        :autoCropHeight="'200px'">
-      </vue-cropper>
       <el-upload
           v-if="!isCopping"
           :disabled="disableBlogAvatar"
@@ -55,17 +42,12 @@
 </template>
 
 <script>
-import {VueCropper} from "vue-cropper"
 import property from "@/mixins/property";
-import {getBase64FromFile} from "@/utils/image";
-import {uploadAvatar, uploadCover} from "@/api/file";
+import {uploadAvatar} from "@/api/file";
 
 export default {
   name: "BlogSetting",
   mixins: [property],
-  components:{
-    VueCropper
-  },
   data() {
     return {
       property: {
@@ -93,21 +75,12 @@ export default {
   methods: {
     cropAvatar(file) {
       this.$crop(file,(blob, filename) => {
-        uploadCover(blob, filename).then((url) => {
+        uploadAvatar(blob, filename).then((url) => {
           this.property.blogAvatar = url;
-          this.updateProperty('blogAvatar');
+          this.updatePropertyByKey('blogAvatar');
         })
         return true;
       },this.cropAvatarOption)
-    },
-    completeCrop(){
-      this.$refs.cropper.getCropBlob(blob => {
-        uploadAvatar(blob,this.imgName).then(url => {
-          this.property.blogAvatar = url;
-          this.isCopping = false;
-          this.updateProperty('blogAvatar')
-        })
-      });
     },
     uploadImg(){}
   },
@@ -121,8 +94,6 @@ export default {
 
 <style lang="scss" scoped>
 .blog-setting {
-
-  @import "pluto-setting";
 
   ::v-deep {
     .el-upload-dragger {

@@ -1,25 +1,18 @@
 ::v-deep {
-  .el-form-item {
-    display: flex;
-    flex-direction: row;
-  }
-  .el-form-item__content{
-    width: 100%;
+  .el-collapse-item__header{
+    font-size: 15px;
   }
   .el-form-item__label {
+    text-align: right;
     font-size: 15px;
-    padding-right: 5px;
-    min-width: 75px;
+  }
+  .el-tabs__item{
+    font-size: 16px;
   }
 }
 
-
 @media (max-width: 576px) {
   ::v-deep {
-    .el-form-item {
-      flex-direction: column;
-    }
-
     .el-form-item__label {
       padding-bottom: 0;
     }

@@ -1,4 +1,5 @@
 import axios from "@/plugins/axios";
+import store from "@/store";
 
 const config = {
   headers: {
@@ -7,31 +8,30 @@ const config = {
 }
 
 function buildParam(file,filename){
-  console.log(filename)
   const param = new FormData();
   param.append("file", file, filename);
   return param;
 }
 
-export function upload(type, file, filename){
-  return axios.post("file/" + type, buildParam(file,filename), config)
+export function upload(location, type, file, filename){
+  return axios.post(`file/${location}/${type}`, buildParam(file,filename), config)
 }
 
 export function uploadAvatar(file, filename){
-  return upload('avatar', file, filename)
+  return upload('default','avatar', file, filename)
 }
 
 export function uploadCover(file,filename){
-  return upload("cover", file,filename)
+  return upload('default','cover', file, filename)
 }
 
-export function uploadImg(file){
-  return upload("image", file);
+export function uploadImg(file, filename){
+  return upload('default','image', file, filename);
 }
 
-export function deleteFile(path){
+export function deleteFile(location, path){
   return axios({
-    url: 'file',
+    url: 'file/${location}',
     method: 'delete',
     data: path
   })

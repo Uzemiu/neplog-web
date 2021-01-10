@@ -1,12 +1,12 @@
 <template>
   <el-form
       :model="property"
-      label-position="top"
-      label-width="75px"
+      label-position="left"
+      label-width="80px"
       class="cover-setting">
     <el-form-item label="首页封面:">
       <el-upload
-        v-if="isHomePageCover && !isCropping"
+        v-if="isHomePageCover"
         class="cover-upload"
         drag
         action="#"
@@ -22,7 +22,12 @@
       </el-radio-group>
       <el-input
           v-model="property.homePageCover"
-          @blur="updateProperty('homePageCover')"></el-input>
+          @blur="updatePropertyByKey('homePageCover')"></el-input>
+    </el-form-item>
+    <el-form-item label="首页标题:" v-if="isHomePageCover">
+      <el-input
+          v-model="property.homePageTitle"
+          @blur="updatePropertyByKey('homePageTitle')"></el-input>
     </el-form-item>
     <el-form-item label="友链封面:">
       <el-upload
@@ -35,7 +40,15 @@
         <img v-if="property.friendPageCover" :src="property.friendPageCover" class="page-cover">
         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
       </el-upload>
-      <el-input v-model="property.friendPageCover"></el-input>
+      <el-input
+          v-model="property.friendPageCover"
+          placeholder="封面URL"
+          @blur="updatePropertyByKey('friendPageCover')"></el-input>
+    </el-form-item>
+    <el-form-item label="友链标题:">
+      <el-input
+          v-model="property.friendPageTitle"
+          @blur="updatePropertyByKey('friendPageTitle')"></el-input>
     </el-form-item>
   </el-form>
 </template>
@@ -50,18 +63,19 @@ export default {
     return {
       property: {
         friendPageCover: this.$store.getters.blogProperty.friendPageCover,
+        friendPageTitle: this.$store.getters.blogProperty.friendPageTitle,
         // 数字表示首页显示glides数量
         // 链接表示显示单张图片
         homePageCover: this.$store.getters.blogProperty.homePageCover,
+        homePageTitle: this.$store.getters.blogProperty.homePageTitle,
       },
       isHomePageCover: false,
       currentFile: null,
-      isCropping: false,
       imageBase64: '',
 
       cropCoverOption: {
         autoCropWidth: 1900,
-        autoCropHeight: 100,
+        autoCropHeight: 1000,
       }
     }
   },
@@ -76,7 +90,7 @@ export default {
         console.log(blob)
         uploadCover(blob, filename).then((url) => {
           this.property[key] = url;
-          this.updateProperty(key);
+          this.updatePropertyByKey(key);
         })
         return true;
       },this.cropCoverOption)
@@ -96,7 +110,7 @@ export default {
 
 <style lang="scss" scoped>
 .cover-setting {
-  @import "pluto-setting";
+
   ::v-deep {
     .el-upload-dragger {
       width: 100%;

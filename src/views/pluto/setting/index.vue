@@ -4,12 +4,16 @@
     <el-tabs v-model="activeSection" @tab-click="changeSection">
       <el-tab-pane label="博客" name="blog"></el-tab-pane>
       <el-tab-pane label="封面" name="cover"></el-tab-pane>
+      <el-tab-pane label="COS" name="cos"></el-tab-pane>
       <el-tab-pane label="其他" name="other"></el-tab-pane>
     </el-tabs>
 
-    <i class="loading-icon"
-       :class="iconClass"
-       :style="{color: iconColor}"></i>
+    <div class="icon-wrapper">
+      <i class="loading-icon"
+         :class="iconClass"
+         :style="{color: iconColor}"></i>
+    </div>
+
     <component
         :is="activeComponent"
         @beforeUpdate="loadingIcon"
@@ -21,20 +25,22 @@
 
 <script>
 import {resetProperty} from "@/api/property";
-import {userInfo} from "@/api/user";
 import BlogSetting from "@/views/pluto/setting/BlogSetting";
 import CoverSetting from "@/views/pluto/setting/CoverSetting";
+import OtherSetting from "@/views/pluto/setting/OtherSetting";
+import CosSetting from "@/views/pluto/setting/CosSetting";
 
 const components = {
   'blog': BlogSetting,
-  'cover': CoverSetting
+  'cover': CoverSetting,
+  'cos': CosSetting,
+  'other': OtherSetting
 }
 export default {
-  name: "index",
+  name: "PlutoSetting",
   data() {
     return {
       activeSection: 'blog',
-      test2: 'nihao',
       iconClass: 'el-icon-check',
       iconColor: '#5daf34',
     }
@@ -46,21 +52,6 @@ export default {
         this.$store.dispatch('getBlogProperty')
       }, error => {
         this.$message.error("重置博客设置失败: " + error.message)
-      })
-    },
-    test() {
-      this.$confirm('test', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        console.log("confirm clicked")
-        return userInfo();
-      }).then((data) => {
-        console.log(data)
-        console.log("next ")
-      }).catch(() => {
-        console.warn("cancel clicked")
       })
     },
     changeSection(tab) {
@@ -86,9 +77,17 @@ export default {
 <style lang="scss" scoped>
 .pluto-setting{
   position: relative;
+  max-width: 100%;
+  @import "pluto-setting";
+
+  .icon-wrapper{
+    position: relative;
+    margin-bottom: 3px;
+  }
   .loading-icon{
     position: absolute;
-    right: 10px;
+    right: 0;
+    top: -14px;
     z-index: 20;
     font-weight: 600;
   }

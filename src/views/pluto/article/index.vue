@@ -7,7 +7,7 @@
       <el-tab-pane :label="`草稿(${count.draft})`" name="draft" :query="{status: 0,deleted: false}"></el-tab-pane>
       <el-tab-pane :label="`回收站(${count.deleted})`" name="deleted" :query="{deleted: true}"></el-tab-pane>
     </el-tabs>
-    <query-group>
+    <query-group @search="refresh">
         <el-form-item size="small">
           <el-input style="width: 230px" type="text" v-model="query.content" placeholder="输入文章标题或内容搜索"></el-input>
         </el-form-item>
@@ -66,6 +66,16 @@
         </li>
       </ul>
     </section>
+    <el-pagination
+      style="display: flex;justify-content: center"
+      hide-on-single-page
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :pager-count="5"
+      :page-size="query.size"
+      layout="prev, pager, next"
+      :total="allArticleCount">
+    </el-pagination>
   </div>
 </template>
 
@@ -85,6 +95,7 @@ export default {
   },
   data(){
     return {
+      currentPage: 1,
       activeSection: 'all',
       availableCategories: [],
       availableStatus: [{
@@ -94,6 +105,8 @@ export default {
       }],
       query: {
         deleted: false,
+        size: 10,
+        page: 0,
       },
       articles: [],
       count: {
@@ -110,6 +123,14 @@ export default {
     })
   },
   methods: {
+    handleSizeChange(val){
+      this.query.size = val;
+      this.refresh();
+    },
+    handleCurrentChange(val){
+      this.query.page = val - 1;
+      this.refresh();
+    },
     changeSection(tab){
       this.query = tab.$attrs.query;
       this.refresh();
@@ -134,9 +155,12 @@ export default {
   },
   computed: {
     allArticleCount(){
+      if(this.query.deleted){
+        return this.count.deleted;
+      }
       return Number.isInteger(this.count.published)
-          ? this.count.published + this.count.draft + this.count.deleted
-          : '--'
+          ? this.count.published + this.count.draft
+          : 0
     }
   }
 }

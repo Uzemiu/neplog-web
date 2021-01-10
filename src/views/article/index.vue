@@ -12,15 +12,17 @@
     </section>
 
     <section class="flex-section">
-      <comment-form>
-        <div slot="user-avatar" class="avatar-area">
-          <img class="avatar" src="https://pic2.zhimg.com/da8e974dc_is.jpg" alt="">
-        </div>
-      </comment-form>
+      <comment-form :article-id="this.article.id"></comment-form>
     </section>
 
     <section class="flex-section">
-      <comment-list></comment-list>
+      <ul>
+        <li
+          v-for="comment in comments"
+          :key="comment.id">
+          <comment-view :comment="comment"></comment-view>
+        </li>
+      </ul>
     </section>
 
   </div>
@@ -30,19 +32,20 @@
 import Glide from '../../components/glide/index';
 import ArticleContainer from "./ArticleContainer";
 import CommentForm from "../../components/comment/CommentForm";
-import CommentList from "@/components/comment/CommentList";
 import {findArticleView} from "@/api/article";
 import {fromArticle} from "@/utils/glide";
+import {findByArticleId} from "@/api/comment";
+import CommentView from "@/components/comment/CommentView";
 
 let links, anchors;
 
 export default {
   name: "Article",
   components: {
+    CommentView,
     Glide,
     ArticleContainer,
     CommentForm,
-    CommentList
   },
   props: {
     id: {
@@ -52,19 +55,23 @@ export default {
   },
   data() {
     return {
-      article: {},
+      article: {
+        id: 0
+      },
       tocDone: true,
       drawn: false,
       showDrawer: false,
-      glides: []
+      glides: [],
+      comments: [],
     }
   },
   mounted() {
-
-    this.getArticle();
+  },
+  activated() {
+    this.refresh();
   },
   methods: {
-    getArticle() {
+    refresh() {
       findArticleView(this.id).then(data => {
         this.article = data;
         this.glides = fromArticle(data);
@@ -72,7 +79,10 @@ export default {
         this.$nextTick(() => {
           this.appendToc()
         })
-      })
+      });
+      findByArticleId(this.id).then(data => {
+        this.comments = data;
+      }).catch(() => {})
     },
     appendToc(){
       let toc = document.querySelector('.table-of-contents');
@@ -151,23 +161,10 @@ export default {
 }
 
 .flex-section {
-  width: 90%;
+  width: 80%;
   margin-bottom: 20px;
   background-color: #fff;
   box-shadow: 0 13px 15px rgba(31, 45, 61, .1);
-}
-
-.avatar-area {
-  width: 150px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  .avatar {
-    margin-bottom: 10px;
-    width: 100px;
-    border-radius: 50%;
-  }
 }
 
 .article-section {

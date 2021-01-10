@@ -1,49 +1,104 @@
 <template>
   <div class="comment-form">
-    <base-comment class="comment-submit">
-      <slot name="user-avatar" slot="user-avatar"></slot>
-      <div slot="main" class="submit-area">
-        <div class="word-counter">{{leftWordCount}}</div>
-        <textarea rows="6" class="comment" :placeholder="placeholder" v-model="comment"></textarea>
-        <div class="anonymous-input">
-          <input type="text" placeholder="*昵称" class="username" v-model="username">
-          <input type="text" placeholder="*邮箱" class="email" v-model="email">
-          <input type="text" placeholder="个人站点" class="site" v-model="site">
-        </div>
-        <div class="submit-button">
-          <button>评论</button>
-        </div>
+    <div v-if="showAvatar" class="avatar-area">
+      <img class="avatar" :src="avatar" alt="">
+    </div>
+    <el-form class="submit-area">
+      <el-form-item>
+        <el-input
+          type="textarea"
+          v-model="comment.content"
+          placeholder="说点什么吧..."
+          rows="5"
+          maxlength="420"
+          show-word-limit
+          resize="none"></el-input>
+      </el-form-item>
+      <span v-if="$store.getters.user.isLogin">
+        以{{$store.getters.user.nickname}}登录
+      </span>
+      <div class="anonymous-input" v-else>
+        <el-form-item class="comment-input">
+          <el-input placeholder="*昵称" v-model="comment.nickname"></el-input>
+        </el-form-item>
+        <el-form-item class="comment-input email-input">
+          <el-input placeholder="邮箱" v-model="comment.email"></el-input>
+        </el-form-item>
+        <el-form-item class="comment-input">
+          <el-input placeholder="个人站点" v-model="comment.link"></el-input>
+        </el-form-item>
       </div>
-    </base-comment>
+      <el-button
+        class="nep-button-primary"
+        :loading="loading"
+        @click="postComment">评论</el-button>
+    </el-form>
   </div>
 </template>
 
 <script>
-import BaseComment from "@/components/comment/BaseComment";
+import {postComment} from "@/api/comment";
+import UserAgent from "@/utils/user-agent";
+const {browser, os} = UserAgent;
 
 export default {
   name: "CommentForm",
   components: {
-    BaseComment
+
   },
   props: {
-    placeholder: String,
-    fatherId: Number
+    placeholder: {
+      type: String,
+      default: '说点什么吧'
+    },
+    showAvatar: {
+      type: Boolean,
+      default: true
+    },
+    avatar: {
+      type: String,
+      default: 'https://pic2.zhimg.com/da8e974dc_is.jpg'
+    },
+    articleId: {
+      type: Number,
+      required: true
+    },
+    fatherId: {
+      type: Number,
+      default: null,
+    },
   },
   data() {
     return {
-      comment: '',
-      username: '',
-      email: '',
-      site: ''
+      loading: false,
+      comment: {
+        fatherId: null,
+        articleId: null,
+        content: '',
+        nickname: '',
+        email: '',
+        link: '',
+        userAgent: 'Unknown',
+        operatingSystem: 'Unknown',
+      }
     }
   },
   mounted() {
-    console.log(this.fatherId)
+    this.comment.userAgent = browser.name + " " + browser.version;
+    this.comment.operatingSystem = os.name + " " + os.version;
+    this.comment.nickname = this.$store.getters.user.nickname;
   },
-  computed: {
-    leftWordCount() {
-      return 140 - this.comment.length;
+  methods: {
+    postComment(){
+      this.loading = true;
+      this.comment.fatherId = this.fatherId;
+      this.comment.articleId = this.articleId;
+      postComment(this.comment).then(() => {
+        this.$message.success("提交评论成功")
+        location.reload();
+      }).catch(() => {
+        this.loading = false;
+      });
     }
   }
 }
@@ -53,146 +108,55 @@ export default {
 .comment-form {
   width: 100%;
   padding: 20px;
+  display: flex;
 
-  .comment-submit {
+  .avatar-area {
+    width: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
-    input, .comment {
-      outline: none;
+    .avatar {
+      margin-bottom: 10px;
+      width: 75px;
+      border-radius: 50%;
     }
+  }
 
-    .user-info {
-      width: 150px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+  .submit-area{
+    width: 100%;
+  }
+  .nep-button-primary{
+    float: right;
+  }
 
-      .avatar {
-        margin-bottom: 10px;
-        width: 100px;
-        border-radius: 50%;
-      }
-
-      .username {
-        font-size: 16px;
-        padding: 2px 0;
-        border: none;
-        border-radius: 5px;
-        text-align: center;
-        width: 80%;
-
-        &:focus {
-          border: var(--text-color-gray);
-          outline: #8b8b8b 1px solid;
-        }
-      }
-
-    }
-
-    .submit-area {
+  .anonymous-input{
+    display: flex;
+    .comment-input{
       width: 100%;
-      position: relative;
-
-      .comment {
-        resize: none;
-        position: relative;
-        padding: 15px 20px 5px 10px;
-        font-size: 16px;
-        width: 100%;
-        background-color: #f8f8f8;
-        max-height: 200px;
-        overflow-y: auto;
-        border-radius: 5px;
-        border: 1px rgb(229, 233, 239) solid;
-      }
-
-      .word-counter {
-        position: absolute;
-        color: #8b8b8b;
-        right: 18px;
-        top: 3px;
-        font-size: 13px;
-        z-index: 1;
-      }
-
-      .anonymous-input {
-        margin-top: 10px;
-        display: flex;
-
-        input {
-          width: 33%;
-          border: 1px rgb(229, 233, 239) solid;
-          border-radius: 5px;
-          background-color: #f8f8f8;
-          font-size: 16px;
-          padding: 10px 10px;
-        }
-
-        input:nth-last-child(n+2) {
-          margin-right: 20px;
-        }
-      }
-
-      .submit-button {
-        margin-top: 10px;
-        text-align: right;
-
-        button {
-          outline: none;
-          font-size: 16px;
-          cursor: pointer;
-          padding: 6px 18px;
-          border: none;
-          border-radius: 5px;
-          color: #fff;
-          background-color: #0097e6;
-
-          &:hover {
-            opacity: 0.9;
-          }
-        }
-      }
+    }
+    .email-input{
+      margin: 0 15px;
     }
   }
 }
 
-@media (max-width: 992px) {
-}
-
 @media (max-width: 768px) {
   .comment-form {
-    .comment-submit {
-      .user-info {
-        width: 100px;
-        .avatar {
-          width: 60px;
-        }
-      }
-      .submit-area {
-        .comment {
-          font-size: 15px;
-          max-height: 80px;
-        }
-        .anonymous-input {
-          flex-direction: column;
-          input {
-            margin-bottom: 10px;
-            width: 100%;
-            padding: 5px 5px;
-            font-size: 14px;
-          }
-        }
-        .submit-button {
-          margin-top: 0;
-          button {
-            font-size: 14px;
-          }
-        }
+    .anonymous-input{
+      flex-direction: column;
+      .comment-input{
+        margin: 0 0 5px 0;
       }
     }
   }
 }
 
 @media (max-width: 576px) {
-
+  .comment-form {
+    .avatar-area{
+      display: none;
+    }
+  }
 }
 </style>

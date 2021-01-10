@@ -7,11 +7,11 @@ export function installed(){
   })
 }
 
-export function install(data){
+export function getCosProperty(cos){
   return axios({
-    url: 'property/install',
-    method: 'post',
-    data: data
+    url: 'property/cos',
+    method: 'get',
+    params: {cos}
   })
 }
 

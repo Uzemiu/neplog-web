@@ -193,5 +193,8 @@
       border-radius: inherit;
       width: 100%;
     }
+    img[lazy=loading]{
+      transform: scale(1);
+    }
   }
 </style>

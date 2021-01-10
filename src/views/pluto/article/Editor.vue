@@ -280,6 +280,7 @@ export default {
 
 <style lang="scss" scoped>
 .article-edit {
+  width: 100%;
 
   ::v-deep {
     .form-drawer {

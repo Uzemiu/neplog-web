@@ -3,7 +3,12 @@
     <glide :glides="glides"></glide>
 
     <responsive class="friend-list">
-      <div class="description">欢迎来到</div>
+      <div class="description">
+        <p>欢迎来到Nep's friends</p>
+        <p>想要成为朋友的话点击下面的"+"填写个人信息提交之后</p>
+        <p>经过博主审核就会在下面显示哦~</p>
+        <p>PS: 头像地址只支持Https</p>
+      </div>
       <h3 class="header sharp-header">友達</h3>
       <div class="friends">
         <ul>
@@ -56,7 +61,7 @@ export default {
       friends: [],
       glides: [{
         img: this.$store.getters.blogProperty.friendPageCover,
-        title: 'Welcome to Nepfriend'
+        title: this.$store.getters.blogProperty.friendPageTitle
       }],
       newFriend: {},
       enableEdit: true,
@@ -83,10 +88,9 @@ export default {
     }
   },
   mounted() {
-
     findFriendView().then(data => {
       this.friends = data;
-    })
+    }).catch(() => {})
   }
 }
 </script>

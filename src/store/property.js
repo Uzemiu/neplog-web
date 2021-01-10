@@ -15,7 +15,7 @@ export default {
       homePageTitle: '',
       homePageArticle: '',
       icp: '',
-      globalCss: '',
+      globalCss: ''
     }
   },
   mutations: {
