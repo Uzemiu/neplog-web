@@ -1,13 +1,13 @@
 import axios from "@/plugins/axios"
 
-export function findFriendView(){
+export function listFriendView(){
   return axios({
     url: 'friend/view',
     method: 'get'
   })
 }
 
-export function findFriendBy(query){
+export function queryBy(query){
   return axios({
     url: 'friend',
     method: 'get',

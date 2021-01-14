@@ -11,5 +11,6 @@ name: "Menu"
 <style scoped>
 .menu{
   display: flex;
+  height: 100%;
 }
 </style>

@@ -44,9 +44,9 @@ export default {
     display: flex;
   }
   .inline-button{
-    padding: 8px 16px;
+    padding: 8px 20px;
     font-size: 14px;
-    line-height: 1;
+    line-height: 16px;
   }
 }
 @media (max-width: 576px) {

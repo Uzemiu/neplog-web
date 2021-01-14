@@ -1,22 +1,28 @@
 <template>
   <div class="content-wrapper">
-    <glide :glides="glides" class="home-slides" ref="glide"></glide>
-    <div></div>
-    <showcase class="article-list">
+    <glide :glides="glides"
+           v-scroll-reveal.reset
+           class="home-slides"
+           ref="glide"></glide>
+
+    <responsive class="article-list">
       <ul>
-        <li class="article-item" v-for="(article,i) in articles" :key="i">
+        <li class="article-item"
+            v-scroll-reveal.reset
+            v-for="(article,i) in articles"
+            :key="i">
           <article-card class="article-card" :article="article"></article-card>
             <router-link :to="'/article/' + article.id" class="arrow">
               <i class="fa fa-angle-right"></i>
             </router-link>
         </li>
       </ul>
-    </showcase>
+    </responsive>
   </div>
 </template>
 
 <script>
-import Showcase from "../../components/layout/Responsive";
+import Responsive from "../../components/layout/Responsive";
 import Glide from "../../components/glide/index"
 import ArticleCard from "../../components/article/ArticleCard";
 import {queryBy} from "@/api/article";
@@ -26,7 +32,7 @@ export default {
   name: "About",
   components: {
     ArticleCard,
-    Showcase,
+    Responsive,
     Glide
   },
   data(){

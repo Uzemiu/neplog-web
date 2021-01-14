@@ -13,16 +13,19 @@
         博客链接:
         <input v-model="friend.link" type="text">
       </label>
-      <a slot="reference" :href="editing ? '#' : friend.link" :target="editing ? '_self' : '_blank'">
-        <img v-lazy="friend.avatar" class="avatar" :alt="friend.name">
-      </a>
+      <div slot="reference">
+        <img v-if="editing" v-lazy="friend.avatar" class="avatar" :alt="friend.name">
+        <a v-else :href="friend.link" target="_blank">
+          <img v-lazy="friend.avatar" class="avatar" :alt="friend.name">
+        </a>
+      </div>
     </el-popover>
-    <input v-model="friend.name" v-if="editing" type="text" class="name friend-input" placeholder="名字"/>
+    <input v-if="editing" v-model="friend.name" type="text" class="name friend-input" placeholder="名字"/>
     <a v-else :href="friend.link" target="_blank">
       <h4 class="name">{{friend.name}}</h4>
     </a>
-    <textarea v-model="friend.introduction" v-if="editing" cols="18" rows="2" class="intro" placeholder="简介"></textarea>
-    <a :href="friend.link" target="_blank" v-else>
+    <textarea v-if="editing" v-model="friend.introduction" cols="18" rows="2" class="intro" placeholder="简介"></textarea>
+    <a v-else :href="friend.link" target="_blank">
       <span class="intro">{{friend.introduction}}</span>
     </a>
     <el-dropdown class="operation" placement="top" v-if="enableEdit">

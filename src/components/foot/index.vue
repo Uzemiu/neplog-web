@@ -1,6 +1,6 @@
 <template>
   <footer>
-    <p>Powered by <a href="https://github.com/">Neplog</a></p>
+    <p>Powered by <a href="https://github.com/Uzemiu/neplog">Neplog</a></p>
     <p class="icp-info">
       <a href="http://beian.miit.gov.cn/" class="icp-link">沪ICP备20004108号</a>
     </p>

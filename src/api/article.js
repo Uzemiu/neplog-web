@@ -16,7 +16,7 @@ export function privateQueryBy(query){
   })
 }
 
-export function findArticleDetail(id){
+export function listArticleDetail(id){
   return axios({
     url: 'article/detail',
     method: 'get',
@@ -24,7 +24,7 @@ export function findArticleDetail(id){
   })
 }
 
-export function findArticleView(id){
+export function listArticleView(id){
   return axios({
     url: 'article/view',
     method: 'get',
@@ -57,5 +57,5 @@ export function updateDeleted({id, deleted}){
   })
 }
 
-export default {findArticle: queryBy,findArticleDetail,findArticleView,createArticle,updateArticle,updateDeleted};
+export default {findArticle: queryBy,findArticleDetail: listArticleDetail,findArticleView: listArticleView,createArticle,updateArticle,updateDeleted};
 

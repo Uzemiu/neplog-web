@@ -46,7 +46,7 @@ import Glide from "@/components/glide/index"
 import FriendCard from "../../components/friend/FriendCard";
 import Responsive from "../../components/layout/Responsive"
 import FriendCardEmpty from "@/components/friend/FriendCardEmpty";
-import {createFriend, findFriendView} from "@/api/friend";
+import {createFriend, listFriendView} from "@/api/friend";
 
 export default {
   name: "index",
@@ -88,7 +88,7 @@ export default {
     }
   },
   mounted() {
-    findFriendView().then(data => {
+    listFriendView().then(data => {
       this.friends = data;
     }).catch(() => {})
   }

@@ -16,8 +16,8 @@ const _axios = axios.create({
 
 _axios.interceptors.request.use(
   function(config) {
-    if(localStorage.jwt){
-      config.headers['Authorization'] = localStorage.jwt;
+    if(localStorage['token']){
+      config.headers['Authorization'] = localStorage['token'];
     }
     if(config.method.toLowerCase() === 'get'){
       config.paramsSerializer = params => {
@@ -52,7 +52,9 @@ _axios.interceptors.response.use(
     } else if(resp.status === 403){
       Message.error('对不起，你没有权限进行此操作');
     } else {
-      Message.error(resp.data.message);
+      if(resp.data.message){
+        Message.error(resp.data.message);
+      }
     }
     return Promise.reject(error.response.data);
   }

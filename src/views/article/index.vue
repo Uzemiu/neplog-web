@@ -32,7 +32,7 @@
 import Glide from '../../components/glide/index';
 import ArticleContainer from "./ArticleContainer";
 import CommentForm from "../../components/comment/CommentForm";
-import {findArticleView} from "@/api/article";
+import {listArticleView} from "@/api/article";
 import {fromArticle} from "@/utils/glide";
 import {findByArticleId} from "@/api/comment";
 import CommentView from "@/components/comment/CommentView";
@@ -72,7 +72,7 @@ export default {
   },
   methods: {
     refresh() {
-      findArticleView(this.id).then(data => {
+      listArticleView(this.id).then(data => {
         this.article = data;
         this.glides = fromArticle(data);
         document.title = data.title + ' - ' + this.$store.getters.blogProperty.blogName;

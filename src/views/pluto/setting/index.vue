@@ -40,7 +40,7 @@ export default {
   name: "PlutoSetting",
   data() {
     return {
-      activeSection: 'blog',
+      activeSection: this.$route.query.section || 'blog',
       iconClass: 'el-icon-check',
       iconColor: '#5daf34',
     }

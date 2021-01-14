@@ -10,6 +10,12 @@
           <search-bar></search-bar>
         </li>
       </component>
+      <div class="nav-item-user">
+        <sub-menu style="width: 64px">
+          <img slot="title" src="../../assets/imgs/tomorinao.jpg" alt="" height="40px" style="border-radius: 50%;margin-left: 13px">
+          <menu-item link="/user/login">LOGIN</menu-item>
+        </sub-menu>
+      </div>
       <div class="burger" @click="openTopBar">
         <div class="burger-line1"></div>
         <div class="burger-line2"></div>
@@ -32,10 +38,14 @@
 import SearchBar from "@/components/search-bar/index";
 import MainNav from "@/components/top-nav/MainNav";
 import BackstageNav from "@/components/top-nav/BackstageNav";
+import SubMenu from "@/components/top-nav/menu/SubMenu";
+import MenuItem from "@/components/top-nav/menu/MenuItem";
 
 export default {
   name: "NavBar",
   components:{
+    MenuItem,
+    SubMenu,
     SearchBar,
   },
   data(){
@@ -95,7 +105,7 @@ header{
   }
   .top-header{
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1fr 2fr 60px;
     align-items: center;
     position: relative;
     height: 100%;
@@ -145,7 +155,7 @@ header{
       color: var(--text-color-darker);
       font-family: Play;
     }
-    ::v-deep .nav-item {
+    ::v-deep .nav-item, ::v-deep .nav-item-user{
       .menu-item{
         margin: 0 12px;
       }
@@ -212,7 +222,7 @@ header{
       .burger-line3{
         background-color: var(--text-color-lightest);
       }
-      ::v-deep .nav-item{
+      ::v-deep .nav-item, ::v-deep .nav-item-user{
         .menu-item{
           span{
             color: var(--text-color-lightest);
@@ -343,7 +353,7 @@ header{
   header {
     .top-header{
       grid-template-columns: 1fr 30px;
-      ::v-deep .nav-item{
+      ::v-deep .nav-item, .nav-item-user{
         display: none;
       }
 

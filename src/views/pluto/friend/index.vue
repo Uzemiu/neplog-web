@@ -62,7 +62,7 @@ import FriendCard from "@/components/friend/FriendCard";
 import QueryGroup from "@/components/form/QueryGroup";
 import FriendCardEmpty from "@/components/friend/FriendCardEmpty";
 import CrudOperation from "@/components/form/CrudOperation";
-import {updateFriend,deleteFriend,findFriendBy} from "@/api/friend";
+import {updateFriend,deleteFriend,queryBy} from "@/api/friend";
 
 export default {
   name: "PlutoFriend",
@@ -151,7 +151,7 @@ export default {
     },
     refresh(){
       this.loading = true;
-      findFriendBy(this.query).then(data => {
+      queryBy(this.query).then(data => {
         this.friends = data.friends;
         this.count = data.count;
       }).catch(() => {}).finally(() => {

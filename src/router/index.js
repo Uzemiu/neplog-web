@@ -5,100 +5,19 @@ import NProgress from "nprogress"
 import 'nprogress/nprogress.css'
 import {Message} from "element-ui";
 
-const Home = () => import("../views/home/index");
-const Article = () => import("../views/article/index")
-const Editor = () => import("../views/pluto/article/Editor")
-const Friend = () => import("../views/friend/index");
-
-const User = () => import("../views/user/index")
-const Login = () => import("../views/user/Login")
-
-const Pluto = () => import("../views/pluto/index")
-const PlutoArticle = () => import("../views/pluto/article/index")
-const PlutoFriend = () => import("../views/pluto/friend/index")
-const Setting = () => import("../views/pluto/setting/index")
+import MainRoutes from './main';
+import UserRoutes from './user';
+import PlutoRoutes from './pluto';
 
 Vue.use(VueRouter)
 
 const routes = [
-  {
-    path: '/',
-    name: 'home',
-    component: Home
-  },
-  {
-    path: '/article/:id',
-    name: 'article',
-    props: true,
-    component: Article
-  },
-  {
-    path: '/friend',
-    name: 'friends',
-    meta: {
-      title: '朋友们'
-    },
-    component: Friend
-  },
-  {
-    path: '/user',
-    component: User,
-    children: [
-      {
-        path: 'login',
-        name: 'login',
-        meta: {title: '登录'},
-        component: Login
-      },
-      {
-        path: 'register',
-        name: 'register',
-        meta: {
-          title: '注册'
-        },
-        props: {register: true},
-        component: Login
-      },
-    ]
-  },
-  {
-    path: '/pluto',
-    meta: {requiresLevel: 6},
-    component: Pluto,
-    children: [
-      {
-        path: '/',
-        name: 'pluto',
-        redirect: 'article'
-      },
-      {
-        path: 'setting',
-        name: 'setting',
-        meta: {title: '设置'},
-        component: Setting
-      },
-      {
-        path: 'article',
-        name: 'pluto-article',
-        meta: {title: '文章管理'},
-        component: PlutoArticle
-      },
-      {
-        path: 'friend',
-        name: 'pluto-friend',
-        meta: {title: '友链管理'},
-        component: PlutoFriend
-      },
-      {
-        path: 'article/:id',
-        name: 'pluto-article-edit',
-        props: true,
-        meta: {title: '编辑文章'},
-        component: Editor
-      },
-    ]
-  }
+  ...MainRoutes,
+  ...UserRoutes,
+  ...PlutoRoutes,
 ]
+
+console.log(routes)
 
 const router = new VueRouter({
   routes,

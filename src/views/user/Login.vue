@@ -107,7 +107,7 @@ export default {
           });
       promise.then(data => {
         if(!this.register){
-          localStorage.setItem('jwt',data.jwt);
+          localStorage.setItem('token',data['token']);
           this.$store.commit('setUser',data.user);
           this.$message.success('登陆成功');
           this.$router.push(this.$route.query.redirect || '/')

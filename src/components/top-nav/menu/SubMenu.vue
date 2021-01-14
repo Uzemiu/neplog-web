@@ -1,7 +1,7 @@
 <template>
   <li class="menu-item">
-    <router-link :to="link" v-if="link">{{title}}</router-link>
-    <span v-else>{{title}}</span>
+    <router-link :to="link" v-if="link"><slot name="title"></slot>{{title}}</router-link>
+    <span v-else><slot name="title"></slot>{{title}}</span>
     <ul class="sub-menu"><slot></slot></ul>
   </li>
 </template>
@@ -10,10 +10,7 @@
 export default {
   name: "SubMenu",
   props: {
-    title: {
-      type: String,
-      default: 'SubTitle'
-    },
+    title: String,
     link: String,
   }
 }

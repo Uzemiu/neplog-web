@@ -7,12 +7,20 @@ export function installed(){
   })
 }
 
-export function getCosProperty(cos){
+export function getPropertyByKey(key){
   return axios({
-    url: 'property/cos',
+    url: 'property',
     method: 'get',
-    params: {cos}
+    params: {key}
   })
+}
+
+export function listAvailableCosService(){
+  return getPropertyByKey('availableCosService');
+}
+
+export function getDefaultFileService(){
+  return getPropertyByKey('defaultFileService');
 }
 
 export function getBlogProperty(){

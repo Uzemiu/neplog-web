@@ -141,7 +141,7 @@ import 'highlight.js/styles/vs2015.css'
 import '@/assets/css/markdown.scss'
 import rules from '@/utils/rules/article';
 // eslint-disable-next-line no-unused-vars
-import {updateDeleted, updateArticle, findArticleDetail} from "@/api/article";
+import {updateDeleted, updateArticle, listArticleDetail} from "@/api/article";
 import {deleteFile, uploadCover, uploadImg} from "@/api/file";
 import {getAllTags} from "@/api/tag";
 import {getAllCategories} from "@/api/category";
@@ -217,7 +217,7 @@ export default {
       }).catch(() => {})
     },
     retrieveArticle() {
-      findArticleDetail(this.id).then(data => {
+      listArticleDetail(this.id).then(data => {
         this.article = data
       }).catch(() => {})
     },

@@ -32,11 +32,11 @@ export default {
      */
     getUserInfo({commit}) {
       return new Promise((resolve, reject) => {
-        if(localStorage['jwt']){
+        if(localStorage['token']){
           userInfo().then(user => {
             if(!user){
               commit('removeUser');
-              localStorage.removeItem('jwt');
+              localStorage.removeItem('token');
               this.$message.warning("当前登录已过期，请重新登录")
               reject();
             } else {

@@ -28,6 +28,17 @@ Vue.use(level)
 import Cropper from "@/components/cropper";
 Vue.use(Cropper)
 
+import preview from 'vue-photo-preview'
+import 'vue-photo-preview/dist/skin.css'
+Vue.use(preview)
+
+import VueScrollReveal from "vue-scroll-reveal/index";
+Vue.use(VueScrollReveal, {
+  duration: 800,
+  scale: 1,
+  distance: '10px'
+})
+
 Vue.config.productionTip = false
 
 store.dispatch('getBlogProperty').then(() => {

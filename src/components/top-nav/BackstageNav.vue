@@ -4,7 +4,7 @@
       <menu-item :link="'/pluto/dashboard'">仪表盘</menu-item>
       <menu-item :link="'/pluto/article'">博客管理</menu-item>
       <menu-item :link="'/pluto/friend'">友链管理</menu-item>
-      <menu-item :link="'/pluto/something'">留言板</menu-item>
+      <menu-item :link="'/pluto/file'">文件管理</menu-item>
       <menu-item :link="'/pluto/setting'">设置</menu-item>
     </nav-menu>
   </nav-item>

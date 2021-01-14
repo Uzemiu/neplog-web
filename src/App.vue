@@ -92,4 +92,8 @@ export default {
 img[lazy=loading]{
   transform: scale(.5);
 }
+
+img[preview]{
+  cursor: zoom-in;
+}
 </style>
