@@ -1,22 +1,32 @@
 import {updateProperty} from "@/api/property";
 
 export default {
+  data(){
+    return {
+      loading: false
+    }
+  },
   methods: {
-    updatePropertyByKey(key, store){
+    updatePropertyByKey(key){
       if(this.$store.getters.blogProperty[key] === this.property[key]){
         return;
       }
-      return this.updatePropertyByObject({[key]:this.property[key]},store)
+      const prop = {[key]: this.property[key]};
+      return this.updatePropertyByObject(prop).then(() => {
+        if(Object.hasOwnProperty.call(this.$store.getters.blogProperty, key)){
+          this.$store.commit('setBlogConfig', prop);
+        }
+      })
     },
-    updatePropertyByObject(prop, store = true){
+    updatePropertyByObject(prop){
+      this.loading = true;
       this.$emit('beforeUpdate');
       return updateProperty(prop).then(() => {
-        if(store){
-          this.$store.commit('setBlogConfig',prop);
-        }
         this.$emit('afterUpdate',true);
       }).catch(() => {
         this.$emit('afterUpdate',false);
+      }).finally(() => {
+        this.loading = false;
       })
     }
   }

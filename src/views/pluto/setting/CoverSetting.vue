@@ -7,7 +7,6 @@
     <el-form-item label="首页封面:">
       <el-upload
         v-if="isHomePageCover"
-        class="cover-upload"
         drag
         action="#"
         :show-file-list="false"
@@ -31,7 +30,6 @@
     </el-form-item>
     <el-form-item label="友链封面:">
       <el-upload
-          class="cover-upload"
           drag
           action="#"
           :show-file-list="false"
@@ -115,9 +113,6 @@ export default {
     .el-upload-dragger {
       width: 100%;
       height: 40vh;
-    }
-    .el-upload{
-      width: 100%;
     }
   }
   .page-cover {

@@ -1,12 +1,5 @@
 import axios from "@/plugins/axios"
 
-export function installed(){
-  return axios({
-    url: 'property/installed',
-    method: 'get'
-  })
-}
-
 export function getPropertyByKey(key){
   return axios({
     url: 'property',
@@ -30,6 +23,13 @@ export function getBlogProperty(){
   })
 }
 
+export function getMailProperty(){
+  return axios({
+    url: 'property/mail',
+    method: 'get'
+  })
+}
+
 export function resetProperty(){
   return axios({
     url: 'property/reset',
@@ -45,3 +45,9 @@ export function updateProperty(data){
   })
 }
 
+export function testConnection(){
+  return axios({
+    url: 'property/mail/test',
+    method: 'post'
+  })
+}

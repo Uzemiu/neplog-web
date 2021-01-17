@@ -23,10 +23,33 @@ export function login(data){
   })
 }
 
-export function userInfo(){
+export function logout(){
+  return axios({
+    url: 'user/logout',
+    method: 'post'
+  })
+}
+
+export function resetPassword(data){
+  return axios({
+    url: 'user/resetPassword',
+    method: 'post',
+    data: data
+  })
+}
+
+export function getUserInfo(){
   return axios({
     url: 'user/info',
     method: 'get'
+  })
+}
+
+export function updateUserInfo(user){
+  return axios({
+    url: 'user',
+    method: 'put',
+    data: user
   })
 }
 

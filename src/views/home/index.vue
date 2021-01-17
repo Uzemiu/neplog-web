@@ -1,10 +1,10 @@
 <template>
   <div class="content-wrapper">
-    <glide :glides="glides"
-           v-scroll-reveal.reset
-           class="home-slides"
-           ref="glide"></glide>
-
+    <glide
+        :glides="glides"
+        v-scroll-reveal.reset
+        ref="glide">
+    </glide>
     <responsive class="article-list">
       <ul>
         <li class="article-item"
@@ -45,7 +45,8 @@ export default {
     let cover = this.$store.getters.blogProperty.homePageCover;
     if(!Number.parseInt(cover)){
       this.glides.push({
-        img:cover
+        img:cover,
+        title: this.$store.getters.blogProperty.homePageTitle
       })
     }
     queryBy({sort: this.$store.getters.homePageArticle}).then(data => {

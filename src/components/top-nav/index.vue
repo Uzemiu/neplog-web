@@ -12,7 +12,7 @@
       </component>
       <div class="nav-item-user">
         <sub-menu style="width: 64px">
-          <img slot="title" src="../../assets/imgs/tomorinao.jpg" alt="" height="40px" style="border-radius: 50%;margin-left: 13px">
+          <img slot="title" :src="$store.getters.user.avatar" alt="" height="40px" style="border-radius: 50%;margin-left: 13px">
           <menu-item link="/user/login">LOGIN</menu-item>
         </sub-menu>
       </div>
@@ -25,7 +25,7 @@
 
     <div class="side-nav" ref="openHeader">
       <div class="avatar">
-        <img src="../../assets/imgs/tomorinao.jpg" alt="">
+        <img :src="$store.getters.blogProperty.blogAvatar" alt="">
       </div>
       <search-bar class="side-search-bar"></search-bar>
       <component :is="pluto"></component>

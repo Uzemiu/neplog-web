@@ -28,9 +28,9 @@ Vue.use(level)
 import Cropper from "@/components/cropper";
 Vue.use(Cropper)
 
-import preview from 'vue-photo-preview'
-import 'vue-photo-preview/dist/skin.css'
-Vue.use(preview)
+import PhotoSwipe from 'vue-photoswipe.js';
+import 'vue-photoswipe.js/dist/static/css/photoswipe.css';
+Vue.use(PhotoSwipe)
 
 import VueScrollReveal from "vue-scroll-reveal/index";
 Vue.use(VueScrollReveal, {

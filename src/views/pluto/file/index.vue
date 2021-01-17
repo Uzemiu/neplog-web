@@ -28,7 +28,7 @@
           width="90">
           <template slot-scope="scope">
             <img :src="scope.row.virtualPath" alt=""
-                 preview="0"
+                 v-photoswipe:group1
                  style="height: 80px;width:80px;object-fit: scale-down">
           </template>
         </el-table-column>
@@ -128,7 +128,7 @@ export default {
               e.removeAttribute('preview');
             }
           });
-          this.$previewRefresh();
+          // this.$previewRefresh();
         })
       }).catch(() => {});
     },

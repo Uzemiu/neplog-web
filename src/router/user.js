@@ -1,5 +1,6 @@
 const User = () => import("../views/user/index")
 const Login = () => import("../views/user/Login")
+const UserSetting = () => import("../views/user/UserSetting")
 
 const routes = [
   {
@@ -21,6 +22,14 @@ const routes = [
         props: {register: true},
         component: Login
       },
+      {
+        path: 'setting',
+        name: 'userSetting',
+        meta: {
+          title: '个人信息设置'
+        },
+        component: UserSetting
+      }
     ]
   },
 ]

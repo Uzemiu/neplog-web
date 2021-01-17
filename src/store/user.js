@@ -1,4 +1,4 @@
-import { userInfo } from '@/api/user'
+import {getUserInfo, logout, updateUserInfo} from '@/api/user'
 
 export default {
   state: {
@@ -6,6 +6,8 @@ export default {
       username: '',
       nickname: '',
       avatar: '',
+      site: '',
+      email: '',
       level: undefined,
       isLogin: false
     }
@@ -16,13 +18,16 @@ export default {
       state.user.isLogin = true;
     },
     removeUser(state){
+      localStorage.removeItem('token');
       state.user = {
         username: '',
         nickname: '',
         avatar: '',
+        site: '',
+        email: '',
         level: undefined,
         isLogin: false
-      }
+      };
     }
   },
   actions: {
@@ -33,10 +38,9 @@ export default {
     getUserInfo({commit}) {
       return new Promise((resolve, reject) => {
         if(localStorage['token']){
-          userInfo().then(user => {
+          getUserInfo().then(user => {
             if(!user){
               commit('removeUser');
-              localStorage.removeItem('token');
               this.$message.warning("当前登录已过期，请重新登录")
               reject();
             } else {
@@ -51,5 +55,25 @@ export default {
         }
       })
     },
+    updateUserInfo({commit}, user){
+      return new Promise((resolve, reject) => {
+        updateUserInfo(user).then(user => {
+          commit('setUser', user);
+          resolve(user);
+        }).catch(error => {
+          reject(error);
+        })
+      })
+    },
+    logout({commit}){
+      return new Promise((resolve, reject) => {
+        logout().then(() => {
+          commit('removeUser');
+          resolve();
+        }).catch(error => {
+          reject(error);
+        })
+      })
+    }
   }
 }

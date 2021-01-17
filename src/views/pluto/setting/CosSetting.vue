@@ -6,7 +6,9 @@
     class="cos-setting">
 
     <el-form-item label="默认存储:">
-      <el-radio-group v-model="property.defaultFileService" @change="updateDefaultFileService">
+      <el-radio-group
+          v-model="property.defaultFileService"
+          @change="updatePropertyByKey('defaultFileService')">
         <el-radio label="local">本地</el-radio>
         <el-radio label="tencent" :disabled="availableCosService.indexOf('tencent') < 0">腾讯云</el-radio>
       </el-radio-group>
@@ -33,7 +35,8 @@
             type="button"
             class="nep-button-primary"
             @click="submit('tencent')"
-            :loading="loading">提交
+            :loading="loading">
+            提交
           </el-button>
         </div>
       </el-collapse-item>
@@ -63,7 +66,6 @@ export default {
       },
       availableCosService: [],
       activeSections: [],
-      loading: false
     }
   },
   mixins: [property],
@@ -80,9 +82,6 @@ export default {
       }).finally(() => {
         this.loading = false;
       })
-    },
-    updateDefaultFileService(){
-      this.updatePropertyByKey('defaultFileService',false);
     },
     refresh(){
       listAvailableCosService('availableCosService').then(data => {
