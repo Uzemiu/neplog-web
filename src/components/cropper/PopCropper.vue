@@ -30,7 +30,6 @@
 
 <script>
 import {VueCropper} from "vue-cropper"
-import {copyProperties} from "@/utils/object";
 
 export default {
   name: "index",
@@ -85,7 +84,7 @@ export default {
     },
     startCrop(file,done,option){
       this.option = this.defaultOption();
-      copyProperties(option,this.option)
+      Object.assign(this.option, option)
       this.filename = file.name;
       this.done = done;
       this.dialogVisible = true;

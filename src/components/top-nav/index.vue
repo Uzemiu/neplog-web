@@ -6,16 +6,23 @@
     <div class="top-header header-item">
       <div class="logo"><router-link to="/">{{$store.getters.blogProperty.blogName || 'Neplog'}}</router-link></div>
       <component :is="pluto">
-        <li slot="search-bar">
+        <li>
           <search-bar></search-bar>
         </li>
       </component>
       <div class="nav-item-user">
-        <sub-menu style="width: 64px">
-          <img slot="title" :src="$store.getters.user.avatar" alt="" height="40px" style="border-radius: 50%;margin-left: 13px">
-          <menu-item link="/user/login">LOGIN</menu-item>
+        <sub-menu style="width: 64px;margin-top:3px;">
+          <img slot="title"
+               :src="$store.getters.user.avatar || $store.getters.blogProperty.blogAvatar"
+               alt=""
+               height="40px"
+               style="border-radius: 50%;margin-left: 13px">
+          <menu-item link="/user/setting" v-if="$store.getters.isLogin">个人资料</menu-item>
+          <menu-item link="/user/login" v-else>登录</menu-item>
+          <menu-item link="/pluto" v-if="$store.getters.user.level >= 6">后台管理</menu-item>
         </sub-menu>
       </div>
+
       <div class="burger" @click="openTopBar">
         <div class="burger-line1"></div>
         <div class="burger-line2"></div>
@@ -87,7 +94,7 @@ export default {
 @import "../../../node_modules/font-awesome/css/font-awesome.min.css";
 header{
   width: 100%;
-  height: 47px;
+  height: 53px;
   max-height: 100px;
   display: flex;
   flex-direction: row;
@@ -95,7 +102,7 @@ header{
   position: fixed;
   z-index: 200;
   transition: background-color .3s ease-in-out;
-  font-family: 'Noto Serif SC';
+  font-family: 'Noto Serif SC',serif;
   top: 0;
   background-color: rgba(255,255,255,.9);
   box-shadow: 0 0 18px rgba(0,0,0,0.2);
@@ -153,7 +160,7 @@ header{
       font-size: 24px;
       font-weight: 600;
       color: var(--text-color-darker);
-      font-family: Play;
+      font-family: Play,serif;
     }
     ::v-deep .nav-item, ::v-deep .nav-item-user{
       .menu-item{
@@ -162,7 +169,7 @@ header{
       a{
         &:after{
           background-color: var(--secondary-blue);
-          bottom: -12px;
+          bottom: -15px;
           content: "";
           position: absolute;
           left:0;

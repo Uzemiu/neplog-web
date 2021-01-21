@@ -6,6 +6,7 @@
       <menu-item :link="'/pluto/friend'">友链管理</menu-item>
       <menu-item :link="'/pluto/file'">文件管理</menu-item>
       <menu-item :link="'/pluto/setting'">设置</menu-item>
+      <slot></slot>
     </nav-menu>
   </nav-item>
 </template>

@@ -49,7 +49,6 @@
 import property from "@/mixins/property";
 import {getCosProperties, updateCosProperty} from "@/api/cos";
 import {getDefaultFileService, listAvailableCosService} from "@/api/property";
-import {copyProperties} from "@/utils/object";
 
 export default {
   name: "CosSetting",
@@ -91,7 +90,7 @@ export default {
         this.property.defaultFileService = data;
       })
       getCosProperties().then(cos => {
-        copyProperties(cos, this.property);
+        Object.assign(this.property, cos);
       });
     }
   }

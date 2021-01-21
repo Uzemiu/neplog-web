@@ -1,5 +1,4 @@
 import {getBlogProperty} from "@/api/property";
-import {copyProperties} from "@/utils/object";
 
 export default {
   state: {
@@ -20,7 +19,7 @@ export default {
   },
   mutations: {
     setBlogConfig(state, property){
-      copyProperties(property, state.blogProperty)
+      Object.assign(state.blogProperty, property);
     },
   },
   actions: {

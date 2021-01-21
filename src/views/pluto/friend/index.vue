@@ -22,6 +22,7 @@
 
     <el-checkbox-group
       v-model="selected"
+      :disabled="!multipleSelect"
       @change="preventNull">
       <transition-group
         class="friend-wrapper"
@@ -50,9 +51,6 @@
         </li>
       </transition-group>
 
-      <div class="friend">
-
-      </div>
     </el-checkbox-group>
   </div>
 </template>
@@ -100,6 +98,8 @@ export default {
         this.$message.success('保存成功')
         callback(true);
         // this.refresh();
+      }).catch(() => {
+
       }).finally(() => {
         this.disableFriendCommit = false;
       })

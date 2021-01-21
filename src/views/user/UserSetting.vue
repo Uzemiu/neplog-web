@@ -23,7 +23,6 @@ export default {
       tabs: [
         {label: '个人信息设置', name: 'profile'},
         {label: '密码设置', name: 'password'},
-        {label: '邮箱设置', name: 'email'},
       ]
     }
   },

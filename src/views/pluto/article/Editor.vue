@@ -142,7 +142,7 @@ import '@/assets/css/markdown.scss'
 import rules from '@/utils/rules/article';
 // eslint-disable-next-line no-unused-vars
 import {updateDeleted, updateArticle, listArticleDetail} from "@/api/article";
-import {deleteFile, uploadCover, uploadImg} from "@/api/file";
+import {uploadCover, uploadImg} from "@/api/file";
 import {getAllTags} from "@/api/tag";
 import {getAllCategories} from "@/api/category";
 
@@ -191,14 +191,13 @@ export default {
         status: 0,
         commentPermission: 0,
         viewPermission: 0,
-        // category: '',
+        category: '',
         tags: []
       },
     }
   },
   methods: {
-    handleSave(value, render) {
-      this.article.htmlContent = render;
+    handleSave() {
       this.saveArticle();
     },
     uploadImg(pos, file){
@@ -208,12 +207,12 @@ export default {
     },
     retrieveTags() {
       getAllTags().then(data => {
-        this.availableTags = this.availableTags.concat(data);
+        this.availableTags = data;
       })
     },
     retrieveCategories() {
       getAllCategories().then(data => {
-        this.availableCategories = this.availableCategories.concat(data)
+        this.availableCategories = data;
       }).catch(() => {})
     },
     retrieveArticle() {
@@ -230,17 +229,22 @@ export default {
       this.retrieveCategories();
     },
     uploadArticleCover(file){
-      uploadCover(file).then(path => {
-        if(this.article.cover) deleteFile(this.article.cover);
-        this.article.cover = path;
-      }).catch(() => {})
-      return false;
+      this.$crop(file,(blob, filename) => {
+        uploadCover(blob, filename).then(url => {
+          this.article.cover = url;
+        })
+        return true;
+      }, {
+        autoCropWidth: 1900,
+        autoCropHeight: 1000,
+      })
     },
     saveArticle(status){
       if(Number.isInteger(status)){
         this.article.status = status;
       }
       this.$refs.articleForm.validate(valid => {
+        console.log(valid)
         if(valid){
           this.article.htmlContent = this.$refs.md.d_render;
           // 生成摘要

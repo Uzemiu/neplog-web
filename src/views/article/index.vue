@@ -36,6 +36,7 @@ import {listArticleView} from "@/api/article";
 import {fromArticle} from "@/utils/glide";
 import {findByArticleId} from "@/api/comment";
 import CommentView from "@/components/comment/CommentView";
+import Toc from "@/utils/toc";
 
 let links, anchors;
 
@@ -77,7 +78,8 @@ export default {
         this.glides = fromArticle(data);
         document.title = data.title + ' - ' + this.$store.getters.blogProperty.blogName;
         this.$nextTick(() => {
-          this.appendToc()
+          // this.appendToc();
+          this.$refs.toc.appendChild(Toc.generateToc('.article-body'));
         })
       });
       findByArticleId(this.id).then(data => {
@@ -85,19 +87,19 @@ export default {
       }).catch(() => {})
     },
     appendToc(){
-      let toc = document.querySelector('.table-of-contents');
-      if (toc) {
-        this.$refs.toc.appendChild(toc);
-        links = toc.querySelectorAll('li');
-        anchors = this.$refs.articleSection
-          .querySelectorAll('.article-body h1, h2, h3, h4, h5, h6');
-
-        window.addEventListener('scroll', this.scrollToc);
-        window.addEventListener('scroll', this.displayDrawer)
-        this.smoothAnchorScroll();
-      } else {
-        this.tocDone = false;
-      }
+      // let toc = document.querySelector('.table-of-contents');
+      // if (toc) {
+      //   this.$refs.toc.appendChild(toc);
+      //   links = toc.querySelectorAll('li');
+      //   anchors = this.$refs.articleSection
+      //     .querySelectorAll('.article-body h1, h2, h3, h4, h5, h6');
+      //
+      //   window.addEventListener('scroll', this.scrollToc);
+      //   window.addEventListener('scroll', this.displayDrawer)
+      //   this.smoothAnchorScroll();
+      // } else {
+      //   this.tocDone = false;
+      // }
     },
     scrollToc() {
       if (!links) return;
@@ -157,14 +159,14 @@ export default {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  background-color: #fafafa;
+  //background-color: #fafafa;
 }
 
 .flex-section {
   width: 80%;
   margin-bottom: 20px;
   background-color: #fff;
-  box-shadow: 0 13px 15px rgba(31, 45, 61, .1);
+  box-shadow: 0 5px 13px rgba(31, 45, 61, .1);
 }
 
 .article-section {

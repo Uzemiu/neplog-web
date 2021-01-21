@@ -10,7 +10,7 @@
         <menu-item :link="'/user/login'">登录</menu-item>
         <menu-item :link="'/user/register'">注册</menu-item>
       </sub-menu>
-      <slot name="search-bar"></slot>
+      <slot></slot>
     </nav-menu>
   </nav-item>
 </template>

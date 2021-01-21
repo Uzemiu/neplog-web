@@ -57,5 +57,13 @@ export function updateDeleted({id, deleted}){
   })
 }
 
+export function deleteById(id){
+  return axios({
+    url: 'article',
+    method: 'delete',
+    data: id
+  })
+}
+
 export default {findArticle: queryBy,findArticleDetail: listArticleDetail,findArticleView: listArticleView,createArticle,updateArticle,updateDeleted};
 

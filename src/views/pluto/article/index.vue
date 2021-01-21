@@ -2,10 +2,10 @@
   <div>
     <h2 class="sharp-header">文章管理</h2>
     <el-tabs v-model="activeSection" @tab-click="changeSection">
-      <el-tab-pane :label="`所有文章(${allArticleCount})`" name="all" :query="{deleted: false}"></el-tab-pane>
+      <el-tab-pane :label="`所有文章(${allArticleCount})`" name="all" :query="{status: null,deleted: false}"></el-tab-pane>
       <el-tab-pane :label="`已发布(${count.published})`" name="published" :query="{status: 4,deleted: false}"></el-tab-pane>
       <el-tab-pane :label="`草稿(${count.draft})`" name="draft" :query="{status: 0,deleted: false}"></el-tab-pane>
-      <el-tab-pane :label="`回收站(${count.deleted})`" name="deleted" :query="{deleted: true}"></el-tab-pane>
+      <el-tab-pane :label="`回收站(${count.deleted})`" name="deleted" :query="{status:null, deleted: true}"></el-tab-pane>
     </el-tabs>
     <query-group @search="refresh">
         <el-form-item size="small">
@@ -61,6 +61,11 @@
                      :class="article.deleted ? 'fa-undo' : 'fa-trash'"> {{article.deleted ? 'Restore' : 'Delete'}}</i>
                 </span>
               </el-dropdown-item>
+              <el-dropdown-item>
+                <span @click="deleteById(article.id)" v-if="article.deleted">
+                  <i class="fa fa-trash"> 彻底删除</i>
+                </span>
+              </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </li>
@@ -74,7 +79,7 @@
       :pager-count="5"
       :page-size="query.size"
       layout="prev, pager, next"
-      :total="allArticleCount">
+      :total="query.deleted ? count.deleted : allArticleCount">
     </el-pagination>
   </div>
 </template>
@@ -82,9 +87,10 @@
 <script>
 import ArticleCard from "@/components/article/ArticleCard";
 import CrudOperation from "@/components/form/CrudOperation";
-import {privateQueryBy,updateDeleted} from "@/api/article";
+import {deleteById, privateQueryBy, updateDeleted} from "@/api/article";
 import {getAllCategories} from "@/api/category";
 import QueryGroup from "@/components/form/QueryGroup";
+import query from "@/mixins/query";
 
 export default {
   name: "index",
@@ -93,6 +99,7 @@ export default {
     CrudOperation,
     ArticleCard,
   },
+  mixins: [query],
   data(){
     return {
       currentPage: 1,
@@ -123,18 +130,6 @@ export default {
     })
   },
   methods: {
-    handleSizeChange(val){
-      this.query.size = val;
-      this.refresh();
-    },
-    handleCurrentChange(val){
-      this.query.page = val - 1;
-      this.refresh();
-    },
-    changeSection(tab){
-      this.query = tab.$attrs.query;
-      this.refresh();
-    },
     updateTrashBin(id,deleted){
       updateDeleted({id: id, deleted: deleted}).then(res => {
         if(res){
@@ -151,13 +146,15 @@ export default {
     },
     createNewArticle(){
       this.$router.push('/pluto/article/new')
+    },
+    deleteById(id){
+      deleteById(id).then(() => {
+        this.refresh();
+      })
     }
   },
   computed: {
     allArticleCount(){
-      if(this.query.deleted){
-        return this.count.deleted;
-      }
       return Number.isInteger(this.count.published)
           ? this.count.published + this.count.draft
           : 0

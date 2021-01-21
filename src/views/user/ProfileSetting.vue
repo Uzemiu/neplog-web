@@ -15,6 +15,11 @@
           style="max-width: 240px"
           v-model="user.nickname"></el-input>
     </el-form-item>
+    <el-form-item label="邮箱:">
+      <el-input
+        style="max-width: 240px"
+        v-model="user.email"></el-input>
+    </el-form-item>
     <el-form-item label="个人站点:">
       <el-input
           style="max-width: 240px"
@@ -24,11 +29,12 @@
       <el-upload
           drag
           action="#"
+          :disabled="!$store.getters.isOwner"
           :before-upload="cropAvatar"
           :http-request="uploadImg"
           :show-file-list="false">
         <img v-if="user.avatar" :src="user.avatar" class="user-avatar">
-        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+        <div class="el-upload__text" v-if="$store.getters.isOwner">将文件拖到此处，或<em>点击上传</em></div>
       </el-upload>
       <el-input v-model="user.avatar" placeholder="头像URL"></el-input>
     </el-form-item>

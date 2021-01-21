@@ -114,6 +114,9 @@ export default {
       width: 100%;
       height: 40vh;
     }
+    .el-upload{
+      width: 100%;
+    }
   }
   .page-cover {
     width: 100%;

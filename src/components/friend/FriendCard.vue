@@ -60,14 +60,6 @@
       },
       friend: {
         type: Object,
-        default: function(){
-          return {
-            avatar: require('@/assets/imgs/tomorinao.jpg'),
-            name: 'N',
-            introduction: '',
-            link: '',
-          }
-        }
       }
     },
     data(){
@@ -198,6 +190,9 @@
     }
     img[lazy=loading]{
       transform: scale(1);
+    }
+    .avatar-reference{
+      float: left;
     }
   }
 </style>
