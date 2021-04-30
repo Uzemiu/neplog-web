@@ -4,24 +4,25 @@
     :class="{'transparent':transparentHeader && !open && !forceStickyHeader, open}"
     ref="header">
     <div class="top-header header-item">
-      <div class="logo"><router-link to="/">{{$store.getters.blogProperty.blogName || 'Neplog'}}</router-link></div>
+      <div class="logo"><router-link to="/">{{$store.getters.blogConfig.blogName || 'Neplog'}}</router-link></div>
       <component :is="pluto">
         <li>
           <search-bar></search-bar>
         </li>
       </component>
-      <div class="nav-item-user">
-        <sub-menu style="width: 64px;margin-top:3px;">
-          <img slot="title"
-               :src="$store.getters.user.avatar || $store.getters.blogProperty.blogAvatar"
-               alt=""
-               height="40px"
-               style="border-radius: 50%;margin-left: 13px">
-          <menu-item link="/user/setting" v-if="$store.getters.isLogin">个人资料</menu-item>
-          <menu-item link="/user/login" v-else>登录</menu-item>
-          <menu-item link="/pluto" v-if="$store.getters.user.level >= 6">后台管理</menu-item>
-        </sub-menu>
-      </div>
+
+<!--      <div class="nav-item-user">-->
+<!--        <sub-menu style="width: 64px;margin-top:3px;">-->
+<!--          <img slot="title"-->
+<!--               :src="$store.getters.user.avatar || $store.getters.blogProperty.blogAvatar"-->
+<!--               alt=""-->
+<!--               height="40px"-->
+<!--               style="border-radius: 50%;margin-left: 13px">-->
+<!--          <menu-item link="/user/setting" v-if="$store.getters.isLogin">个人资料</menu-item>-->
+<!--          <menu-item link="/user/login" v-else>登录</menu-item>-->
+<!--          <menu-item link="/pluto" v-if="$store.getters.user.level >= 6">后台管理</menu-item>-->
+<!--        </sub-menu>-->
+<!--      </div>-->
 
       <div class="burger" @click="openTopBar">
         <div class="burger-line1"></div>
@@ -32,7 +33,7 @@
 
     <div class="side-nav" ref="openHeader">
       <div class="avatar">
-        <img :src="$store.getters.blogProperty.blogAvatar" alt="">
+        <img :src="$store.getters.blogConfig.blogAvatar" alt="">
       </div>
       <search-bar class="side-search-bar"></search-bar>
       <component :is="pluto"></component>
@@ -112,7 +113,7 @@ header{
   }
   .top-header{
     display: grid;
-    grid-template-columns: 1fr 2fr 60px;
+    grid-template-columns: 1fr 2fr;
     align-items: center;
     position: relative;
     height: 100%;

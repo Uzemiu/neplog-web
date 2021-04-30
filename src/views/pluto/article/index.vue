@@ -88,12 +88,12 @@
 import ArticleCard from "@/components/article/ArticleCard";
 import CrudOperation from "@/components/form/CrudOperation";
 import {deleteById, privateQueryBy, updateDeleted} from "@/api/article";
-import {getAllCategories} from "@/api/category";
+import {categoryQueryBy} from "@/api/category";
 import QueryGroup from "@/components/form/QueryGroup";
 import query from "@/mixins/query";
 
 export default {
-  name: "index",
+  name: "PlutoArticle",
   components: {
     QueryGroup,
     CrudOperation,
@@ -125,7 +125,7 @@ export default {
   },
   mounted() {
     this.refresh();
-    getAllCategories().then(data => {
+    categoryQueryBy().then(data => {
       this.availableCategories = data;
     })
   },

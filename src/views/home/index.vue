@@ -42,14 +42,14 @@ export default {
     }
   },
   mounted() {
-    let cover = this.$store.getters.blogProperty.homePageCover;
+    let cover = this.$store.getters.blogConfig.homePageCover;
     if(!Number.parseInt(cover)){
       this.glides.push({
         img:cover,
-        title: this.$store.getters.blogProperty.homePageTitle
+        title: this.$store.getters.blogConfig.homePageTitle
       })
     }
-    queryBy({sort: this.$store.getters.homePageArticle}).then(data => {
+    queryBy({sort: 'updateTime,desc'}).then(data => {
       this.articles = data;
       if(this.glides.length === 0){
         this.glides = fromArticle(...(data.slice(0, Number.parseInt(cover))));

@@ -57,7 +57,11 @@ export default {
   data() {
     return {
       article: {
-        id: 0
+        id: 0,
+        category:{
+          id: 1,
+          name: ''
+        }
       },
       tocDone: true,
       drawn: false,
@@ -76,7 +80,7 @@ export default {
       listArticleView(this.id).then(data => {
         this.article = data;
         this.glides = fromArticle(data);
-        document.title = data.title + ' - ' + this.$store.getters.blogProperty.blogName;
+        document.title = data.title + ' - ' + this.$store.getters.blogConfig.blogName;
         this.$nextTick(() => {
           // this.appendToc();
           this.$refs.toc.appendChild(Toc.generateToc('.article-body'));

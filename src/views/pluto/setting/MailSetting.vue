@@ -44,8 +44,8 @@
 </template>
 
 <script>
-import property from "@/mixins/property";
-import {getMailProperty, testConnection} from "@/api/property";
+import property from "@/mixins/config";
+import {getMailConfig, testConnection} from "@/api/config";
 
 export default {
   name: "MailSetting",
@@ -64,13 +64,13 @@ export default {
   },
   mixins: [property],
   mounted() {
-    getMailProperty().then(data => {
+    getMailConfig().then(data => {
       this.property = data;
     })
   },
   methods: {
     updateMailProperties(){
-      this.updatePropertyByObject(this.property).then(() => {
+      this.updateConfigByObject(this.property).then(() => {
 
       })
     },

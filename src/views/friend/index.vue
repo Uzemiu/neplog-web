@@ -60,8 +60,8 @@ export default {
     return{
       friends: [],
       glides: [{
-        img: this.$store.getters.blogProperty.friendPageCover,
-        title: this.$store.getters.blogProperty.friendPageTitle
+        img: this.$store.getters.blogConfig.friendPageCover,
+        title: this.$store.getters.blogConfig.friendPageTitle
       }],
       newFriend: {},
       enableEdit: true,

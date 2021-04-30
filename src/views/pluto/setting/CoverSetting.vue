@@ -1,6 +1,6 @@
 <template>
   <el-form
-      :model="property"
+      :model="config"
       label-position="left"
       label-width="80px"
       class="cover-setting">
@@ -12,7 +12,7 @@
         :show-file-list="false"
         :before-upload="cropHomePage"
         :http-request="uploadCover">
-        <img v-if="property.homePageCover" :src="property.homePageCover" class="page-cover">
+        <img v-if="config.homePageCover" :src="config.homePageCover" class="page-cover">
         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
       </el-upload>
       <el-radio-group v-model="isHomePageCover">
@@ -20,13 +20,13 @@
         <el-radio :label="true">自定义图片</el-radio>
       </el-radio-group>
       <el-input
-          v-model="property.homePageCover"
-          @blur="updatePropertyByKey('homePageCover')"></el-input>
+          v-model="config.homePageCover"
+          @blur="updateConfigByKey('homePageCover', configName)"></el-input>
     </el-form-item>
     <el-form-item label="首页标题:" v-if="isHomePageCover">
       <el-input
-          v-model="property.homePageTitle"
-          @blur="updatePropertyByKey('homePageTitle')"></el-input>
+          v-model="config.homePageTitle"
+          @blur="updateConfigByKey('homePageTitle', configName)"></el-input>
     </el-form-item>
     <el-form-item label="友链封面:">
       <el-upload
@@ -35,41 +35,42 @@
           :show-file-list="false"
           :before-upload="cropFriendPage"
           :http-request="uploadCover">
-        <img v-if="property.friendPageCover" :src="property.friendPageCover" class="page-cover">
+        <img v-if="config.friendPageCover" :src="config.friendPageCover" class="page-cover">
         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
       </el-upload>
       <el-input
-          v-model="property.friendPageCover"
+          v-model="config.friendPageCover"
           placeholder="封面URL"
-          @blur="updatePropertyByKey('friendPageCover')"></el-input>
+          @blur="updateConfigByKey('friendPageCover', configName)"></el-input>
     </el-form-item>
     <el-form-item label="友链标题:">
       <el-input
-          v-model="property.friendPageTitle"
-          @blur="updatePropertyByKey('friendPageTitle')"></el-input>
+          v-model="config.friendPageTitle"
+          @blur="updateConfigByKey('friendPageTitle', configName)"></el-input>
     </el-form-item>
   </el-form>
 </template>
 
 <script>
-import property from "@/mixins/property";
+import property from "@/mixins/config";
 import {uploadCover} from "@/api/file";
 
 export default {
   name: "CoverSetting",
   data() {
     return {
-      property: {
-        friendPageCover: this.$store.getters.blogProperty.friendPageCover,
-        friendPageTitle: this.$store.getters.blogProperty.friendPageTitle,
+      config: {
+        friendPageCover: this.$store.getters.blogConfig.friendPageCover,
+        friendPageTitle: this.$store.getters.blogConfig.friendPageTitle,
         // 数字表示首页显示glides数量
         // 链接表示显示单张图片
-        homePageCover: this.$store.getters.blogProperty.homePageCover,
-        homePageTitle: this.$store.getters.blogProperty.homePageTitle,
+        homePageCover: this.$store.getters.blogConfig.homePageCover,
+        homePageTitle: this.$store.getters.blogConfig.homePageTitle,
       },
       isHomePageCover: false,
       currentFile: null,
       imageBase64: '',
+      configName: 'blog',
 
       cropCoverOption: {
         autoCropWidth: 1900,
@@ -79,18 +80,17 @@ export default {
   },
   mixins: [property],
   mounted() {
-    this.isHomePageCover = !Number.parseInt(this.property.homePageCover)
+    this.isHomePageCover = !Number.parseInt(this.config.homePageCover)
   },
   methods: {
     uploadCover(){},
     cropImage(file,key){
-      this.$crop(file,(blob, filename) => {
-        console.log(blob)
+      this.$crop(file,(blob, filename, close) => {
         uploadCover(blob, filename).then((url) => {
-          this.property[key] = url;
-          this.updatePropertyByKey(key);
-        })
-        return true;
+          this.config[key] = url;
+          this.updateConfigByKey(key, this.configName)
+            .then(() => close());
+        }).catch(() => {})
       },this.cropCoverOption)
     },
     cropHomePage(file){

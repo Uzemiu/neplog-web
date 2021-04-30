@@ -42,13 +42,16 @@
               default-first-option
               filterable
               allow-create
+              value-key="id"
               placeholder="文章分类">
+
               <el-option
                 v-for="ca in availableCategories"
                 :key="ca.id"
                 :label="ca.name"
-                :value="ca.name">
+                :value="ca">
               </el-option>
+
             </el-select>
           </el-form-item>
 
@@ -144,10 +147,10 @@ import rules from '@/utils/rules/article';
 import {updateDeleted, updateArticle, listArticleDetail} from "@/api/article";
 import {uploadCover, uploadImg} from "@/api/file";
 import {getAllTags} from "@/api/tag";
-import {getAllCategories} from "@/api/category";
+import {categoryQueryBy} from "@/api/category";
 
 export default {
-  name: "index",
+  name: "ArticleEditor",
   components: {},
   props: {
     id: {
@@ -191,7 +194,10 @@ export default {
         status: 0,
         commentPermission: 0,
         viewPermission: 0,
-        category: '',
+        category: {
+          id: null,
+          name: ''
+        },
         tags: []
       },
     }
@@ -211,7 +217,7 @@ export default {
       })
     },
     retrieveCategories() {
-      getAllCategories().then(data => {
+      categoryQueryBy().then(data => {
         this.availableCategories = data;
       }).catch(() => {})
     },
@@ -229,10 +235,11 @@ export default {
       this.retrieveCategories();
     },
     uploadArticleCover(file){
-      this.$crop(file,(blob, filename) => {
+      this.$crop(file,(blob, filename, close) => {
         uploadCover(blob, filename).then(url => {
           this.article.cover = url;
-        })
+          close();
+        }).catch(() => {})
         return true;
       }, {
         autoCropWidth: 1900,
@@ -240,11 +247,15 @@ export default {
       })
     },
     saveArticle(status){
+      // 转换
       if(Number.isInteger(status)){
         this.article.status = status;
       }
+      if(typeof(this.article.category) === 'string'){
+        this.article.category = {id: null, name:this.article.category}
+      }
+
       this.$refs.articleForm.validate(valid => {
-        console.log(valid)
         if(valid){
           this.article.htmlContent = this.$refs.md.d_render;
           // 生成摘要

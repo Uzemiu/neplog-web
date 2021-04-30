@@ -31,7 +31,7 @@ NProgress.configure({showSpinner: false})
 
 router.beforeEach((to, from, next) => {
   let title = to.meta.title;
-  document.title = (title ? (title + ' - ') : '') + store.getters.blogProperty.blogName;
+  document.title = (title ? (title + ' - ') : '') + store.getters.blogConfig.blogName;
   NProgress.start();
   if (to.matched.some(record => record.meta.requiresLevel)) {
     // 权限验证

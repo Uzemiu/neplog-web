@@ -1,44 +1,50 @@
 <template>
   <el-form
-      :model="property"
+      :model="config"
       label-position="left"
       label-width="80px"
       class="blog-setting">
     <el-form-item label="博客名称:">
       <el-input
           style="max-width: 240px"
-          v-model="property.blogName"
-          @blur="updatePropertyByKey('blogName')"></el-input>
+          v-model="config.blogName"
+          @blur="updateConfigByKey('blogName', 'blog')"></el-input>
+    </el-form-item>
+    <el-form-item label="备案号:">
+      <el-input
+        v-model="config.icp"
+        @blur="updateConfigByKey('icp', 'blog')"></el-input>
     </el-form-item>
   </el-form>
 </template>
 
 <script>
-import property from "@/mixins/property";
+import config from "@/mixins/config";
 
 export default {
   name: "BlogSetting",
-  mixins: [property],
+  mixins: [config],
   data() {
     return {
-      property: {
-        blogName: this.$store.getters.blogProperty.blogName,
+      config: {
+        blogName: this.$store.getters.blogConfig.blogName,
         customBlogAvatar: 'auto',
-        blogAvatar: this.$store.getters.blogProperty.blogAvatar,
+        blogAvatar: this.$store.getters.blogConfig.blogAvatar,
         authorNameType: 'auto',
-        authorName: this.$store.getters.blogProperty.authorName,
+        authorName: this.$store.getters.blogConfig.authorName,
+        icp: this.$store.getters.blogConfig.icp
       },
     }
   },
   mounted() {
-    this.property.customBlogAvatar =
-      this.$store.getters.user.avatar === this.property.blogAvatar ? 'auto' : 'custom';
+    this.config.customBlogAvatar =
+      this.$store.getters.user.avatar === this.config.blogAvatar ? 'auto' : 'custom';
   },
   methods: {
   },
   computed: {
     disableBlogAvatar() {
-      return this.property.customBlogAvatar === 'auto';
+      return this.config.customBlogAvatar === 'auto';
     },
   }
 }

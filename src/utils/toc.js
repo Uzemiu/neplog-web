@@ -77,8 +77,10 @@ function disableScrollToc(){
 function generateToc(selector = 'body', option = {}){
   const headings = document.querySelector(selector)
                         .querySelectorAll('h1, h2, h3, h4, h5, h6');
+  // first push all heading nodes
   headings.forEach(h => toc.nodes.push(new TocNode(Number.parseInt(h.tagName.charAt(1)), h)));
 
+  // find father
   toc.nodes.forEach((e,i) => findFather(i).children.push(e));
 
   const rootEl = toc.root.toTocElement();

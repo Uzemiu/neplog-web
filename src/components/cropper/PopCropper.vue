@@ -30,6 +30,8 @@
 
 <script>
 import {VueCropper} from "vue-cropper"
+import neplog from "@/config/neplog";
+import {convertFileSize} from "@/utils/convert";
 
 export default {
   name: "index",
@@ -65,9 +67,16 @@ export default {
     }
   },
   methods: {
+    closeDialog(){
+      this.dialogVisible = false;
+    },
     endCrop(){
-      this.$refs.cropper.getCropBlob(e => {
-        this.dialogVisible = this.done && !this.done(e, this.filename);
+      this.$refs.cropper.getCropBlob(blob => {
+        if(blob.size > neplog.maxFileSize){
+          this.$message.error("文件大小不能超过"+convertFileSize(neplog.maxFileSize));
+        } else {
+          this.done && this.done(blob, this.filename, this.closeDialog);
+        }
       })
     },
     defaultOption(){

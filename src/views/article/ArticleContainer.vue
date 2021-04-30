@@ -15,7 +15,8 @@
       <p class="base-info">
         <span>
           <i class="fa fa-folder-open"></i>
-          <a href="">{{article.category}}</a>
+<!--          TODO search category-->
+          <a href="">{{article.category.name}}</a>
         </span>
         <span class="tags" v-if="article.tags && article.tags.length">
           <i class="fa fa-tags"></i>

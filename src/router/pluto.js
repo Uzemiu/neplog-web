@@ -1,5 +1,6 @@
 const Pluto = () => import("../views/pluto/index")
 const PlutoArticle = () => import("../views/pluto/article/index")
+const PlutoCategory = () => import("../views/pluto/category/index")
 const PlutoFriend = () => import("../views/pluto/friend/index")
 const PlutoFile = () => import("../views/pluto/file/index")
 const Setting = () => import("../views/pluto/setting/index")
@@ -27,6 +28,12 @@ const routes = [
         name: 'pluto-article',
         meta: {title: '文章管理'},
         component: PlutoArticle
+      },
+      {
+        path: 'category',
+        name: 'pluto-category',
+        meta: {title: '分类管理'},
+        component: PlutoCategory
       },
       {
         path: 'friend',

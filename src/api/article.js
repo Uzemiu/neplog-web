@@ -65,5 +65,12 @@ export function deleteById(id){
   })
 }
 
-export default {findArticle: queryBy,findArticleDetail: listArticleDetail,findArticleView: listArticleView,createArticle,updateArticle,updateDeleted};
+export default {
+  findArticle: queryBy,
+  findArticleDetail: listArticleDetail,
+  findArticleView: listArticleView,
+  createArticle,
+  updateArticle,
+  updateDeleted
+};
 

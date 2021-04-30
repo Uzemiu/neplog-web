@@ -1,8 +1,8 @@
-import {getBlogProperty} from "@/api/property";
+import {getBlogConfigVO} from "@/api/config";
 
 export default {
   state: {
-    blogProperty: {
+    blogConfig: {
       blogName: 'Neplog',
       blogAvatar: '',
       authorName: '',
@@ -12,20 +12,19 @@ export default {
       friendPageTitle: '',
       homePageCover: '3',
       homePageTitle: '',
-      homePageArticle: '',
       icp: '',
       globalCss: ''
     }
   },
   mutations: {
     setBlogConfig(state, property){
-      Object.assign(state.blogProperty, property);
+      Object.assign(state.blogConfig, property);
     },
   },
   actions: {
-    getBlogProperty({commit}) {
+    getBlogConfig({commit}) {
       return new Promise((resolve, reject) => {
-        getBlogProperty().then(property => {
+        getBlogConfigVO().then(property => {
           commit('setBlogConfig',property)
           resolve(property)
         }).catch(error => {

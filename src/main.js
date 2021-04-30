@@ -41,7 +41,7 @@ Vue.use(VueScrollReveal, {
 
 Vue.config.productionTip = false
 
-store.dispatch('getBlogProperty').then(() => {
+store.dispatch('getBlogConfig').then(() => {
   new Vue({
     router,
     store,
