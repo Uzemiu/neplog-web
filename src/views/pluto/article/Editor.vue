@@ -147,7 +147,7 @@ import rules from '@/utils/rules/article';
 import {updateDeleted, updateArticle, listArticleDetail} from "@/api/article";
 import {uploadCover, uploadImg} from "@/api/file";
 import {getAllTags} from "@/api/tag";
-import {categoryQueryBy} from "@/api/category";
+import {queryBy} from "@/api/category";
 
 export default {
   name: "ArticleEditor",
@@ -217,7 +217,7 @@ export default {
       })
     },
     retrieveCategories() {
-      categoryQueryBy().then(data => {
+      queryBy().then(data => {
         this.availableCategories = data;
       }).catch(() => {})
     },

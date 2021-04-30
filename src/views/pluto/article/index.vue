@@ -88,7 +88,7 @@
 import ArticleCard from "@/components/article/ArticleCard";
 import CrudOperation from "@/components/form/CrudOperation";
 import {deleteById, privateQueryBy, updateDeleted} from "@/api/article";
-import {categoryQueryBy} from "@/api/category";
+import {queryBy} from "@/api/category";
 import QueryGroup from "@/components/form/QueryGroup";
 import query from "@/mixins/query";
 
@@ -125,7 +125,7 @@ export default {
   },
   mounted() {
     this.refresh();
-    categoryQueryBy().then(data => {
+    queryBy().then(data => {
       this.availableCategories = data;
     })
   },
