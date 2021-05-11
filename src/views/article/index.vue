@@ -4,10 +4,8 @@
 
     <section class="flex-section article-section" ref="articleSection">
       <article-container :article="article"></article-container>
-      <div class="toc" ref="toc" :class="{drawn}" v-if="tocDone">
-        <div class="drawer" @click="doDraw" :class="{'show':showDrawer}">
-          <i class="fa fa-angle-left"></i>
-        </div>
+      <div class="toc" ref="toc" v-if="tocDone">
+
       </div>
     </section>
 
@@ -36,7 +34,8 @@ import {listArticleView} from "@/api/article";
 import {fromArticle} from "@/utils/glide";
 import {findByArticleId} from "@/api/comment";
 import CommentView from "@/components/comment/CommentView";
-import Toc from "@/utils/toc";
+import Toc from "@/components/toc/toc";
+import neplog from "@/config/neplog";
 
 let links, anchors;
 
@@ -64,8 +63,6 @@ export default {
         }
       },
       tocDone: true,
-      drawn: false,
-      showDrawer: false,
       glides: [],
       comments: [],
     }
@@ -82,14 +79,15 @@ export default {
         this.glides = fromArticle(data);
         document.title = data.title + ' - ' + this.$store.getters.blogConfig.blogName;
         this.$nextTick(() => {
-          // this.appendToc();
-          this.$refs.toc.appendChild(Toc.generateToc('.article-body'));
+          let h = neplog.navBarHeight;
+          this.$refs.toc.appendChild(Toc.generateToc('.article-body', {fixedHeading: h}));
         })
       });
       findByArticleId(this.id).then(data => {
         this.comments = data;
       }).catch(() => {})
     },
+
     appendToc(){
       // let toc = document.querySelector('.table-of-contents');
       // if (toc) {
@@ -140,18 +138,6 @@ export default {
           });
         })
       })
-    },
-    displayDrawer() {
-      let bodyHeight = document.body.clientHeight && document.documentElement.clientHeight;
-      if (window.pageYOffset > bodyHeight * .4) {
-        this.showDrawer = true;
-      } else {
-        this.showDrawer = false;
-        this.drawn = false;
-      }
-    },
-    doDraw() {
-      this.drawn = !this.drawn;
     }
   },
 }
@@ -219,6 +205,10 @@ export default {
         background-color: #eeeeee;
       }
 
+      .toc-active > a{
+        color: #0097e6;
+      }
+
       .toc-active > ol {
         display: block;
       }
@@ -226,19 +216,6 @@ export default {
       .toc-active-only a:before {
         background-color: #0097e6;
       }
-    }
-
-    .drawer {
-      display: none;
-      position: absolute;
-      width: 17px;
-      height: 40px;
-      border-bottom-left-radius: 5px;
-      border-top-left-radius: 5px;
-      background-color: #fafafa;
-      box-shadow: -3px 0 15px rgba(31, 45, 61, .2);
-      cursor: pointer;
-      transition: .4s ease-in-out;
     }
   }
 }
@@ -262,20 +239,6 @@ export default {
       transition: .4s ease-in-out;
       box-shadow: 0 0 15px rgba(31, 45, 61, .2);
       z-index: 999;
-
-      &.drawn {
-        right: 0;
-      }
-
-      .drawer {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        &.show {
-          left: -17px;
-        }
-      }
     }
   }
 }

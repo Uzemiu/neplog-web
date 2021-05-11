@@ -95,7 +95,7 @@ export default {
       this.comment.articleId = this.articleId;
       postComment(this.comment).then(() => {
         this.$message.success("提交评论成功")
-        location.reload();
+        // location.reload();
       }).catch(() => {
         this.loading = false;
       });

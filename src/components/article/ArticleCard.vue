@@ -10,9 +10,9 @@
       <div class="detail">
         <p class="statics">
           <span>{{article.createTime || '2077-07-07'}}</span>
-          <span class="ignorable"><i class="fa fa-user"></i> {{article.views || 0}}</span>
-          <span class="ignorable"><i class="fa fa-comment"></i> {{article.comments || 0}}</span>
-          <span class="ignorable"><i class="fa fa-heart"></i> {{article.likes || 0}}</span>
+          <span class="ignorable"><i class="fa fa-user-o"></i> {{article.views || 0}}</span>
+          <span class="ignorable"><i class="fa fa-comment-o"></i> {{article.comments || 0}}</span>
+          <span class="ignorable"><i class="fa fa-heart-o"></i> {{article.likes || 0}}</span>
         </p>
       </div>
       <div class="summary">
@@ -110,7 +110,7 @@ export default {
     }
 
     .summary{
-      margin-top: 10px;
+      margin-top: 16px;
       word-wrap: anywhere;
       font-size: 16px;
       color: #8b8b8b;
@@ -203,6 +203,7 @@ export default {
     }
     .summary{
       font-size: 13px;
+      margin-top: 10px;
     }
   }
   .article-list-item{

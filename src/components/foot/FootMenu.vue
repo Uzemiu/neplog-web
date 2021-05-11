@@ -41,7 +41,7 @@ name: "index",
 
 .foot-menu{
   display: flex;
-  right: 27px;
+  right: 37px;
   position: fixed;
   z-index: 234;
   transition: .4s ease-in-out;
@@ -51,7 +51,7 @@ name: "index",
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    background-color: var(--primary-green);
+    background-color: var(--vscode-sky-blue);
     color: white;
     align-items: center;
     justify-content: center;

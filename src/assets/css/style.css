@@ -27,6 +27,7 @@ button:focus,input:focus,textarea:focus{
     outline: none;
 }
 
+
 :root{
     --text-color-lightest: #e7e9ec;
     --text-color-darker: #2e2e2e;
@@ -39,8 +40,21 @@ button:focus,input:focus,textarea:focus{
     --primary-blue: #0a69aa;
     --secondary-blue: #5699d2;
     --tertiary-blue: #d8ebf9;
+    --dark-green: #2f841b;
     --primary-green: #4996a2;
     --secondary-green: #71c2cc;
+
+    --vscode-class: #4ec9b0;
+    --vscode-yellow: #DCD2A1;
+    --vscode-light-green: #B8D7A3;
+    --vscode-orange: #FFC66D;
+    --vscode-sky-blue: #67CDFE;
+    --vscode-annotation: #CC9393;
+    --vscode-string: #D69D85;
+    --vscode-purple: #9393CC;
+    --vscode-comment: #57A64A;
+    --vscode-keyword: #569CD6;
+
 }
 
 li {

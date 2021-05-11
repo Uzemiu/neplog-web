@@ -57,6 +57,16 @@ export function updateDeleted({id, deleted}){
   })
 }
 
+export function updateCategory({id, category}){
+  return axios({
+    url: 'article/category',
+    method: 'put',
+    data: {
+      id,category
+    }
+  })
+}
+
 export function deleteById(id){
   return axios({
     url: 'article',

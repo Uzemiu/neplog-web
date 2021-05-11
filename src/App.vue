@@ -9,6 +9,13 @@
       <div id="cover" @click="closeSide"></div>
     </main>
     <foot-menu></foot-menu>
+    <particles-bg
+      v-if="!pluto"
+      class="particle-bg"
+      type="custom"
+      :config="bgConfig"
+      :bg="false">
+    </particles-bg>
   </div>
 </template>
 
@@ -24,6 +31,24 @@ export default {
     Foot,
     FootMenu
   },
+  data(){
+    return {
+      bgConfig: {
+        num: [4, 9],
+        rps: 0.77,
+        radius: [5, 30],
+        life: [1.5, 4],
+        v: [.5, 3],
+        tha: [-3, 3],
+        alpha: [0.6, 0],
+        icon: require("@/assets/imgs/bg-icon"),
+        scale: [0.1, 0.4],
+        position: "all",
+        cross: "dead",
+        random: 15,
+      }
+    }
+  },
   created() {
     this.$store.dispatch('getUserInfo').catch(() => {});
   },
@@ -33,7 +58,7 @@ export default {
     }
   },
   computed: {
-    // 后台不显示页脚
+    // 后台不显示页脚以及背景
     pluto(){
       let path = this.$route.fullPath
       return path.startsWith('/pluto') || path.startsWith('/user');
@@ -60,6 +85,24 @@ export default {
 
 .main{
   @import "assets/css/inputs";
+
+}
+
+/*
+图片背景（关闭）
+ */
+body::before{
+  //content: "";
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: -2;
+  background-image: url("~@/assets/imgs/glide/320671.jpg");
+  background-attachment: fixed;
+  background-color: rgba(0,0,0,.5);
+  filter: blur(8px) brightness(.91);
 }
 
 #main{
@@ -87,6 +130,13 @@ export default {
     z-index: 51;
     min-height: 100%;
   }
+}
+
+.particle-bg{
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -10;
 }
 
 img[lazy=loading]{

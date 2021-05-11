@@ -116,6 +116,7 @@ export default {
         page: 0,
       },
       articles: [],
+      total: 0,
       count: {
         published: '--',
         draft: '--',
@@ -140,7 +141,8 @@ export default {
     },
     refresh(){
       privateQueryBy(this.query).then(data => {
-        this.articles = data.articles;
+        this.articles = data.articles.content;
+        this.total = data.articles.total
         this.count = data.count;
       });
     },

@@ -14,15 +14,15 @@
       </p>
       <p class="base-info">
         <span>
-          <i class="fa fa-folder-open"></i>
+          <i class="fa fa-folder-open-o"></i>
 <!--          TODO search category-->
           <a href="">{{article.category.name}}</a>
         </span>
         <span class="tags" v-if="article.tags && article.tags.length">
           <i class="fa fa-tags"></i>
-          <a href="" v-for="tag in article.tags" :key="tag"> {{tag}} </a>
+          <a href="" v-for="tag in article.tags" :key="tag.id"> {{tag.tag}} </a>
         </span>
-        <span><i class="fa fa-user"></i>{{article.views}}</span>
+        <span><i class="fa fa-user-o"></i>{{article.views}}</span>
       </p>
     </div>
 
@@ -55,7 +55,7 @@ export default {
       type: Object,
       required: true
     }
-  },
+  }
 }
 </script>
 

@@ -15,7 +15,7 @@
 <script>
 
 
-import CategoryMenu from "@/views/pluto/category/CategoryMenu";
+import CategoryMenu from "@/components/category/CategoryMenu";
 export default {
   name: "PlutoCategory",
   components: {

@@ -39,6 +39,9 @@ Vue.use(VueScrollReveal, {
   distance: '10px'
 })
 
+import VueParticlesBg from "particles-bg-vue"
+Vue.use(VueParticlesBg)
+
 Vue.config.productionTip = false
 
 store.dispatch('getBlogConfig').then(() => {

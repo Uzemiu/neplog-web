@@ -92,10 +92,10 @@
               allow-create
               v-model="article.tags"
               placeholder="标签"
-              value-key="tag">
+              value-key="id">
               <el-option
                 v-for="(tag) in availableTags"
-                :key="tag.tag"
+                :key="tag.id"
                 :label="tag.tag"
                 :value="tag">
               </el-option>
@@ -108,10 +108,15 @@
 
           <el-row :gutter="10">
             <el-col :span="8">
-              <el-button class="nep-button-common full-width" @click="saveArticle(0)">存为草稿</el-button>
+              <el-button
+                v-if="article.status === 0"
+                class="nep-button-common full-width"
+                @click="saveArticle(0)">存为草稿</el-button>
             </el-col>
             <el-col :span="8">
-              <el-button class="nep-button-primary full-width" @click="saveArticle(4)">发布</el-button>
+              <el-button
+                class="nep-button-primary full-width"
+                @click="saveArticle(4)">{{article.status === 0 ? '发布' : '保存'}}</el-button>
             </el-col>
             <el-col :span="8">
               <el-button class="nep-button-primary full-width">返回</el-button>
@@ -131,8 +136,10 @@
 
     <div class="action">
       <el-button @click="drawer = true" type="primary">更多设置</el-button>
-      <el-button class="nep-button-common" @click="saveArticle(0)">存为草稿</el-button>
-      <el-button class="nep-button-primary" @click="saveArticle(4)">发布</el-button>
+      <el-button v-if="article.status===0" class="nep-button-common" @click="saveArticle(0)">存为草稿</el-button>
+      <el-button
+        class="nep-button-primary"
+        @click="saveArticle(4)">{{article.status === 0 ? '发布' : '保存'}}</el-button>
     </div>
 
   </div>
@@ -254,6 +261,11 @@ export default {
       if(typeof(this.article.category) === 'string'){
         this.article.category = {id: null, name:this.article.category}
       }
+      this.article.tags.forEach((tag,i) => {
+        if(typeof(tag) === 'string'){
+          this.article.tags[i] = {id:null,tag:tag};
+        }
+      })
 
       this.$refs.articleForm.validate(valid => {
         if(valid){

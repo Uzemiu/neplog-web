@@ -49,10 +49,11 @@ export default {
         title: this.$store.getters.blogConfig.homePageTitle
       })
     }
-    queryBy({sort: 'updateTime,desc'}).then(data => {
-      this.articles = data;
+    queryBy({sort: 'updateTime,desc'}).then(articles => {
+      articles = articles.content;
+      this.articles = articles;
       if(this.glides.length === 0){
-        this.glides = fromArticle(...(data.slice(0, Number.parseInt(cover))));
+        this.glides = fromArticle(...(articles.slice(0, Number.parseInt(cover))));
       }
     })
   }

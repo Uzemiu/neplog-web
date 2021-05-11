@@ -34,7 +34,8 @@ const toc = {
   option: {
     tocClass:'table-of-contents',
     enableScrollToc: true,
-    enableSmoothScroll: true
+    enableSmoothScroll: true,
+    fixedHeading: 0
   }
 }
 
@@ -52,7 +53,7 @@ function scrollToc(){
   let nodes = toc.nodes;
   nodes.forEach(e => e.el.classList.remove('toc-active', 'toc-active-only'));
   for (let i = nodes.length - 1; i >= 0; i--) {
-    if (nodes[i].heading.getBoundingClientRect().top < 47) {
+    if (nodes[i].heading.getBoundingClientRect().top < toc.option.fixedHeading) { // nav-bar height
       nodes[i].el.classList.add('toc-active-only');
       for (let parent = nodes[i].el;
            parent && parent !== toc.el;
@@ -74,7 +75,35 @@ function disableScrollToc(){
   window.removeEventListener('scroll', scrollToc);
 }
 
+function offset(ele){
+  // thanks to jquery
+  let rect = ele.getBoundingClientRect();
+  let win = ele.ownerDocument.defaultView;
+  return {
+    top: rect.top + win.pageYOffset,
+    left: rect.left + win.pageXOffset
+  };
+}
+
+function smoothAnchorScroll() {
+  toc.nodes.forEach((node, i) => {
+    let el = node.el.querySelector('a')
+    el.addEventListener('click', function(event){
+      event.preventDefault();
+      event.stopPropagation();
+      window.scrollTo({
+        top: offset(node.heading).top,
+        behavior: "smooth"
+      });
+    })
+  })
+}
+
+
 function generateToc(selector = 'body', option = {}){
+
+  Object.assign(toc.option, option);
+
   const headings = document.querySelector(selector)
                         .querySelectorAll('h1, h2, h3, h4, h5, h6');
   // first push all heading nodes
@@ -86,8 +115,14 @@ function generateToc(selector = 'body', option = {}){
   const rootEl = toc.root.toTocElement();
   toc.el = rootEl;
 
-  rootEl.classList.add('table-of-contents');
-  enableScrollToc();
+  rootEl.classList.add(toc.option.tocClass);
+
+  if(toc.option.enableScrollToc){
+    enableScrollToc();
+  }
+  if(toc.option.enableSmoothScroll){
+    smoothAnchorScroll();
+  }
 
   return rootEl;
 }

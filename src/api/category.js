@@ -28,6 +28,6 @@ export function deleteCategory(id){
   return axios({
     url: 'category',
     method: 'delete',
-    data: {id: id}
+    data: id
   })
 }
