@@ -6,10 +6,10 @@
       </div>
       <div class="user-info">
         <span class="nickname">{{comment.nickname}}</span>
-        <span v-if="comment.father">回复</span>
-        <a v-if="comment.father"
-           :href="comment.father.link">
-          <span class="nickname">{{comment.father.nickname}}</span>
+        <span v-if="comment.parent">回复</span>
+        <a v-if="comment.parent"
+           :href="comment.parent.link">
+          <span class="nickname">{{comment.parent.nickname}}</span>
         </a>
       </div>
       <div class="user-agent">
@@ -37,16 +37,19 @@
 
     <component
       v-show="showReply"
+      v-on="$listeners"
       :is="reply"
       :show-avatar="false"
-      :father-id="comment.id"
+      :parent-id="comment.id"
       :article-id="comment.articleId"></component>
 
     <ul>
       <li
         v-for="child in comment.children"
         :key="child.id">
-        <comment-view :comment="child" class="sub-comment"></comment-view>
+        <comment-view
+          :comment="child"
+          class="sub-comment"></comment-view>
       </li>
     </ul>
   </div>
@@ -66,13 +69,13 @@ export default {
       link: '',
       email: '',
       articleId: null,
-      fatherId: null,
+      parentId: null,
       likes: 0,
       userAgent: 'Unknown',
       operatingSystem: 'Unknown',
       createTime: '',
       children: [],
-      father: {
+      parent: {
         nickname: '',
         link: '',
         avatar: '',

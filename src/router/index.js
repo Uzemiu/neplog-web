@@ -8,6 +8,7 @@ import {Message} from "element-ui";
 import MainRoutes from './main';
 import UserRoutes from './user';
 import PlutoRoutes from './pluto';
+import CommonRoutes from './common'
 
 Vue.use(VueRouter)
 
@@ -15,6 +16,7 @@ const routes = [
   ...MainRoutes,
   ...UserRoutes,
   ...PlutoRoutes,
+  ...CommonRoutes,
 ]
 
 const router = new VueRouter({
@@ -32,7 +34,9 @@ NProgress.configure({showSpinner: false})
 router.beforeEach((to, from, next) => {
   let title = to.meta.title;
   document.title = (title ? (title + ' - ') : '') + store.getters.blogConfig.blogName;
+
   NProgress.start();
+
   if (to.matched.some(record => record.meta.requiresLevel)) {
     // 权限验证
     let requiredLevel = Math.max(...to.matched.map(record => record.meta.requiresLevel || 1));

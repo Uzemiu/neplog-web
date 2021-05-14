@@ -174,9 +174,7 @@ export default {
       availableCategories: [],
       availableViewPermission: [{
         value: 0, label: '任何人'
-      }, {
-        value: 4, label: '仅登录用户'
-      }, {
+      },{
         value: 8, label: '需要密码', disabled: true
       }, {
         value: 16, label: '私有'
@@ -184,9 +182,9 @@ export default {
       availableCommentPermission: [{
         value: 0, label: '任何人'
       }, {
-        value: 4, label: '需要审核'
+        value: 4, label: '需要审核', disabled: true
       }, {
-        value: 8, label: '仅登录用户'
+        value: 8, label: '仅登录用户', disabled: true
       }, {
         value: 16, label: '关闭评论'
       }],

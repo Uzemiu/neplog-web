@@ -36,3 +36,16 @@
   }
 }
 
+.el-message-box{
+  .el-message-box__btns button{
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 576px) {
+  .el-message-box.responsive{
+    max-width: 360px;
+  }
+}
+
+

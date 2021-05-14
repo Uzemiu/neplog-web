@@ -1,5 +1,9 @@
 'use strict'
 
+const routes = ['/','/article','/archive','/categorytag','/tag','/friend','/about']
+
+const SitemapPlugin = require('sitemap-webpack-plugin').default
+
 // All configuration item explanations can be find in https://cli.vuejs.org/config/
 module.exports = {
   publicPath: '/',
@@ -29,6 +33,21 @@ module.exports = {
           '^/uploads': 'uploads'
         }
       }
+    },
+  },
+  configureWebpack: config => {
+    return {
+      plugins: [
+        // new SitemapPlugin({
+        //   base: 'localhost',
+        //   paths: routes,
+        //   options: {
+        //     filename: 'sitemap.xml',
+        //     lastmod: true,
+        //     changefreq: 'weekly'
+        //   }
+        // })
+      ]
     }
   }
 }

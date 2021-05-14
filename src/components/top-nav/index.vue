@@ -1,28 +1,20 @@
 <template>
   <header
     id="header"
-    :class="{'transparent':transparentHeader && !open && !forceStickyHeader, open}"
+    class="header"
+    :class="{'transparent':transparent, open}"
     ref="header">
     <div class="top-header header-item">
-      <div class="logo"><router-link to="/">{{$store.getters.blogConfig.blogName || 'Neplog'}}</router-link></div>
+      <div class="logo">
+        <router-link to="/">
+          {{$store.getters.blogConfig.blogName || 'Neplog'}}
+        </router-link>
+      </div>
       <component :is="pluto">
         <li>
           <search-bar></search-bar>
         </li>
       </component>
-
-<!--      <div class="nav-item-user">-->
-<!--        <sub-menu style="width: 64px;margin-top:3px;">-->
-<!--          <img slot="title"-->
-<!--               :src="$store.getters.user.avatar || $store.getters.blogProperty.blogAvatar"-->
-<!--               alt=""-->
-<!--               height="40px"-->
-<!--               style="border-radius: 50%;margin-left: 13px">-->
-<!--          <menu-item link="/user/setting" v-if="$store.getters.isLogin">个人资料</menu-item>-->
-<!--          <menu-item link="/user/login" v-else>登录</menu-item>-->
-<!--          <menu-item link="/pluto" v-if="$store.getters.user.level >= 6">后台管理</menu-item>-->
-<!--        </sub-menu>-->
-<!--      </div>-->
 
       <div class="burger" @click="openTopBar">
         <div class="burger-line1"></div>
@@ -58,7 +50,7 @@ export default {
   },
   data(){
     return {
-      transparentHeader: true,
+      scrollSolidHeader: false,
       open: false,
       path: this.$route
     }
@@ -66,7 +58,7 @@ export default {
   methods: {
     changeTransparentHeader(){
       let height = this.$refs.header.getBoundingClientRect().height;
-      this.transparentHeader = window.pageYOffset - height < 40;
+      this.scrollSolidHeader = window.pageYOffset - height > 40;
     },
     openTopBar(){
       this.open = !this.open;
@@ -85,7 +77,13 @@ export default {
     },
     forceStickyHeader(){
       const route = this.$route.fullPath;
-      return route.startsWith('/pluto') || route.startsWith('/user') || route.startsWith('/install');
+      return route.startsWith('/pluto') || route.startsWith('/user');
+    },
+    transparent(){
+      return !(this.scrollSolidHeader // 滚动不透明
+        || this.open // 侧边栏打开不透明
+        || this.forceStickyHeader // 后台和用户设置界面不透明
+        || !this.$store.getters.common.transparentHeader); // 自定义设置不透明
     }
   },
 }
@@ -93,7 +91,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../../node_modules/font-awesome/css/font-awesome.min.css";
-header{
+.header{
   width: 100%;
   height: 53px;
   max-height: 100px;
@@ -107,6 +105,7 @@ header{
   top: 0;
   background-color: rgba(255,255,255,.9);
   box-shadow: 0 0 18px rgba(0,0,0,0.2);
+  letter-spacing: 1px;
 
   .header-item{
     padding: 0 40px;
@@ -157,13 +156,14 @@ header{
       }
     }
 
+
     .logo a{
       font-size: 24px;
       font-weight: 600;
       color: var(--text-color-darker);
       font-family: Play,serif;
     }
-    ::v-deep .nav-item, ::v-deep .nav-item-user{
+    ::v-deep .nav-item{
       .menu-item{
         margin: 0 12px;
       }
@@ -185,7 +185,7 @@ header{
           width: 100%;
         }
       }
-      .fa, input{
+      input{
         color: #666;
       }
       input::placeholder{
@@ -205,7 +205,8 @@ header{
           content: "";
           position: absolute;
           top: -14px;
-          left: 34px;
+          left: 50%;
+          margin-left: -12px;
           border-width: 7px;
           border-style: solid;
           border-color: transparent transparent #fff;
@@ -230,23 +231,35 @@ header{
       .burger-line3{
         background-color: var(--text-color-lightest);
       }
-      ::v-deep .nav-item, ::v-deep .nav-item-user{
-        .menu-item{
-          span{
+
+      ::v-deep .nav-item{
+        .menu-item span{
             color: var(--text-color-lightest);
-          }
         }
         a, .fa{
           color: var(--text-color-lightest);
         }
-        a:hover, .link-active.router-link-exact-active, span:hover{
+
+        .fa{
+          transition: .4s;
+        }
+
+        a:hover,
+        span:hover,
+        .link-active.router-link-exact-active,{
           color: var(--secondary-blue);
+
+          .fa{
+            color: var(--secondary-blue);
+          }
         }
         .sub-menu{
           margin-top: 0;
           padding: 0;
           background-color: transparent;
           box-shadow: none;
+
+
           &:before{
             content: none;
           }
@@ -358,10 +371,10 @@ header{
 }
 
 @media (max-width: 992px) {
-  header {
+  .header {
     .top-header{
       grid-template-columns: 1fr 30px;
-      ::v-deep .nav-item, .nav-item-user{
+      ::v-deep .nav-item{
         display: none;
       }
 
@@ -386,7 +399,7 @@ header{
 }
 
 @media (max-width: 768px) {
-  header .top-header{
+  .header .top-header{
     padding: 0 20px 0 20px;
   }
 

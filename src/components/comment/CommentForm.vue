@@ -63,7 +63,7 @@ export default {
       type: Number,
       required: true
     },
-    fatherId: {
+    parentId: {
       type: Number,
       default: null,
     },
@@ -72,7 +72,7 @@ export default {
     return {
       loading: false,
       comment: {
-        fatherId: null,
+        parentId: null,
         articleId: null,
         content: '',
         nickname: '',
@@ -91,12 +91,16 @@ export default {
   methods: {
     postComment(){
       this.loading = true;
-      this.comment.fatherId = this.fatherId;
+      this.comment.parentId = this.parentId;
       this.comment.articleId = this.articleId;
       postComment(this.comment).then(() => {
+        this.comment.content = ''
         this.$message.success("提交评论成功")
-        // location.reload();
+        this.$emit('commentSuccess');
       }).catch(() => {
+        this.$emit('commentFailure');
+      }).finally(() => {
+        this.$emit('commentComplete');
         this.loading = false;
       });
     }

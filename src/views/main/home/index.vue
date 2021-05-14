@@ -22,9 +22,9 @@
 </template>
 
 <script>
-import Responsive from "../../components/layout/Responsive";
-import Glide from "../../components/glide/index"
-import ArticleCard from "../../components/article/ArticleCard";
+import Responsive from "../../../components/layout/Responsive";
+import Glide from "../../../components/glide/index"
+import ArticleCard from "../../../components/article/ArticleCard";
 import {queryBy} from "@/api/article";
 import {fromArticle} from "@/utils/glide";
 

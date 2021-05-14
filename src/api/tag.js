@@ -6,3 +6,19 @@ export function getAllTags(){
     method: 'get'
   })
 }
+
+export function updateTag(tag){
+  return axios({
+    url: 'tag',
+    method: 'put',
+    data: tag
+  })
+}
+
+export function deleteTag(id){
+  return axios({
+    url: 'tag',
+    method: 'delete',
+    data: id
+  })
+}

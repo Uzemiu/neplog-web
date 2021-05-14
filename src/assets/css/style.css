@@ -48,12 +48,12 @@ button:focus,input:focus,textarea:focus{
     --vscode-yellow: #DCD2A1;
     --vscode-light-green: #B8D7A3;
     --vscode-orange: #FFC66D;
-    --vscode-sky-blue: #67CDFE;
+    --vscode-sky-blue: #67cdfe;
     --vscode-annotation: #CC9393;
     --vscode-string: #D69D85;
     --vscode-purple: #9393CC;
     --vscode-comment: #57A64A;
-    --vscode-keyword: #569CD6;
+    --vscode-keyword: #569cd6;
 
 }
 

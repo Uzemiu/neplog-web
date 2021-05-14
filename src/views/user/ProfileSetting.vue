@@ -7,7 +7,7 @@
     <el-form-item label="用户名:">
       <el-input
           style="max-width: 240px"
-          :disabled="true"
+          :disabled="!$store.getters.isOwner"
           v-model="user.username"></el-input>
     </el-form-item>
     <el-form-item label="昵称:">
@@ -76,11 +76,12 @@ export default {
   },
   methods: {
     cropAvatar(file) {
-      this.$crop(file,(blob, filename) => {
+      this.$crop(file,(blob, filename, done) => {
         uploadAvatar(blob, filename).then((url) => {
           this.user.avatar = url;
-        })
-        return true;
+          this.updateUserInfo();
+          done()
+        }).catch(() => {})
       },this.cropAvatarOption)
     },
     updateUserInfo(){

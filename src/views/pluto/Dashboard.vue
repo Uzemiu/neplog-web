@@ -1,13 +1,17 @@
 <template>
-  <div>dsd</div>
+  <div>
+    <under-construction></under-construction>
+  </div>
 </template>
 
 <script>
+import UnderConstruction from "@/components/common/UnderConstruction";
 export default {
-name: "Dashboard"
+  name: "Dashboard",
+  components: {UnderConstruction}
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
 </style>

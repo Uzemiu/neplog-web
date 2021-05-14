@@ -20,21 +20,28 @@
         </a>
       </div>
     </el-popover>
+
     <input v-if="editing" v-model="friend.name" type="text" class="name friend-input" placeholder="名字"/>
     <a v-else :href="friend.link" target="_blank">
       <h4 class="name">{{friend.name}}</h4>
     </a>
+
     <textarea v-if="editing" v-model="friend.introduction" cols="18" rows="2" class="intro" placeholder="简介"></textarea>
     <a v-else :href="friend.link" target="_blank">
       <span class="intro">{{friend.introduction}}</span>
     </a>
+
     <el-dropdown class="operation" placement="top" v-if="enableEdit">
       <span>
         {{editing ? '编辑中...' : '操作'}}<i class="el-icon-arrow-up el-icon--right"></i>
       </span>
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item :disabled="disableCommit"><span @click="toggleEdit">{{editing ? '完成编辑并提交' : '编辑'}}</span></el-dropdown-item>
-        <el-dropdown-item v-if="editing"><span @click="editing = false">结束编辑</span></el-dropdown-item>
+        <el-dropdown-item :disabled="disableCommit">
+          <span @click="toggleEdit">{{editing ? '完成编辑并提交' : '编辑'}}</span>
+        </el-dropdown-item>
+        <el-dropdown-item v-if="editing">
+          <span @click="editing = false">结束编辑</span>
+        </el-dropdown-item>
         <slot name="operation"></slot>
       </el-dropdown-menu>
     </el-dropdown>

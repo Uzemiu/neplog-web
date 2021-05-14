@@ -19,8 +19,13 @@ export default {
   display: block;
   position: relative;
 
-  a:hover, .link-active.router-link-exact-active{
+  a:hover,
+  .link-active.router-link-exact-active{
     color: var(--secondary-blue);
+
+    .fa{
+      color: var(--secondary-blue);
+    }
   }
   a, a:after{
     font-weight: 600;

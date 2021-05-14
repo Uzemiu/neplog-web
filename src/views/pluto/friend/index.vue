@@ -97,7 +97,7 @@ export default {
       updateFriend(friend).then(() => {
         this.$message.success('保存成功')
         callback(true);
-        // this.refresh();
+        this.refresh();
       }).catch(() => {
 
       }).finally(() => {

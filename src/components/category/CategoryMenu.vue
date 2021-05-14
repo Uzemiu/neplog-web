@@ -24,21 +24,25 @@
           target="_blank">
           <span :class="labelClass(data)">{{node.label}}</span>
         </router-link>
-        <span v-else :class="labelClass(data)">{{node.label}}</span>
+        <template v-else >
+          <span :class="labelClass(data)"> {{node.label}}</span>
+          <span class="category-article-count">({{data.articleCount}})</span>
+        </template>
 
         <span v-if="editable && data.isCategory && data.id" class="category-edit" >
           <el-button
+            class="category-edit-button"
             type="text"
             size="small"
             @click="editCategory(data, $event)">
             <i class="fa fa-pencil"></i>
           </el-button>
           <el-button
+            class="category-edit-button"
             type="text"
             size="small"
             @click="deleteCategory(data, $event)">
-            <i v-if="doubleConfirm===0" class="fa fa-trash"></i>
-            <span v-else @mouseleave="doubleConfirm=0">确定？</span>
+            <i class="fa fa-trash"></i>
           </el-button>
         </span>
 
@@ -48,18 +52,6 @@
 
       </span>
     </el-tree>
-
-    <el-dialog
-      title="修改名称"
-      :visible.sync="dialogVisible"
-      close-on-click-modal
-      width="30%">
-      <el-input v-model="editingCategory.newName"></el-input>
-      <span slot="footer">
-        <el-button @click="dialogVisible=false">取消</el-button>
-        <el-button @click="completeEdit">确认</el-button>
-      </span>
-    </el-dialog>
   </div>
 </template>
 
@@ -84,7 +76,6 @@ export default {
   },
   data(){
     return {
-      dialogVisible: false,
       categories:[],
       props:{
         label(data, node){
@@ -99,15 +90,10 @@ export default {
         parentId: 0,
         name: ''
       },
-      editingCategory:{
-        newName: '',
-        old: {}
-      },
       newCategory:{
         id: null,
         name: ''
-      },
-      doubleConfirm: 0
+      }
     }
   },
   methods: {
@@ -160,32 +146,37 @@ export default {
     },
     editCategory(data, event){
       event.stopPropagation();
-      this.editingCategory.newName = data.name;
-      this.editingCategory.old = data;
-      this.dialogVisible = true;
-    },
-    completeEdit(){
-      updateCategory({
-        id: this.editingCategory.old.id,
-        name: this.editingCategory.newName,
-        parentId: this.editingCategory.old.parentId
-      }).then(() => {
-        this.$message.success("更新分类成功")
-        this.editingCategory.old.name = this.editingCategory.newName;
-        this.dialogVisible = false;
+
+      this.$prompt('',{
+        title: '修改分类名',
+        customClass: 'responsive',
+        inputValue: data.name
+      }).then(({value}) => {
+        if(value !== data.name){
+          updateCategory({
+            id: data.id,
+            name: value,
+            parentId: data.parentId
+          }).then(() => {
+            this.$message.success('修改分类成功');
+            data.name = value;
+          }).catch(() => {})
+        }
       }).catch(() => {})
     },
     deleteCategory(data, event){
       event.stopPropagation();
-      if(this.doubleConfirm === 0){
-        this.doubleConfirm++;
-      } else {
-        deleteCategory(data.id).then(() => {
-          this.$message.success('删除分类成功')
-          this.doubleConfirm = 0;
-          this.refresh();
-        }).catch(() => {})
-      }
+
+      this.$confirm(`确认删除分类${data.name}吗?`,{
+        title: '删除分类',
+        type: 'warning',
+        customClass: 'responsive'
+      }).then(() => {
+        return deleteCategory(data.id);
+      }).then(() => {
+        this.$message.success('删除分类成功')
+        this.refresh();
+      }).catch(() => {})
     },
     allowDrop(draggingNode, dropNode, type){
       return dropNode.data.isCategory && dropNode.data.id;
@@ -281,13 +272,15 @@ export default {
 <style lang="scss" scoped>
 .category-menu{
 
-  ::v-deep .el-tree-node{
-    margin: 5px 0;
+  ::v-deep .el-tree-node__content{
+    padding: 8px 0;
+    height: 40px;
   }
 
   .menu-label{
     width: 100%;
     position: relative;
+    font-size: 16px;
   }
 
   .menu-label:hover .category-edit{
@@ -297,7 +290,7 @@ export default {
     display: none;
   }
   ::v-deep .el-tree-node__label{
-    font-size: 16px;
+    //font-size: 1.25em;
   }
 
   .create-category{
@@ -317,6 +310,10 @@ export default {
   .label-spec-category{
     font-weight: 600;
     color: var(--text-color-light-gray);
+
+    & + .category-article-count{
+      color: var(--text-color-light-gray);
+    }
   }
   .label-category{
     font-weight: 600;
@@ -324,10 +321,21 @@ export default {
   .label-article{
     color: var(--vscode-keyword);
   }
+  .category-article-count{
+    padding-left: 10px;
+    font-size: 16px;
+    color: var(--text-color-gray);
+  }
+  .category-edit-button{
+    margin: 0;
+    padding: 6px 3px 6px 12px;
+  }
   .article-date{
     position: absolute;
     right: 10px;
     color: var(--vscode-keyword);
   }
+
 }
+
 </style>

@@ -1,7 +1,7 @@
 <template>
   <li class="menu-item">
-    <router-link :to="link" v-if="link"><slot name="title"></slot>{{title}}</router-link>
-    <span v-else><slot name="title"></slot>{{title}}</span>
+    <router-link :to="link" v-if="link"><slot name="title">{{title}}</slot></router-link>
+    <span v-else><slot name="title">{{title}}</slot></span>
     <ul class="sub-menu"><slot></slot></ul>
   </li>
 </template>
@@ -24,8 +24,8 @@ export default {
   display: flex;
   flex-direction: column;
   position: absolute;
-  left: -10px;
-  width: calc(100% + 24px);
+  left: -18px;
+  width: calc(100% + 36px);
   li{
     line-height: 24px;
     text-align: center;
@@ -50,7 +50,7 @@ a, span{
 
 }
 .menu-item:hover > .sub-menu{
-  opacity: 1;
+  opacity: 0.9;
   transform: translateY(0);
 }
 </style>

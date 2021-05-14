@@ -2,24 +2,22 @@ import {getUserInfo, logout, updateUserInfo} from '@/api/user'
 
 export default {
   state: {
-    user: {
-      username: '',
-      nickname: '',
-      avatar: '',
-      site: '',
-      email: '',
-      level: undefined,
-      isLogin: false
-    }
+    username: '',
+    nickname: '',
+    avatar: '',
+    site: '',
+    email: '',
+    level: undefined,
+    isLogin: false
   },
   mutations: {
     setUser(state, user){
-      state.user = user;
-      state.user.isLogin = true;
+      user.isLogin = true;
+      Object.assign(state, user);
     },
     removeUser(state){
       localStorage.removeItem('token');
-      state.user = {
+      Object.assign(state, {
         username: '',
         nickname: '',
         avatar: '',
@@ -27,7 +25,7 @@ export default {
         email: '',
         level: undefined,
         isLogin: false
-      };
+      });
     }
   },
   actions: {

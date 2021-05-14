@@ -10,7 +10,9 @@
     </section>
 
     <section class="flex-section">
-      <comment-form :article-id="this.article.id"></comment-form>
+      <comment-form
+        @commentSuccess="refreshComment"
+        :article-id="this.article.id"></comment-form>
     </section>
 
     <section class="flex-section">
@@ -18,7 +20,9 @@
         <li
           v-for="comment in comments"
           :key="comment.id">
-          <comment-view :comment="comment"></comment-view>
+          <comment-view
+            @commentSuccess="refreshComment"
+            :comment="comment"></comment-view>
         </li>
       </ul>
     </section>
@@ -27,17 +31,15 @@
 </template>
 
 <script>
-import Glide from '../../components/glide/index';
+import Glide from '../../../components/glide/index';
 import ArticleContainer from "./ArticleContainer";
-import CommentForm from "../../components/comment/CommentForm";
+import CommentForm from "../../../components/comment/CommentForm";
 import {listArticleView} from "@/api/article";
 import {fromArticle} from "@/utils/glide";
 import {findByArticleId} from "@/api/comment";
 import CommentView from "@/components/comment/CommentView";
 import Toc from "@/components/toc/toc";
-import neplog from "@/config/neplog";
-
-let links, anchors;
+import neplogConfig from "@/config/neplog";
 
 export default {
   name: "Article",
@@ -79,67 +81,30 @@ export default {
         this.glides = fromArticle(data);
         document.title = data.title + ' - ' + this.$store.getters.blogConfig.blogName;
         this.$nextTick(() => {
-          let h = neplog.navBarHeight;
+          let h = neplogConfig.navBarHeight;
           this.$refs.toc.appendChild(Toc.generateToc('.article-body', {fixedHeading: h}));
         })
       });
+      this.refreshComment();
+    },
+    refreshComment(){
       findByArticleId(this.id).then(data => {
         this.comments = data;
       }).catch(() => {})
     },
-
-    appendToc(){
-      // let toc = document.querySelector('.table-of-contents');
-      // if (toc) {
-      //   this.$refs.toc.appendChild(toc);
-      //   links = toc.querySelectorAll('li');
-      //   anchors = this.$refs.articleSection
-      //     .querySelectorAll('.article-body h1, h2, h3, h4, h5, h6');
-      //
-      //   window.addEventListener('scroll', this.scrollToc);
-      //   window.addEventListener('scroll', this.displayDrawer)
-      //   this.smoothAnchorScroll();
-      // } else {
-      //   this.tocDone = false;
-      // }
-    },
-    scrollToc() {
-      if (!links) return;
-      let scrollTop = document.documentElement.scrollTop
-        || window.pageYOffset
-        || document.body.scrollTop;
-      let bodyHeight = document.body.clientHeight
-        && document.documentElement.clientHeight;
-      links.forEach(e => e.classList.remove('toc-active', 'toc-active-only'));
-      for (let i = 0; i < anchors.length; i++) {
-        if (anchors[i].offsetTop > scrollTop - 50 - bodyHeight * 0.4) { // glide height
-          links[i].classList.add('toc-active-only');
-          for (let parent = links[i];
-               parent && parent !== this.$refs.toc;
-               parent = parent.parentNode) {
-            if (parent.tagName === 'LI') {
-              parent.classList.add('toc-active');
-            }
-          }
-          break;
-        }
-      }
-    },
-    smoothAnchorScroll() {
-      if (!links) return;
-      let bodyHeight = document.body.clientHeight && document.documentElement.clientHeight;
-      links.forEach((e, i) => {
-        e.addEventListener('click', (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          window.scrollTo({
-            top: anchors[i].offsetTop + bodyHeight * .4, // glide height
-            behavior: "smooth"
-          });
-        })
-      })
-    }
   },
+  metaInfo: {
+    title: 'hello',
+    meta: [
+      {
+        name: 'keywords',
+        content: 'nihaoshi'
+      },{
+        name: 'description',
+        content: 'this is de'
+      }
+    ]
+  }
 }
 </script>
 

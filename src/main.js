@@ -42,6 +42,9 @@ Vue.use(VueScrollReveal, {
 import VueParticlesBg from "particles-bg-vue"
 Vue.use(VueParticlesBg)
 
+import VueMeta from 'vue-meta'
+Vue.use(VueMeta)
+
 Vue.config.productionTip = false
 
 store.dispatch('getBlogConfig').then(() => {
@@ -49,6 +52,9 @@ store.dispatch('getBlogConfig').then(() => {
     router,
     store,
     render: h => h(App),
+    mounted() {
+      document.dispatchEvent(new Event('render-event'))
+    }
   }).$mount('#app')
 }).catch(() => {
   Notification.error({title: '获取博客信息失败'})

@@ -4,12 +4,13 @@
 
     <responsive class="friend-list">
       <div class="description">
-        <p>欢迎来到Nep's friends</p>
+        <p>੭ ᐕ)੭*⁾ 欢迎来到Nep's friends</p>
         <p>想要成为朋友的话点击下面的"+"填写个人信息提交之后</p>
         <p>经过博主审核就会在下面显示哦~</p>
-        <p>PS: 头像地址只支持Https</p>
+        <p>暂时没有任何交换限制</p>
+        <p>PS：头像地址只支持Https</p>
       </div>
-      <h3 class="header sharp-header">友達</h3>
+      <h3 class="header sharp-header">Nep's friends</h3>
       <div class="friends">
         <ul>
           <li class="friend"
@@ -19,7 +20,7 @@
           </li>
         </ul>
       </div>
-      <h3 class="header sharp-header">成为好友吧</h3>
+      <h3 class="header sharp-header">friends++</h3>
 
       <div class="friends">
         <ul>
@@ -43,10 +44,10 @@
 
 <script>
 import Glide from "@/components/glide/index"
-import FriendCard from "../../components/friend/FriendCard";
-import Responsive from "../../components/layout/Responsive"
+import FriendCard from "../../../components/friend/FriendCard";
+import Responsive from "../../../components/layout/Responsive"
 import FriendCardEmpty from "@/components/friend/FriendCardEmpty";
-import {createFriend, listFriendView} from "@/api/friend";
+import {createFriend, queryBy} from "@/api/friend";
 
 export default {
   name: "index",
@@ -76,20 +77,20 @@ export default {
         this.$refs.friend.editing = true;
       })
     },
-    createNewFriend(friend){
+    createNewFriend(friend, callback){
       this.disableFriendCommit = true;
       createFriend(friend).then(() => {
         this.$message.success("已提交好友申请")
+        callback(true)
         this.enableEdit = false
-      }).catch(error => {
-        this.$message.error(error.message)
+      }).catch(() => {
         this.disableFriendCommit = false;
       })
     }
   },
   mounted() {
-    listFriendView().then(data => {
-      this.friends = data;
+    queryBy().then(data => {
+      this.friends = data.friends;
     }).catch(() => {})
   }
 }

@@ -14,7 +14,6 @@ export default {
         return;
       }
       const prop = {[key]: this.config[key]};
-      console.log(prop)
       return this.updateConfigByObject(prop, configName).then(() => {
         if(Object.hasOwnProperty.call(blogConfig, key)){
           this.$store.commit('setBlogConfig', prop);

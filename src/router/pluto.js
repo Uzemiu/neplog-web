@@ -1,6 +1,7 @@
 const Pluto = () => import("../views/pluto/index")
+const DashBoard = () => import("../views/pluto/Dashboard")
 const PlutoArticle = () => import("../views/pluto/article/index")
-const PlutoCategory = () => import("../views/pluto/category/index")
+const PlutoCategory = () => import("../views/pluto/categorytag/index")
 const PlutoFriend = () => import("../views/pluto/friend/index")
 const PlutoFile = () => import("../views/pluto/file/index")
 const Setting = () => import("../views/pluto/setting/index")
@@ -18,6 +19,12 @@ const routes = [
         redirect: 'article'
       },
       {
+        path: 'dashboard',
+        name: 'dashboard',
+        meta: {title: '仪表盘'},
+        component: DashBoard
+      },
+      {
         path: 'setting',
         name: 'setting',
         meta: {title: '设置'},
@@ -30,9 +37,9 @@ const routes = [
         component: PlutoArticle
       },
       {
-        path: 'category',
-        name: 'pluto-category',
-        meta: {title: '分类管理'},
+        path: 'category-tag',
+        name: 'pluto-category-tag',
+        meta: {title: '分类/标签'},
         component: PlutoCategory
       },
       {
