@@ -1,13 +1,13 @@
 <template>
   <nav-item>
     <nav-menu>
-      <menu-item :link="'/pluto/dashboard'">仪表盘</menu-item>
-      <menu-item :link="'/pluto/article'">博客管理</menu-item>
-      <menu-item :link="'/pluto/category-tag'">分类/标签</menu-item>
-      <menu-item :link="'/pluto/friend'">友链管理</menu-item>
-      <menu-item :link="'/pluto/file'">文件管理</menu-item>
-      <menu-item :link="'/pluto/setting'">设置</menu-item>
-      <slot></slot>
+      <menu-item link="/"><i class="fa fa-home"></i>首页</menu-item>
+      <menu-item link="/pluto/dashboard"><i class="fa fa-tachometer"></i>仪表盘</menu-item>
+      <menu-item link="/pluto/article"><i class="fa fa-file-text-o"></i>文章</menu-item>
+      <menu-item link="/pluto/category-tag"><i class="fa fa-folder-open-o"></i>分类/标签<i class="fa fa-tags"></i></menu-item>
+      <menu-item link="/pluto/friend"><i class="fa fa-link"></i>友链</menu-item>
+      <menu-item link="/pluto/file"><i class="fa fa-file-o"></i>文件</menu-item>
+      <menu-item link="/pluto/setting"><i class="fa fa-gear"></i>设置</menu-item>
     </nav-menu>
   </nav-item>
 </template>

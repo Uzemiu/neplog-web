@@ -23,6 +23,8 @@
 import NavBar from "@/components/top-nav/index";
 import Foot from "@/components/foot/index";
 import FootMenu from "@/components/foot/FootMenu"
+import "@fortawesome/fontawesome-free/css/all.css"
+import "@fortawesome/fontawesome-free/css/v4-shims.min.css";
 
 export default {
   name: 'App',

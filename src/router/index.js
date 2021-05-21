@@ -23,17 +23,17 @@ const router = new VueRouter({
   routes,
   mode: 'history',
   linkActiveClass: 'link-active',
-  //切换页面回顶部
-  // scrollBehavior() {
-  //   return {x: 0, y: 0}
-  // }
 })
 
 NProgress.configure({showSpinner: false})
 
 router.beforeEach((to, from, next) => {
-  let title = to.meta.title;
-  document.title = (title ? (title + ' - ') : '') + store.getters.blogConfig.blogName;
+
+  if(to.meta.metaInfo){
+    store.commit('setMeta', to.meta.metaInfo)
+  } else if (to.meta.title){
+    store.commit('setMeta', {title: to.meta.title})
+  }
 
   NProgress.start();
 

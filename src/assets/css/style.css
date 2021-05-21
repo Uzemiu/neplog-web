@@ -46,13 +46,13 @@ button:focus,input:focus,textarea:focus{
 
     --vscode-class: #4ec9b0;
     --vscode-yellow: #DCD2A1;
-    --vscode-light-green: #B8D7A3;
+    --vscode-light-green: #b8d7a3;
     --vscode-orange: #FFC66D;
     --vscode-sky-blue: #67cdfe;
     --vscode-annotation: #CC9393;
     --vscode-string: #D69D85;
     --vscode-purple: #9393CC;
-    --vscode-comment: #57A64A;
+    --vscode-comment: #57a64a;
     --vscode-keyword: #569cd6;
 
 }

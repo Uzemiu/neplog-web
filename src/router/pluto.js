@@ -1,5 +1,5 @@
 const Pluto = () => import("../views/pluto/index")
-const DashBoard = () => import("../views/pluto/Dashboard")
+const DashBoard = () => import("../views/pluto/dashboard/index")
 const PlutoArticle = () => import("../views/pluto/article/index")
 const PlutoCategory = () => import("../views/pluto/categorytag/index")
 const PlutoFriend = () => import("../views/pluto/friend/index")

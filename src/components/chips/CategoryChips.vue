@@ -1,36 +1,31 @@
 <template>
-  <div class="tag-chips">
+  <div class="category-chips">
     <chips
       chip-key="id"
-      label="tag"
-      :show-delete-icon="editable"
+      label="name"
+      :show-delete-icon="false"
       v-bind="$attrs"
       v-on="$listeners">
       <template slot-scope="{item}">
-        <span>{{item.tag}}</span>
-        <span class="tag-article-count">{{item.articleCount}}</span>
+        <span>{{item.name}}</span>
+        <span class="category-article-count">{{item.articleCount}}</span>
       </template>
     </chips>
+
   </div>
 </template>
 
 <script>
 import Chips from "@/components/chips/index";
 export default {
-  name: "TagChips",
+name: "CategoryChips",
   components: {Chips},
-  props: {
-    editable: {
-      type: Boolean,
-      default: false
-    },
-  }
 }
 </script>
 
 <style lang="scss" scoped>
-.tag-chips{
-  .tag-article-count{
+.category-chips{
+  .category-article-count{
     margin-left: 10px;
     color: var(--text-color-gray);
   }

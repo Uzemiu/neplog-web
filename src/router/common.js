@@ -4,6 +4,13 @@ const routes = [
   {
     path: '/404',
     name: 'page404',
+    meta: {
+      metaInfo: {
+        title: 'NotFound',
+        keywords: '',
+        description: ''
+      }
+    },
     component: page404
   },
   {

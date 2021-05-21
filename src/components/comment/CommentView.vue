@@ -2,7 +2,7 @@
   <div class="comment-view">
     <div class="user">
       <div class="user-avatar" slot="user-avatar">
-        <img class="avatar" src="https://pic2.zhimg.com/da8e974dc_is.jpg" alt="">
+        <img class="blog-avatar" src="https://pic2.zhimg.com/da8e974dc_is.jpg" alt="">
       </div>
       <div class="user-info">
         <span class="nickname">{{comment.nickname}}</span>
@@ -130,7 +130,7 @@ export default {
       }
     }
 
-    .avatar {
+    .blog-avatar {
       width: 60px;
       border-radius: 50%;
     }
@@ -237,7 +237,7 @@ export default {
         width: 50px;
         margin-right: 0;
       }
-      .avatar {
+      .blog-avatar {
         margin-bottom: 7px;
         width: 40px;
       }

@@ -1,15 +1,15 @@
 <template>
   <nav-item>
     <nav-menu>
-      <menu-item link="/"><i class="fa fa-fort-awesome"></i>首页</menu-item>
+      <menu-item link="/"><i class="fa fa-home"></i>首页</menu-item>
       <sub-menu title="文章">
-        <template slot="title"><i class="fa fa-file-text-o"></i>文章</template>
+        <template slot="title"><i class="fa fa-file-text"></i>文章</template>
         <menu-item link="/archive"><i class="fa fa-archive"></i>归档</menu-item>
-        <menu-item link="/category"><i class="fa fa-folder-open-o"></i>分类</menu-item>
+        <menu-item link="/category"><i class="fa fa-folder-open"></i>分类</menu-item>
         <menu-item link="/tag"><i class="fa fa-tags"></i>标签</menu-item>
       </sub-menu>
       <menu-item link="/friend"><i class="fa fa-link"></i>朋友们</menu-item>
-      <menu-item link="/about"><i class="fa fa-hand-o-right"></i>关于</menu-item>
+      <menu-item link="/about"><i class="fa fa-code"></i>关于</menu-item>
       <sub-menu title="有什么呢">
         <template slot="title"><i class="fa fa-send"></i>有什么呢</template>
         <menu-item link="/statics"><i class="fa fa-bar-chart-o"></i>统计信息</menu-item>
@@ -18,7 +18,7 @@
         </template>
         <template v-else>
           <menu-item link="/user/login"><i class="fa fa-user"></i>登录</menu-item>
-          <menu-item link="/user/register"><i class="fa fa-user"></i>注册</menu-item>
+          <menu-item link="/user/register"><i class="fa fa-registered"></i>注册</menu-item>
         </template>
         <menu-item
           link="/pluto"

@@ -10,9 +10,9 @@
       <div class="detail">
         <p class="statics">
           <span>{{article.createTime || '2077-07-07'}}</span>
-          <span class="ignorable"><i class="fa fa-user-o"></i> {{article.views || 0}}</span>
-          <span class="ignorable"><i class="fa fa-comment-o"></i> {{article.comments || 0}}</span>
-          <span class="ignorable"><i class="fa fa-heart-o"></i> {{article.likes || 0}}</span>
+          <span class="ignorable"><i class="fa fa-fire"></i> {{article.views || 0}}</span>
+<!--          <span class="ignorable"><i class="fa fa-comment-o"></i> {{article.comments || 0}}</span>-->
+<!--          <span class="ignorable"><i class="fa fa-heart-o"></i> {{article.likes || 0}}</span>-->
         </p>
       </div>
       <div class="summary">
@@ -27,9 +27,12 @@
 
 <script>
 export default {
-  name: "Card",
+  name: "ArticleCard",
   props: {
-    mode: String,
+    mode: {
+      type: String,
+      default: 'show'
+    },
     article: {
       id: Number,
       cover: String,
@@ -156,19 +159,19 @@ export default {
 }
 
 @media (max-width: 768px){
-  .article-card{
+  .article-card[mode=show]{
     grid-template-areas: "cover" "content";
     grid-template-columns: 100%;
     grid-template-rows: 283px 233px;
   }
 }
 
-@media (max-width: 562px){
-  .article-card{
+@media (max-width: 576px){
+  .article-card[mode=show]{
     grid-template-rows: 28vh 233px;
 
     .article-cover img{
-        height: 28vh;
+      height: 28vh;
     }
   }
 }
@@ -211,37 +214,20 @@ export default {
   }
 }
 
-@media (max-width: 768px) {
-  .article-card[mode=list], .article-card[mode=edit]{
-    grid-template-areas: "cover content";
-    grid-template-columns: 135px 1fr;
-    grid-template-rows: 135px;
-
-    .article-info{
-      .summary{
-        line-height: 20px;
-      }
+@media (max-width: 576px) {
+  .article-card[mode=list]{
+    grid-template-areas: "cover" "content";
+    grid-template-columns: 100%;
+    grid-template-rows: 283px 233px;
+    .article-cover img{
+      height: 100%;
+    }
+    .article-info .summary{
+      line-height: 20px;
     }
   }
 }
 
-@media (max-width: 576px){
-  .article-card[mode=list], .article-card[mode=edit]{
-    grid-template-columns: 100px 1fr;
-    grid-template-rows: 100px;
-    .article-cover{
-      img{
-        height: 100px;
-      }
-    }
-    .article-info{
-      padding: 7px;
-    }
-  }
-  .ignorable{
-    display: none;
-  }
-}
 </style>
 
 <style lang="scss" scoped>
@@ -249,7 +235,7 @@ export default {
   grid-template-columns: 0 1fr;
   grid-template-rows: 65px;
   .article-info{
-    padding: 7px 100px 7px 10px;
+    padding: 7px 10px 7px 10px;
   }
   .article-cover img{
     display: none;
@@ -259,9 +245,26 @@ export default {
   }
 }
 
-@media (max-width: 576px) {
-  .article-card[mode=edit] {
+@media (max-width: 768px) {
+  .article-card[mode=edit]{
+    grid-template-areas: "cover content";
+    grid-template-columns: 0 1fr;
     grid-template-rows: 60px;
+
+    .article-info .summary{
+      line-height: 20px;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .article-card[mode=edit]{
+    .article-info{
+      padding: 7px;
+    }
+  }
+  .ignorable{
+    display: none;
   }
 }
 </style>

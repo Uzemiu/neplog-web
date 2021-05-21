@@ -24,7 +24,7 @@
     </div>
 
     <div class="side-nav" ref="openHeader">
-      <div class="avatar">
+      <div class="blog-avatar">
         <img :src="$store.getters.blogConfig.blogAvatar" alt="">
       </div>
       <search-bar class="side-search-bar"></search-bar>
@@ -90,7 +90,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../../node_modules/font-awesome/css/font-awesome.min.css";
+
 .header{
   width: 100%;
   height: 53px;
@@ -112,7 +112,7 @@ export default {
   }
   .top-header{
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1fr 3fr;
     align-items: center;
     position: relative;
     height: 100%;
@@ -295,7 +295,7 @@ export default {
     flex-direction: column;
     align-items: center;
 
-    .avatar{
+    .blog-avatar{
       display: flex;
       justify-content: center;
       img{

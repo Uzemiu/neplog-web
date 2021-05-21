@@ -9,9 +9,9 @@
         <h2 class="sharp-header">标签管理</h2>
         <tag-chips
           :editable="true"
-          :tags="tags"
-          :chip-click="editTag"
-          :delete-click="deleteTag"></tag-chips>
+          :data="tags"
+          @chipClick="editTag"
+          @deleteClick="deleteTag"></tag-chips>
       </section>
     </div>
   </div>

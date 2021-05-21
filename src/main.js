@@ -52,9 +52,20 @@ store.dispatch('getBlogConfig').then(() => {
     router,
     store,
     render: h => h(App),
-    mounted() {
-      document.dispatchEvent(new Event('render-event'))
-    }
+    metaInfo(){
+      return {
+        title: store.getters.title,
+        meta: [
+          {
+            name: 'keywords',
+            content: store.getters.meta.keywords
+          },{
+            name: 'description',
+            content: store.getters.meta.description
+          }
+        ]
+      }
+    },
   }).$mount('#app')
 }).catch(() => {
   Notification.error({title: '获取博客信息失败'})

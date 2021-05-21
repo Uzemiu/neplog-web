@@ -128,9 +128,10 @@
 
     <mavon-editor
       ref=md
-      v-model="article.content"
       id="editor"
       style="height: 720px;z-index: unset"
+      v-model="article.content"
+      :tabSize="4"
       @save="handleSave"
       @imgAdd="uploadImg"></mavon-editor>
 
@@ -150,11 +151,10 @@ import 'mavon-editor/dist/css/index.css';
 import 'highlight.js/styles/vs2015.css'
 import '@/assets/css/markdown.scss'
 import rules from '@/utils/rules/article';
-// eslint-disable-next-line no-unused-vars
-import {updateDeleted, updateArticle, listArticleDetail} from "@/api/article";
+import {updateArticle, listArticleDetail} from "@/api/article";
 import {uploadCover, uploadImg} from "@/api/file";
 import {getAllTags} from "@/api/tag";
-import {queryBy} from "@/api/category";
+import {queryCategoryBy} from "@/api/category";
 
 export default {
   name: "ArticleEditor",
@@ -199,10 +199,7 @@ export default {
         status: 0,
         commentPermission: 0,
         viewPermission: 0,
-        category: {
-          id: null,
-          name: ''
-        },
+        category: null,
         tags: []
       },
     }
@@ -214,7 +211,7 @@ export default {
     uploadImg(pos, file){
       uploadImg(file).then(url => {
         this.$refs.md.$img2Url(pos,url);
-      })
+      }).catch(() => {})
     },
     retrieveTags() {
       getAllTags().then(data => {
@@ -222,7 +219,7 @@ export default {
       })
     },
     retrieveCategories() {
-      queryBy().then(data => {
+      queryCategoryBy().then(data => {
         this.availableCategories = data;
       }).catch(() => {})
     },
@@ -245,7 +242,6 @@ export default {
           this.article.cover = url;
           close();
         }).catch(() => {})
-        return true;
       }, {
         autoCropWidth: 1900,
         autoCropHeight: 1000,
@@ -256,11 +252,15 @@ export default {
       if(Number.isInteger(status)){
         this.article.status = status;
       }
+      let reloadCategory = false;
+      let reloadTag = false;
       if(typeof(this.article.category) === 'string'){
-        this.article.category = {id: null, name:this.article.category}
+        reloadCategory = true;
+        this.article.category = {id: null, name:this.article.category};
       }
       this.article.tags.forEach((tag,i) => {
         if(typeof(tag) === 'string'){
+          reloadTag = true;
           this.article.tags[i] = {id:null,tag:tag};
         }
       })
@@ -282,6 +282,19 @@ export default {
               paths[paths.length - 1] = data;
               this.$router.replace({path: paths.join('/')});
               location.reload();
+            } else if(reloadTag || reloadCategory) {
+              // 新建标签/分类时获取新建标签/分类的id
+              listArticleDetail(this.id).then(data => {
+                this.article.category = data.category;
+
+                let newTags = data.tags;
+                this.article.tags.forEach(tag => {
+                  let idx = newTags.findIndex(t => t.tag === tag.tag);
+                  if(idx >= 0){
+                    tag.id = newTags[idx].id;
+                  }
+                })
+              }).catch(() => {})
             }
           }).catch(() => {})
         } else {

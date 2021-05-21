@@ -56,9 +56,9 @@
 </template>
 
 <script>
-import {queryBy as categoryQueryBy, updateCategory, createCategory, deleteCategory} from "@/api/category"
+import {queryCategoryBy as categoryQueryBy, updateCategory, createCategory, deleteCategory} from "@/api/category"
 import {
-  queryBy as articleQueryBy,
+  queryArticleBy as articleQueryBy,
   updateCategory as updateArticleCategory
 } from "@/api/article"
 
@@ -199,7 +199,7 @@ export default {
         // load uncategorized articles
         articleQueryBy({
           categoryId: [0],
-          deleted:false
+          deleted:false,
         }).then(articles => {
           resolve(articles.content);
         });
@@ -219,7 +219,8 @@ export default {
         let res = [];
         categoryQueryBy({
             parentId: pid,
-            name: this.query.name
+            name: this.query.name,
+            showCount: true
           }).then(cates => {
             cates.forEach(c => {
               c.tid = 'c' + c.id;

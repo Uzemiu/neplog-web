@@ -15,6 +15,7 @@ export default {
     changeSection(tab){
       if(this.query && tab.$attrs.query){
         Object.assign(this.query, tab.$attrs.query);
+        this.query.page = 0;
         this.tryRefresh();
       }
     },

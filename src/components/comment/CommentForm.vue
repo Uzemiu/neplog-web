@@ -1,7 +1,7 @@
 <template>
   <div class="comment-form">
     <div v-if="showAvatar" class="avatar-area">
-      <img class="avatar" :src="avatar" alt="">
+      <img class="blog-avatar" :src="avatar" alt="">
     </div>
     <el-form class="submit-area">
       <el-form-item>
@@ -120,7 +120,7 @@ export default {
     flex-direction: column;
     align-items: center;
 
-    .avatar {
+    .blog-avatar {
       margin-bottom: 10px;
       width: 75px;
       border-radius: 50%;

@@ -1,43 +1,58 @@
 <template>
   <div class="article-tag">
     <glide :glides="glides"></glide>
-    <responsive class="tag-list">
+    <chip-article ref="chipArticle">
       <tag-chips
-        :tags="tags"
-        :editable="false">
+        slot="chips"
+        :data="tags"
+        :editable="false"
+        @chipClick="handleChipClick">
       </tag-chips>
-    </responsive>
+    </chip-article>
   </div>
 </template>
 
 <script>
 import TagChips from "@/components/chips/TagChips";
 import Glide from "@/components/glide/index"
-import Responsive from "@/components/layout/Responsive";
 import {getAllTags} from "@/api/tag";
+import GlideConfig from "@/config/glide"
+import ChipArticle from "@/components/chips/ChipArticle";
+
 export default {
   name: "ArticleTag",
   components: {
     TagChips,
+    ChipArticle,
     Glide,
-    Responsive
+  },
+  props: {
+    id: [String, Number]
   },
   data(){
     return{
       tags: [],
       glides: [{
-        img: require('@/assets/imgs/glide/320886.jpg'),
+        img: GlideConfig.tagPageImage,
         title: 'TAGS'
       }]
     }
   },
   methods: {
-
+    handleChipClick({id}){
+      this.$refs.chipArticle.query.tagId = [id];
+      this.$refs.chipArticle.listArticles();
+    }
   },
   mounted() {
     getAllTags().then(data => {
       this.tags = data;
     }).catch(() => {})
+
+    let id = Number.parseInt(this.id);
+    if(id){
+      this.handleChipClick({id: id});
+    }
   }
 }
 </script>
@@ -47,10 +62,5 @@ export default {
   display: flex;
   align-items: center;
   flex-direction: column;
-
-  .tag-list{
-    padding: 16px 0;
-    box-shadow: 0 15px 35px rgba(50,50,93,.1), 0 5px 15px rgba(0,0,0,0.07)
-  }
 }
 </style>

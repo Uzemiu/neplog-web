@@ -2,30 +2,32 @@
   <div class="content-wrapper">
     <glide :glides="glides" class="article-glide"></glide>
 
-    <section class="flex-section article-section" ref="articleSection">
-      <article-container :article="article"></article-container>
-      <div class="toc" ref="toc" v-if="tocDone">
+    <template v-if="articleLoaded">
+      <section class="flex-section article-section" ref="articleSection">
+        <article-container :article="article"></article-container>
+        <div class="toc" ref="toc" v-if="tocDone">
 
-      </div>
-    </section>
+        </div>
+      </section>
 
-    <section class="flex-section">
-      <comment-form
-        @commentSuccess="refreshComment"
-        :article-id="this.article.id"></comment-form>
-    </section>
+      <section class="flex-section">
+        <comment-form
+          @commentSuccess="refreshComment"
+          :article-id="this.article.id"></comment-form>
+      </section>
 
-    <section class="flex-section">
-      <ul>
-        <li
-          v-for="comment in comments"
-          :key="comment.id">
-          <comment-view
-            @commentSuccess="refreshComment"
-            :comment="comment"></comment-view>
-        </li>
-      </ul>
-    </section>
+      <section class="flex-section">
+        <ul>
+          <li
+            v-for="comment in comments"
+            :key="comment.id">
+            <comment-view
+              @commentSuccess="refreshComment"
+              :comment="comment"></comment-view>
+          </li>
+        </ul>
+      </section>
+    </template>
 
   </div>
 </template>
@@ -39,7 +41,7 @@ import {fromArticle} from "@/utils/glide";
 import {findByArticleId} from "@/api/comment";
 import CommentView from "@/components/comment/CommentView";
 import Toc from "@/components/toc/toc";
-import neplogConfig from "@/config/neplog";
+import NeplogConfig from "@/config/neplog";
 
 export default {
   name: "Article",
@@ -67,6 +69,7 @@ export default {
       tocDone: true,
       glides: [],
       comments: [],
+      articleLoaded: false
     }
   },
   mounted() {
@@ -79,11 +82,26 @@ export default {
       listArticleView(this.id).then(data => {
         this.article = data;
         this.glides = fromArticle(data);
-        document.title = data.title + ' - ' + this.$store.getters.blogConfig.blogName;
+        this.articleLoaded = true;
+        this.$store.commit('setMeta', {
+          title: data.title,
+          keywords: this.article.tags.map(tag => tag.tag).join(' '),
+          description: this.article.summary
+        })
+
         this.$nextTick(() => {
-          let h = neplogConfig.navBarHeight;
+          let h = NeplogConfig.navBarHeight;
           this.$refs.toc.appendChild(Toc.generateToc('.article-body', {fixedHeading: h}));
         })
+      }).catch(error => {
+        if(error.status === 404){
+          this.glides = [{
+            title:'Not Found',
+            img: NeplogConfig.imgNotFound
+          }]
+        } else if(error.status === 403){
+          // TODO forbidden
+        }
       });
       this.refreshComment();
     },
@@ -92,18 +110,6 @@ export default {
         this.comments = data;
       }).catch(() => {})
     },
-  },
-  metaInfo: {
-    title: 'hello',
-    meta: [
-      {
-        name: 'keywords',
-        content: 'nihaoshi'
-      },{
-        name: 'description',
-        content: 'this is de'
-      }
-    ]
   }
 }
 </script>

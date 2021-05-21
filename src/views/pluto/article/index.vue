@@ -2,14 +2,30 @@
   <div>
     <h2 class="sharp-header">文章管理</h2>
     <el-tabs v-model="activeSection" @tab-click="changeSection">
-      <el-tab-pane :label="`所有文章(${allArticleCount})`" name="all" :query="{status: null,deleted: false}"></el-tab-pane>
-      <el-tab-pane :label="`已发布(${count.published})`" name="published" :query="{status: 4,deleted: false}"></el-tab-pane>
-      <el-tab-pane :label="`草稿(${count.draft})`" name="draft" :query="{status: 0,deleted: false}"></el-tab-pane>
-      <el-tab-pane :label="`回收站(${count.deleted})`" name="deleted" :query="{status:null, deleted: true}"></el-tab-pane>
+      <el-tab-pane
+        :label="`所有文章(${allArticleCount})`"
+        name="all"
+        :query="{status: null,deleted: false}"></el-tab-pane>
+      <el-tab-pane
+        :label="`已发布(${count.published})`"
+        name="published"
+        :query="{status: 4,deleted: false}"></el-tab-pane>
+      <el-tab-pane
+        :label="`草稿(${count.draft})`"
+        name="draft"
+        :query="{status: 0,deleted: false}"></el-tab-pane>
+      <el-tab-pane
+        :label="`回收站(${count.deleted})`"
+        name="deleted"
+        :query="{status:null, deleted: true}"></el-tab-pane>
     </el-tabs>
     <query-group @search="refresh">
         <el-form-item size="small">
-          <el-input style="width: 230px" type="text" v-model="query.content" placeholder="输入文章标题或内容搜索"></el-input>
+          <el-input
+            style="width: 230px"
+            type="text"
+            v-model="query.content"
+            placeholder="输入文章标题或内容搜索"></el-input>
         </el-form-item>
         <el-form-item size="small">
           <el-select
@@ -43,43 +59,39 @@
             v-for="article in articles"
             :key="article.id" >
           <article-card :article="article" mode="edit"></article-card>
-          <el-dropdown class="operation-menu">
-            <span class="el-dropdown-link">
-              <i class="el-icon-arrow-down el-icon--right"></i>
+
+          <div class="operation-menu">
+
+            <span>
+              <router-link v-if="!article.deleted" :to="`article/${article.id}`">
+                <i class="fa fa-pencil"></i>
+                编辑
+              </router-link>
             </span>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item v-if="!article.deleted">
-                <router-link :to="`article/${article.id}`">
-                  <span>
-                    <i class="fa fa-pencil"> Edit</i>
-                  </span>
-                </router-link>
-              </el-dropdown-item>
-              <el-dropdown-item>
-                <span @click="updateTrashBin(article.id, !article.deleted)">
-                  <i class="fa"
-                     :class="article.deleted ? 'fa-undo' : 'fa-trash'"> {{article.deleted ? 'Restore' : 'Delete'}}</i>
-                </span>
-              </el-dropdown-item>
-              <el-dropdown-item>
-                <span @click="deleteById(article.id)" v-if="article.deleted">
-                  <i class="fa fa-trash"> 彻底删除</i>
-                </span>
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
+
+            <span @click="updateTrashBin(article, !article.deleted)">
+              <i class="fa" :class="article.deleted ? 'fa-undo' : 'fa-trash'"></i>
+              {{article.deleted ? '恢复' : '删除'}}
+            </span>
+
+            <span @click="deleteById(article)" v-if="article.deleted" class="delete-operation">
+              <i class="fa fa-trash"></i>
+              彻底删除
+            </span>
+          </div>
+
         </li>
       </ul>
     </section>
     <el-pagination
       style="display: flex;justify-content: center"
-      hide-on-single-page
-      @size-change="handleSizeChange"
+      :hide-on-single-page="false"
       @current-change="handleCurrentChange"
       :pager-count="5"
       :page-size="query.size"
+      :current-page="query.page+1"
       layout="prev, pager, next"
-      :total="query.deleted ? count.deleted : allArticleCount">
+      :total="total">
     </el-pagination>
   </div>
 </template>
@@ -87,8 +99,8 @@
 <script>
 import ArticleCard from "@/components/article/ArticleCard";
 import CrudOperation from "@/components/form/CrudOperation";
-import {deleteById, privateQueryBy, updateDeleted} from "@/api/article";
-import {queryBy} from "@/api/category";
+import {countArticleByLabel, deleteById, queryArticleBy, updateDeleted} from "@/api/article";
+import {queryCategoryBy } from "@/api/category";
 import QueryGroup from "@/components/form/QueryGroup";
 import query from "@/mixins/query";
 
@@ -112,7 +124,7 @@ export default {
       }],
       query: {
         deleted: false,
-        size: 10,
+        size: 2,
         page: 0,
       },
       articles: [],
@@ -126,33 +138,57 @@ export default {
   },
   mounted() {
     this.refresh();
-    queryBy().then(data => {
+    countArticleByLabel().then(count => {
+      this.count = count;
+    });
+    queryCategoryBy().then(data => {
       this.availableCategories = data;
-    })
+    }).catch(() => {})
   },
   methods: {
-    updateTrashBin(id,deleted){
-      updateDeleted({id: id, deleted: deleted}).then(res => {
+    updateTrashBin(article,deleted){
+      let requestObj = {id:article.id,deleted:deleted};
+      let promise = deleted
+        ? this.$confirm(`确定要将${article.title}放入回收站吗`,{
+          title: '删除文章',
+          customClass: 'responsive'
+        }).then(() => {
+          return updateDeleted(requestObj);
+        })
+        : updateDeleted(requestObj);
+      promise.then(res => {
         if(res){
+          let f = deleted ? -1 : 1;
+          if(article.status === 0){
+            this.count.draft += f;
+          } else {
+            this.count.published += f;
+          }
+          this.count.deleted -= f;
+          this.articles.splice(this.articles.findIndex(a=>a.id===article.id),1);
           this.$message.success(deleted ? "文章已放入回收站" : '文章已恢复')
         }
-        this.refresh();
-      })
+      }).catch(() => {})
     },
     refresh(){
-      privateQueryBy(this.query).then(data => {
-        this.articles = data.articles.content;
-        this.total = data.articles.total
-        this.count = data.count;
-      });
+      queryArticleBy(this.query).then(data => {
+        this.articles = data.content;
+        this.total = data.total
+      }).catch(() => {});
     },
     createNewArticle(){
       this.$router.push('/pluto/article/new')
     },
-    deleteById(id){
-      deleteById(id).then(() => {
-        this.refresh();
-      })
+    deleteById(article){
+      this.$confirm(`确定要删除${article.title}吗`,{
+        title: '彻底删除文章',
+        customClass: 'responsive'
+      }).then(() => {
+        return deleteById(article.id);
+      }).then(() => {
+        this.articles.splice(this.articles.findIndex(a => a.id === article.id), 1);
+        this.$message("删除文章成功")
+      }).catch(() => {});
     }
   },
   computed: {
@@ -174,6 +210,23 @@ export default {
   .operation-menu{
     position: absolute;
     right: 20px;
+    font-size: 14px;
+
+    span{
+      padding-left: 10px;
+      cursor: pointer;
+      color: #666;
+      transition: .3s;
+    }
+    span a{
+      transition: .3s;
+    }
+    span:hover, span:hover a{
+      color: var(--vscode-keyword);
+    }
+    .delete-operation{
+      color: #cd8e8e;
+    }
   }
 }
 

@@ -14,9 +14,9 @@
         <input v-model="friend.link" type="text">
       </label>
       <div slot="reference">
-        <img v-if="editing" v-lazy="friend.avatar" class="avatar" :alt="friend.name">
+        <img v-if="editing" v-lazy="friend.avatar" class="blog-avatar" :alt="friend.name">
         <a v-else :href="friend.link" target="_blank">
-          <img v-lazy="friend.avatar" class="avatar" :alt="friend.name">
+          <img v-lazy="friend.avatar" class="blog-avatar" :alt="friend.name">
         </a>
       </div>
     </el-popover>
@@ -129,7 +129,7 @@
       }
     }
 
-    .avatar{
+    .blog-avatar{
       float: left;
       width: 80px;
       height: 80px;

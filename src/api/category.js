@@ -1,6 +1,6 @@
 import axios from "@/plugins/axios"
 
-export function queryBy(query){
+export function queryCategoryBy(query){
   return axios({
     url: 'category',
     method: 'get',

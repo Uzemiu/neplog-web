@@ -1,18 +1,17 @@
 import axios from "@/plugins/axios"
 
-export function queryBy(query){
+export function queryArticleBy(query){
   return axios({
-    url: 'article/list',
+    url: 'article/query',
     method: 'get',
     params: query
   })
 }
 
-export function privateQueryBy(query){
+export function countArticleByLabel(){
   return axios({
-    url: 'article/query',
-    method: 'get',
-    params: query
+    url: 'article/count',
+    method: 'get'
   })
 }
 
@@ -76,9 +75,9 @@ export function deleteById(id){
 }
 
 export default {
-  findArticle: queryBy,
-  findArticleDetail: listArticleDetail,
-  findArticleView: listArticleView,
+  queryArticleBy,
+  listArticleDetail,
+  listArticleView,
   createArticle,
   updateArticle,
   updateDeleted
