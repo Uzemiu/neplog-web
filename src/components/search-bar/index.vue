@@ -7,7 +7,10 @@
 
 <script>
 export default {
-  name: "SearchBar"
+  name: "SearchBar",
+  methods: {
+
+  }
 }
 </script>
 
@@ -46,8 +49,8 @@ export default {
     }
   }
   &:after{
-    background-color: var(--secondary-green);
-    height: 2px;
+    background-color: var(--vscode-orange);
+    height: 1px;
     width: 100%;
     position: absolute;
     bottom: 0;

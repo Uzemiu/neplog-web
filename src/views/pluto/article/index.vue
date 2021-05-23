@@ -124,7 +124,7 @@ export default {
       }],
       query: {
         deleted: false,
-        size: 2,
+        size: 10,
         page: 0,
       },
       articles: [],

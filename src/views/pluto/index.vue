@@ -1,11 +1,5 @@
 <template>
   <div class="pluto">
-    <section class="pluto-content breadcrumb">
-      <el-breadcrumb separator=">">
-        <el-breadcrumb-item :to="'/pluto'">首页</el-breadcrumb-item>
-        <el-breadcrumb-item :to="'/pluto'">首页</el-breadcrumb-item>
-      </el-breadcrumb>
-    </section>
     <section class="pluto-content">
       <transition :name="'slide-right'">
         <router-view></router-view>
@@ -35,6 +29,7 @@ export default {
   align-items: center;
 }
 .pluto-content{
+  margin-top: 24px;
   width: 80%;
   position: relative;
 }

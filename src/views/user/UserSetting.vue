@@ -31,6 +31,7 @@ export default {
 
 <style lang="scss" scoped>
 .user-setting{
+  margin-top: 24px;
   width: 80%;
   position: relative;
 }

@@ -20,12 +20,15 @@ export default {
 .sub-menu{
   transition: .4s;
   transform: translateY(10px);
+  padding: 10px 0;
   opacity: 0;
   display: flex;
+  visibility: hidden;
   flex-direction: column;
   position: absolute;
   left: -18px;
   width: calc(100% + 36px);
+
   li{
     line-height: 24px;
     text-align: center;
@@ -50,6 +53,7 @@ a, span{
 
 }
 .menu-item:hover > .sub-menu{
+  visibility: visible;
   opacity: 0.9;
   transform: translateY(0);
 }

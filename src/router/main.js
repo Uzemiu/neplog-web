@@ -5,6 +5,7 @@ const ArticleTag = () => import("../views/main/tag/index");
 const ArticleCategory = () => import("../views/main/category/index");
 const Friend = () => import("../views/main/friend/index");
 const About = () => import("../views/main/about/index");
+const Search = () => import("../views/main/search/index")
 
 const routes = [
   {
@@ -110,6 +111,16 @@ const routes = [
       }
     },
     component: About
+  },
+  {
+    path: '/search',
+    name: 'search',
+    meta: {
+      metaInfo: {
+        title: '搜索'
+      }
+    },
+    component: Search
   }
 ];
 

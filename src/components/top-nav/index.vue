@@ -10,11 +10,7 @@
           {{$store.getters.blogConfig.blogName || 'Neplog'}}
         </router-link>
       </div>
-      <component :is="pluto">
-        <li>
-          <search-bar></search-bar>
-        </li>
-      </component>
+      <component :is="pluto"></component>
 
       <div class="burger" @click="openTopBar">
         <div class="burger-line1"></div>
@@ -196,7 +192,6 @@ export default {
       }
       .sub-menu{
         margin-top: 8px;
-        padding: 10px 0;
         background-color: rgba(255,255,255,9);
         box-shadow: 2px 2px 18px rgba(0,0,0,0.2);
         border-radius: 5px;

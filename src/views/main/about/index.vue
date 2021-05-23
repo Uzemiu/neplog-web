@@ -12,44 +12,20 @@
         </div>
         <h2>{{$store.getters.authorName}}</h2>
 
-        <div class="description">
-          <p>nihaozhelisd</p>
-          <p>ddddddd<strong>ddddddddddddd</strong>dddddddadasdasdsadsaddsdsdsdsdsdsdsdsdsdsdsdsddddddddddddddddddddddhi</p>
-          <span>pppp</span>
+        <div class="description" v-html="description.about_description_html">
         </div>
 
         <div class="links">
 
-          <el-tooltip effect="dark" content="Github" placement="top">
-            <a href="" target="_blank">
-              <i class="fab fa-github-alt"></i>
-            </a>
-          </el-tooltip>
-
-          <el-tooltip effect="dark" content="Weixin" placement="top">
-            <a href="" target="_blank">
-              <i class="fab fa-weixin"></i>
-            </a>
-          </el-tooltip>
-
-          <a href="" target="_blank">
-            <i class="fab fa-weixin"></i>
+          <a v-for="link in links"
+             :key="link.name"
+             :href="link.href"
+             target="_blank">
+            <i :class="['iconfont',linkMap[link.name]]"></i>
           </a>
 
-          <el-tooltip effect="dark" content="Weixin" placement="top">
-            <a href="" target="_blank">
-              <i class="f"></i>
-            </a>
-          </el-tooltip>
+          <i class="icon-bil"></i>
 
-          <i class="fab fa-weibo"></i>
-          <i class="fa fab fa-envelope"></i>
-          <i class="fab fa fa-qq"></i>
-          <i class="fab fa-zhihu"></i>
-          <i class="fab fa-linkedin"></i>
-          <i class="fab fa-steam"></i>
-          <i class="fab fa-stack-overflow"></i>
-          <i class="fab fa-bilibili"></i>
         </div>
       </responsive>
     </div>
@@ -60,21 +36,63 @@
 import Glide from "@/components/glide/index";
 import GlideConfig from "@/config/glide";
 import Responsive from "@/components/layout/Responsive";
+import {getAboutProperty} from "@/api/property";
 
 export default {
   name: "About",
   components: {Responsive, Glide},
   data(){
     return{
-      glide:[{
-        img: GlideConfig.aboutPageImage,
-        title: '关于'
-      }],
-      links: [{
-        link: '',
-        tooltip: '',
-      }]
+      glide:[{img: GlideConfig.aboutPageImage,title: '关于'}],
+      linkMap: {
+        about_github: 'icon-github-alt',
+        about_gitee: 'icon-gitee',
+        about_wechat: 'icon-wechat',
+        about_zhihu: 'icon-zhihu',
+        about_jianshu: 'icon-jianshu',
+        about_csdn: 'icon-csdn',
+        about_weibo: 'icon-weibo',
+        about_linkedin: 'icon-linkedin',
+        about_qq: 'icon-qq',
+        about_bilibili: 'icon-bilibili-alt',
+      },
+      linkOrder: {
+        about_github: 10,
+        about_gitee: 20,
+        about_csdn: 30,
+        about_zhihu: 40,
+        about_jianshu: 50,
+        about_linkedin: 60,
+        about_wechat: 70,
+        about_weibo: 80,
+        about_qq: 90,
+        about_bilibili: 100,
+      },
+      description: {
+        about_description_html: ''
+      },
+      links: []
     }
+  },
+  methods: {
+    refresh(){
+      getAboutProperty().then(data => {
+        let links = [];
+        for(let k of Object.keys(data)){
+          if(k.startsWith('about_description')){
+            // 个人介绍description不加入网站链接
+            this.description[k]=data[k];
+          }else{
+            links.push({name: k, href:data[k]});
+          }
+        }
+        links.sort((a,b) => this.linkOrder[a.name] > this.linkOrder[b.name] ? 1 : -1);
+        this.links = links;
+      })
+    }
+  },
+  mounted() {
+    this.refresh();
   }
 }
 </script>
@@ -102,14 +120,15 @@ export default {
     width: 160px;
   }
   .description{
-    margin-top: 1.5em;
+    margin-top: 1em;
     word-wrap: anywhere;
     text-align: center;
   }
   .links{
     margin-top: 1.5em;
+    vertical-align: bottom;
 
-    .fa,.fab{
+    .iconfont{
       font-size: 24px;
       padding: 0 6px;
     }

@@ -14,7 +14,6 @@
         :custom-class="'form-drawer'">
 
         <div class="form-advanced">
-          <!--封面图-->
           <el-upload
             class="cover-upload"
             drag
@@ -248,12 +247,12 @@ export default {
       })
     },
     saveArticle(status){
-      // 转换
       if(Number.isInteger(status)){
         this.article.status = status;
       }
       let reloadCategory = false;
       let reloadTag = false;
+      // 转换
       if(typeof(this.article.category) === 'string'){
         reloadCategory = true;
         this.article.category = {id: null, name:this.article.category};
@@ -281,12 +280,11 @@ export default {
               let paths = this.$route.fullPath.split('/');
               paths[paths.length - 1] = data;
               this.$router.replace({path: paths.join('/')});
-              location.reload();
+              location.reload(); // 新建文章重新加载
             } else if(reloadTag || reloadCategory) {
               // 新建标签/分类时获取新建标签/分类的id
               listArticleDetail(this.id).then(data => {
                 this.article.category = data.category;
-
                 let newTags = data.tags;
                 this.article.tags.forEach(tag => {
                   let idx = newTags.findIndex(t => t.tag === tag.tag);
