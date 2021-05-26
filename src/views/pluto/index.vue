@@ -19,6 +19,7 @@ export default {
 .pluto{
   width: 100%;
   padding-top: 53px;
+  padding-bottom: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;

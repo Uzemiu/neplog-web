@@ -28,7 +28,11 @@ export default {
   data(){
     return{
       glides: [{title: 'Category', img:GlideConfig.categoryPageImage}],
-      categories: []
+      categories: [],
+      query:{
+        showCount: true,
+        showUncategorized: true,
+      }
     }
   },
   methods: {
@@ -38,7 +42,7 @@ export default {
     }
   },
   mounted() {
-    queryCategoryBy({showCount: true}).then(data => {
+    queryCategoryBy(this.query).then(data => {
       this.categories = data;
     }).catch(() => {})
 

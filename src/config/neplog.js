@@ -1,14 +1,15 @@
 const NeplogConfig = {
   homePageCover: '3',
   homePageTitle: '',
-  friendPageCover: '',
   authorName: '',
+  blogAvatar: '',
   icp: '',
-  defaultAvatar: 'https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png',
+  defaultAvatar: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
 
   imgNotFound: require('@/assets/imgs/sticker/nep404.png'),
 
-  maxFileSize: 1024*1024*3, // in byte =3MB
+  maxImageSize: 1024*1024*3, // 3MB
+  maxFileSize: 1024*1024*30, // 30MB
   navBarHeight: 47
 }
 

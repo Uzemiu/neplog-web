@@ -2,18 +2,22 @@
   <section class="search-section">
     <el-form :model="model" class="query-group">
       <slot></slot>
-      <div class="action-item">
-        <el-form-item size="small">
+        <el-form-item size="mini">
           <el-button
-            class="nep-button-primary inline-button"
-            @click="$emit('search',model)">搜索</el-button>
+            type="success"
+            @click="$emit('search',model)">
+            <i class="el-icon-search"></i>
+            <span>搜索</span>
+          </el-button>
         </el-form-item>
-        <el-form-item size="small">
+        <el-form-item size="mini">
           <el-button
-            class="nep-button-primary inline-button"
-            @click="$emit('reset',model)">重置</el-button>
+            type="warning"
+            @click="$emit('reset',model)">
+            <i class="el-icon-refresh-left"></i>
+            <span>重置</span>
+          </el-button>
         </el-form-item>
-      </div>
     </el-form>
   </section>
 </template>
@@ -40,25 +44,10 @@ export default {
     padding: 0 5px;
     margin-bottom: 10px;
   }
-  .action-item{
-    display: flex;
-  }
   .inline-button{
     padding: 8px 20px;
     font-size: 14px;
     line-height: 16px;
-  }
-}
-@media (max-width: 576px) {
-  .query-group{
-    padding-right: 100px;
-    flex-wrap: nowrap;
-    margin-bottom: 40px;
-  }
-  .action-item{
-    position: absolute;
-    left: 0;
-    top: 44px;
   }
 }
 </style>

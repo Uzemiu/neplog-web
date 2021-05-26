@@ -6,7 +6,7 @@
       class="cover-setting">
     <el-form-item label="首页封面:">
       <el-upload
-        v-if="isHomePageCover"
+        v-if="isHomePageImage"
         drag
         action="#"
         :show-file-list="false"
@@ -15,7 +15,7 @@
         <img v-if="config.homePageCover" :src="config.homePageCover" class="page-cover">
         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
       </el-upload>
-      <el-radio-group v-model="isHomePageCover">
+      <el-radio-group v-model="isHomePageImage">
         <el-radio :label="false">显示文章</el-radio>
         <el-radio :label="true">自定义图片</el-radio>
       </el-radio-group>
@@ -23,7 +23,7 @@
           v-model="config.homePageCover"
           @blur="updateConfigByKey('homePageCover', configName)"></el-input>
     </el-form-item>
-    <el-form-item label="首页标题:" v-if="isHomePageCover">
+    <el-form-item label="首页标题:" v-if="isHomePageImage">
       <el-input
           v-model="config.homePageTitle"
           @blur="updateConfigByKey('homePageTitle', configName)"></el-input>
@@ -67,7 +67,7 @@ export default {
         homePageCover: this.$store.getters.blogConfig.homePageCover,
         homePageTitle: this.$store.getters.blogConfig.homePageTitle,
       },
-      isHomePageCover: false,
+      isHomePageImage: false,
       currentFile: null,
       imageBase64: '',
       configName: 'blog',
@@ -80,7 +80,7 @@ export default {
   },
   mixins: [property],
   mounted() {
-    this.isHomePageCover = !Number.parseInt(this.config.homePageCover)
+    this.isHomePageImage = !Number.parseInt(this.config.homePageCover)
   },
   methods: {
     uploadCover(){},

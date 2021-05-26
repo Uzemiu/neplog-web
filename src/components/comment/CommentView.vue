@@ -2,14 +2,14 @@
   <div class="comment-view">
     <div class="user">
       <div class="user-avatar" slot="user-avatar">
-        <img class="blog-avatar" src="https://pic2.zhimg.com/da8e974dc_is.jpg" alt="">
+        <img class="blog-avatar" :src="comment.avatar || defaultAvatar" alt="">
       </div>
       <div class="user-info">
         <span class="nickname">{{comment.nickname}}</span>
-        <span v-if="comment.parent">回复</span>
-        <a v-if="comment.parent"
-           :href="comment.parent.link">
-          <span class="nickname">{{comment.parent.nickname}}</span>
+        <span v-if="parent">回复</span>
+        <a v-if="parent"
+           :href="parent.link || '#'">
+          <span class="nickname">{{parent.nickname}}</span>
         </a>
       </div>
       <div class="user-agent">
@@ -49,6 +49,7 @@
         :key="child.id">
         <comment-view
           :comment="child"
+          :parent="comment"
           class="sub-comment"></comment-view>
       </li>
     </ul>
@@ -56,6 +57,8 @@
 </template>
 
 <script>
+import NeplogConfig from "@/config/neplog";
+
 export default {
   name: "CommentView",
   components: {
@@ -80,12 +83,14 @@ export default {
         link: '',
         avatar: '',
       }
-    }
+    },
+    parent: Object
   },
   data(){
     return {
       showReply: false,
       reply: null,
+      defaultAvatar: NeplogConfig.defaultAvatar,
     }
   },
   methods: {

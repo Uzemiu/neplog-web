@@ -72,8 +72,8 @@ export default {
     },
     endCrop(){
       this.$refs.cropper.getCropBlob(blob => {
-        if(blob.size > NeplogConfig.maxFileSize){
-          this.$message.error("文件大小不能超过"+convertFileSize(NeplogConfig.maxFileSize));
+        if(blob.size > NeplogConfig.maxImageSize){
+          this.$message.error("文件大小不能超过"+convertFileSize(NeplogConfig.maxImageSize));
         } else {
           this.done && this.done(blob, this.filename, this.closeDialog);
         }

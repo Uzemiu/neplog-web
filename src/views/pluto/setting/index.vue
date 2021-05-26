@@ -35,4 +35,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+::v-deep .el-input__inner{
+  height: 36px;
+}
 </style>

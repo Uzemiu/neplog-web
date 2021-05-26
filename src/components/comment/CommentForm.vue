@@ -29,7 +29,9 @@
         </el-form-item>
       </div>
       <el-button
-        class="nep-button-primary"
+        size="medium"
+        type="primary"
+        class="submit-button"
         :loading="loading"
         @click="postComment">评论</el-button>
     </el-form>
@@ -37,8 +39,9 @@
 </template>
 
 <script>
-import {postComment} from "@/api/comment";
+import {createArticleComment} from "@/api/comment";
 import UserAgent from "@/utils/user-agent";
+import NeplogConfig from "@/config/neplog";
 const {browser, os} = UserAgent;
 
 export default {
@@ -57,7 +60,7 @@ export default {
     },
     avatar: {
       type: String,
-      default: 'https://pic2.zhimg.com/da8e974dc_is.jpg'
+      default: NeplogConfig.defaultAvatar
     },
     articleId: {
       type: Number,
@@ -93,7 +96,7 @@ export default {
       this.loading = true;
       this.comment.parentId = this.parentId;
       this.comment.articleId = this.articleId;
-      postComment(this.comment).then(() => {
+      createArticleComment(this.comment).then(() => {
         this.comment.content = ''
         this.$message.success("提交评论成功")
         this.$emit('commentSuccess');
@@ -130,7 +133,7 @@ export default {
   .submit-area{
     width: 100%;
   }
-  .nep-button-primary{
+  .submit-button{
     float: right;
   }
 

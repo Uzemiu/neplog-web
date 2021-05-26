@@ -26,9 +26,6 @@
           <i class="fa fa-gear"></i>后台管理
         </menu-item>
       </sub-menu>
-      <li>
-        <i class="fa fa-search"></i>
-      </li>
       <slot></slot>
     </nav-menu>
   </nav-item>

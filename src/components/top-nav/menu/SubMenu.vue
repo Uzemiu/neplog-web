@@ -2,7 +2,7 @@
   <li class="menu-item">
     <router-link :to="link" v-if="link"><slot name="title">{{title}}</slot></router-link>
     <span v-else><slot name="title">{{title}}</slot></span>
-    <ul class="sub-menu"><slot></slot></ul>
+    <ul ref="sm" class="sub-menu"><slot></slot></ul>
   </li>
 </template>
 
@@ -12,22 +12,21 @@ export default {
   props: {
     title: String,
     link: String,
-  }
+  },
 }
 </script>
 
 <style lang="scss" scoped>
 .sub-menu{
   transition: .4s;
-  transform: translateY(10px);
   padding: 10px 0;
-  opacity: 0;
-  display: flex;
-  visibility: hidden;
+  opacity: 1;
+  display: none;
   flex-direction: column;
   position: absolute;
   left: -18px;
   width: calc(100% + 36px);
+  animation: fade-up .4s;
 
   li{
     line-height: 24px;
@@ -44,6 +43,7 @@ a, span{
   position: relative;
   font-weight: 600;
   span{
+    padding: 10px 0;
     color: #666;
   }
 
@@ -53,8 +53,19 @@ a, span{
 
 }
 .menu-item:hover > .sub-menu{
-  visibility: visible;
-  opacity: 0.9;
-  transform: translateY(0);
+  display: flex;
+  animation: fade-up .4s;
+}
+
+@keyframes fade-up {
+  from{
+    transform: translateY(10px);
+    opacity: 0;
+  }
+
+  to{
+    transform: translateY(0);
+    opacity: 0.9;
+  }
 }
 </style>

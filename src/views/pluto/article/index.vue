@@ -20,39 +20,41 @@
         :query="{status:null, deleted: true}"></el-tab-pane>
     </el-tabs>
     <query-group @search="refresh">
-        <el-form-item size="small">
-          <el-input
-            style="width: 230px"
-            type="text"
-            v-model="query.content"
-            placeholder="输入文章标题或内容搜索"></el-input>
-        </el-form-item>
-        <el-form-item size="small">
-          <el-select
-              style="width: 150px;"
-              v-model="query.categoryId"
-              default-first-option
-              placeholder="文章分类">
-            <el-option
-                v-for="ca in availableCategories"
-                :key="ca.id"
-                :label="ca.name"
-                :value="ca.id">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item size="small">
-          <el-date-picker
-              style="width: 240px"
-              v-model="query.createTime"
-              type="daterange"
-              range-separator="至"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期">
-          </el-date-picker>
-        </el-form-item>
+      <el-form-item size="small">
+        <el-input
+          style="width: 230px"
+          type="text"
+          v-model="query.content"
+          placeholder="输入文章标题或内容搜索"></el-input>
+      </el-form-item>
+      <el-form-item size="small">
+        <el-select
+          style="width: 150px;"
+          v-model="query.categoryId"
+          default-first-option
+          placeholder="文章分类">
+          <el-option
+            v-for="ca in availableCategories"
+            :key="ca.id"
+            :label="ca.name"
+            :value="ca.id">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item size="small">
+        <el-date-picker
+          style="width: 240px"
+          v-model="query.createTime"
+          type="daterange"
+          range-separator=":"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期">
+        </el-date-picker>
+      </el-form-item>
     </query-group>
-    <crud-operation crud="c" @create="createNewArticle"></crud-operation>
+    <crud-operation crud="crud" @create="createNewArticle">
+
+    </crud-operation>
     <section>
       <ul>
         <li class="article-list-item"
@@ -61,19 +63,16 @@
           <article-card :article="article" mode="edit"></article-card>
 
           <div class="operation-menu">
-
             <span>
               <router-link v-if="!article.deleted" :to="`article/${article.id}`">
                 <i class="fa fa-pencil"></i>
                 编辑
               </router-link>
             </span>
-
             <span @click="updateTrashBin(article, !article.deleted)">
               <i class="fa" :class="article.deleted ? 'fa-undo' : 'fa-trash'"></i>
               {{article.deleted ? '恢复' : '删除'}}
             </span>
-
             <span @click="deleteById(article)" v-if="article.deleted" class="delete-operation">
               <i class="fa fa-trash"></i>
               彻底删除

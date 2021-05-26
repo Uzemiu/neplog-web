@@ -10,7 +10,11 @@
           {{$store.getters.blogConfig.blogName || 'Neplog'}}
         </router-link>
       </div>
-      <component :is="pluto"></component>
+      <component :is="isAdminPage">
+        <li class="search-button" @click="beginSearch">
+          <i class="fa fa-search"></i>
+        </li>
+      </component>
 
       <div class="burger" @click="openTopBar">
         <div class="burger-line1"></div>
@@ -24,7 +28,7 @@
         <img :src="$store.getters.blogConfig.blogAvatar" alt="">
       </div>
       <search-bar class="side-search-bar"></search-bar>
-      <component :is="pluto"></component>
+      <component :is="isAdminPage"></component>
     </div>
 
   </header>
@@ -33,7 +37,7 @@
 <script>
 import SearchBar from "@/components/search-bar/index";
 import MainNav from "@/components/top-nav/MainNav";
-import BackstageNav from "@/components/top-nav/BackstageNav";
+import AdminNav from "@/components/top-nav/AdminNav";
 import SubMenu from "@/components/top-nav/menu/SubMenu";
 import MenuItem from "@/components/top-nav/menu/MenuItem";
 
@@ -58,6 +62,9 @@ export default {
     },
     openTopBar(){
       this.open = !this.open;
+    },
+    beginSearch(){
+      this.$router.push('/search')
     }
   },
   mounted() {
@@ -67,9 +74,9 @@ export default {
     window.removeEventListener('scroll',this.changeTransparentHeader)
   },
   computed: {
-    pluto(){
+    isAdminPage(){
       return this.$route.fullPath.startsWith('/pluto')
-        ? BackstageNav : MainNav;
+        ? AdminNav : MainNav;
     },
     forceStickyHeader(){
       const route = this.$route.fullPath;
@@ -103,6 +110,10 @@ export default {
   box-shadow: 0 0 18px rgba(0,0,0,0.2);
   letter-spacing: 1px;
 
+  .search-button{
+    cursor: pointer;
+
+  }
   .header-item{
     padding: 0 40px;
   }
@@ -322,6 +333,7 @@ export default {
       }
       .sub-menu{
         position: relative;
+        display: flex;
         opacity: 1;
         transform: translateY(0);
         overflow: hidden;

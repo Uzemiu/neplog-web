@@ -1,9 +1,10 @@
 const Pluto = () => import("../views/pluto/index")
 const DashBoard = () => import("../views/pluto/dashboard/index")
 const PlutoArticle = () => import("../views/pluto/article/index")
-const PlutoCategory = () => import("../views/pluto/categorytag/index")
+const PlutoCategoryTag = () => import("../views/pluto/categorytag/index")
 const PlutoFriend = () => import("../views/pluto/friend/index")
 const PlutoFile = () => import("../views/pluto/file/index")
+const PlutoComment = () => import("../views/pluto/comment/index")
 const Setting = () => import("../views/pluto/setting/index")
 const Editor = () => import("../views/pluto/article/Editor")
 
@@ -40,7 +41,13 @@ const routes = [
         path: 'category-tag',
         name: 'pluto-category-tag',
         meta: {title: '分类/标签'},
-        component: PlutoCategory
+        component: PlutoCategoryTag
+      },
+      {
+        path: 'comment',
+        name: 'pluto-comment',
+        meta: {title: '评论管理'},
+        component: PlutoComment
       },
       {
         path: 'friend',

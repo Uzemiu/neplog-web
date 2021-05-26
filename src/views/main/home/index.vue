@@ -35,7 +35,7 @@ export default {
     }
   },
   mounted() {
-    let cover = this.$store.getters.blogConfig.homePageCover;
+    let cover = this.$store.getters.homePageImage;
     if(!Number.parseInt(cover)){
       this.glides.push({
         img:cover,

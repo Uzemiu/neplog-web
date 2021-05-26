@@ -98,6 +98,7 @@ export default {
   },
   methods: {
     handleCategoryDrop(draggingNode, dropNode, type){
+      console.log(draggingNode)
       if(draggingNode.data.isCategory){
         // 拽托分类
         let cdata = draggingNode.data;
@@ -195,8 +196,8 @@ export default {
     },
     loadCategory(node, resolve){
       let data = node.data;
-      if(data.id === null && this.loadArticles){
-        // load uncategorized articles
+      if(!data.id && this.loadArticles){
+        // 加载未分类文章
         articleQueryBy({
           categoryId: [0],
           deleted:false,
@@ -220,23 +221,17 @@ export default {
         categoryQueryBy({
             parentId: pid,
             name: this.query.name,
-            showCount: true
+            showCount: true,
+            showUncategorized: pid === 0 // 最外层加载未分类文章
           }).then(cates => {
             cates.forEach(c => {
               c.tid = 'c' + c.id;
               c.isCategory = true;
+              if(c.id === 0){
+                c.isSpecCate = true;
+              }
             });
             res.push(...cates);
-            // 添加未分类文章信息
-            if(pid === 0 && this.loadArticles){
-              res.push({
-                tid: 'cnull',
-                id: null,
-                isCategory: true,
-                isSpecCate: true,
-                name: '未分类文章',
-              })
-            }
 
             // 加载文章信息
             if(pid && this.loadArticles){
@@ -274,11 +269,11 @@ export default {
 .category-menu{
 
   ::v-deep .el-tree-node__content{
-    padding: 8px 0;
-    height: 40px;
+    padding: 20px 0;
   }
 
   .menu-label{
+    height: 24px;
     width: 100%;
     position: relative;
     font-size: 16px;
@@ -289,9 +284,6 @@ export default {
   }
   .category-edit{
     display: none;
-  }
-  ::v-deep .el-tree-node__label{
-    //font-size: 1.25em;
   }
 
   .create-category{

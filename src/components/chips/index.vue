@@ -108,7 +108,7 @@ export default {
   }
 
   .delete-icon{
-    font-size: 18px;
+    font-size: 16px;
     color: #555;
     padding-left: 10px;
   }

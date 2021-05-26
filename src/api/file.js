@@ -28,11 +28,11 @@ export function uploadFile(file, filename){
   return upload('default','file', file, filename);
 }
 
-export function deleteFile(path){
+export function deleteFile(id){
   return axios({
-    url: 'file/',
+    url: 'file',
     method: 'delete',
-    data: path
+    data: id
   })
 }
 

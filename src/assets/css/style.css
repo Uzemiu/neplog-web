@@ -73,6 +73,14 @@ a:visited{text-decoration:none;color:#666}
 .full-width{
     width: 100%;
 }
+.no-more-content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    font-size: 14px;
+    color: #888;
+}
 
 .nep-scroll::-webkit-scrollbar{
      height: 4px;

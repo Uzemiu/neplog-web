@@ -5,13 +5,14 @@ class TocNode{
     this.children = children;
     this.el = null;
   }
+
   toTocElement(){
-    const root = create(this.level === 0 ? 'nav' : 'li');
+    const root = this.create(this.level === 0 ? 'nav' : 'li');
     if(this.heading){
       root.innerHTML = `<a href="#${this.heading.id}">${this.heading.innerText}</a>`;
     }
     if(this.children.length > 0){
-      const ol = create('ol');
+      const ol = this.create('ol');
       root.appendChild(ol);
       this.children.forEach(c => {
         ol.appendChild(c.toTocElement());
@@ -21,21 +22,26 @@ class TocNode{
     this.el = root;
     return root;
   }
+
+  create(element){
+    return document.createElement(element);
+  }
 }
 
-function create(element){
-  return document.createElement(element);
-}
 
-const toc = {
-  root: new TocNode(0),
-  nodes: [],
-  el: null,
-  option: {
-    tocClass:'table-of-contents',
-    enableScrollToc: true,
-    enableSmoothScroll: true,
-    fixedHeading: 0
+let toc = {}
+
+function newToc(){
+  toc = {
+    root: new TocNode(0),
+    nodes: [],
+    el: null,
+    option: {
+      tocClass:'table-of-contents',
+      enableScrollToc: true,
+      enableSmoothScroll: true,
+      fixedHeading: 0
+    }
   }
 }
 
@@ -100,12 +106,17 @@ function smoothAnchorScroll() {
 }
 
 
-function generateToc(selector = 'body', option = {}){
-
+function generateToc(root = 'body', option = {}){
+  newToc();
   Object.assign(toc.option, option);
 
-  const headings = document.querySelector(selector)
-                        .querySelectorAll('h1, h2, h3, h4, h5, h6');
+  if(typeof root === 'string'){
+    root = document.querySelector(root);
+  }
+  if(!root){
+    return null;
+  }
+  const headings = root.querySelectorAll('h1, h2, h3, h4, h5, h6');
   // first push all heading nodes
   headings.forEach(h => toc.nodes.push(new TocNode(Number.parseInt(h.tagName.charAt(1)), h)));
 

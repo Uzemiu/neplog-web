@@ -1,4 +1,5 @@
-import neplogConfig from "@/config/neplog"
+import NeplogConfig from "@/config/neplog"
+import GlideConfig from "@/config/glide";
 import store from "@/store/index";
 
 export default {
@@ -12,9 +13,9 @@ export default {
   isOwner: state => state.user.isLogin && state.user.level === 6,
 
   blogConfig: state => state.blogConfig,
-  homePageCover: state => state.blogConfig.homePageCover || neplogConfig.homePageCover,
-  authorName: state => state.blogConfig.authorName || neplogConfig.authorName,
-  blogAvatar: state => state.blogConfig.blogAvatar,
+  authorName: state => state.blogConfig.authorName || NeplogConfig.authorName,
+  blogAvatar: state => state.blogConfig.blogAvatar || NeplogConfig.blogAvatar,
+  icp: state => state.blogConfig.icp || NeplogConfig.icp,
+  homePageImage: state => state.blogConfig.homePageCover || GlideConfig.homePageImage,
 
-  userAvatar: state => state.blogConfig.avatar || neplogConfig.defaultAvatar,
 }

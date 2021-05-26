@@ -10,7 +10,7 @@
       <div class="detail">
         <p class="statics">
           <span>{{article.createTime || '2077-07-07'}}</span>
-          <span class="ignorable"><i class="fa fa-fire"></i> {{article.views || 0}}</span>
+          <span class="ignorable"><i class="fa fa-fire-alt"></i> {{article.views || 0}}</span>
 <!--          <span class="ignorable"><i class="fa fa-comment-o"></i> {{article.comments || 0}}</span>-->
 <!--          <span class="ignorable"><i class="fa fa-heart-o"></i> {{article.likes || 0}}</span>-->
         </p>

@@ -1,19 +1,42 @@
 <template>
   <section class="crud-section nep-operation">
     <slot></slot>
-    <el-button type="success"
-               v-if="showOperation('c')"
-               :disabled="multiSelect"
-               @click="onAction('create')">新建</el-button>
-    <el-button type="warning"
-               v-if="showOperation('r')"
-               @click="onAction('retrieve')">查找</el-button>
-    <el-button type="primary"
-               v-if="showOperation('u')"
-               @click="onAction('update')">更新</el-button>
-    <el-button type="danger"
-               v-if="showOperation('d')"
-               @click="onAction('delete')">删除</el-button>
+    <div class="crud-section-left">
+      <el-button type="primary" size="mini"
+                 v-if="showOperation('c')"
+                 :disabled="createDisabled"
+                 @click="$emit('create')">
+        <i class="el-icon-plus"></i>
+        <span>{{createText}}</span>
+      </el-button>
+      <el-button type="success" size="mini"
+                 v-if="showOperation('u')"
+                 :disabled="updateDisabled"
+                 @click="$emit('update')">
+        <i class="el-icon-edit"></i>
+        <span>{{updateText}}</span>
+      </el-button>
+      <el-button type="warning" size="mini"
+                 v-if="showOperation('r')"
+                 :disabled="retrieveDisabled"
+                 @click="$emit('retrieve')">
+        <i class="el-icon-search"></i>
+        <span>{{retrieveText}}</span>
+      </el-button>
+      <el-button type="danger" size="mini"
+                 v-if="showOperation('d')"
+                 :disabled="deleteDisabled"
+                 @click="$emit('delete')">
+        <i class="el-icon-delete"></i>
+        <span>{{deleteText}}</span>
+      </el-button>
+    </div>
+
+    <div class="crud-section-right">
+      <el-button size="mini" @click="$emit('refresh')">
+        <i class="el-icon-refresh"></i>
+      </el-button>
+    </div>
   </section>
 </template>
 
@@ -28,14 +51,32 @@ export default {
     multiSelect: {
       type: Boolean,
       default: false
-    }
+    },
+    createText: {
+      type: String,
+      default: '新建'
+    },
+    updateText: {
+      type: String,
+      default: '更新'
+    },
+    retrieveText:{
+      type: String,
+      default: '查找'
+    },
+    deleteText:{
+      type: String,
+      default: '删除'
+    },
+    createDisabled: Boolean,
+    updateDisabled: Boolean,
+    retrieveDisabled: Boolean,
+    deleteDisabled: Boolean,
+
   },
   methods: {
     showOperation(op){
       return this.crud.includes(op);
-    },
-    onAction(action){
-      this.$emit(action);
     }
   }
 }
@@ -43,11 +84,11 @@ export default {
 
 <style lang="scss" scoped>
 .crud-section{
-  padding: 3px 5px;
-  button{
-    padding: 8px 16px;
-    line-height: 1;
-    font-size: 14px;
+  display: flex;
+  padding: 4px 5px;
+
+  .crud-section-right{
+    margin-left: auto;
   }
 }
 </style>

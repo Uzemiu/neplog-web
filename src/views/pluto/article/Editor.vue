@@ -109,16 +109,18 @@
             <el-col :span="8">
               <el-button
                 v-if="article.status === 0"
-                class="nep-button-common full-width"
+                class="full-width"
                 @click="saveArticle(0)">存为草稿</el-button>
             </el-col>
             <el-col :span="8">
               <el-button
-                class="nep-button-primary full-width"
+                type="primary"
+                size="medium"
+                class="full-width"
                 @click="saveArticle(4)">{{article.status === 0 ? '发布' : '保存'}}</el-button>
             </el-col>
             <el-col :span="8">
-              <el-button class="nep-button-primary full-width">返回</el-button>
+              <el-button size="medium" class="full-width">返回</el-button>
             </el-col>
           </el-row>
         </div>
@@ -136,9 +138,9 @@
 
     <div class="action">
       <el-button @click="drawer = true" type="primary">更多设置</el-button>
-      <el-button v-if="article.status===0" class="nep-button-common" @click="saveArticle(0)">存为草稿</el-button>
+      <el-button v-if="article.status===0" @click="saveArticle(0)">存为草稿</el-button>
       <el-button
-        class="nep-button-primary"
+        type="primary"
         @click="saveArticle(4)">{{article.status === 0 ? '发布' : '保存'}}</el-button>
     </div>
 

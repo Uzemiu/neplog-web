@@ -8,30 +8,37 @@
 
     <div class="article-header">
       <p class="base-info">
-        <span>Neptu</span>
+        <span>{{$store.getters.authorName}}</span>
         <span>Created: {{article.createTime}}</span>
         <span>Updated: {{article.updateTime}}</span>
       </p>
       <p class="base-info">
         <span>
           <i class="fa fa-folder-open-o"></i>
-<!--          TODO search categorytag-->
-          <a href="">{{article.category.name}}</a>
+          <router-link
+            v-if="article.category"
+            :to="`/category/${article.category.id}`">
+            {{article.category.name}}
+          </router-link>
         </span>
         <span class="tags" v-if="article.tags && article.tags.length">
           <i class="fa fa-tags"></i>
-          <a href="" v-for="tag in article.tags" :key="tag.id"> {{tag.tag}} </a>
+          <router-link
+            :to="`/tag/${tag.id}`"
+            v-for="tag in article.tags"
+            :key="tag.id">
+            {{tag.tag}}
+          </router-link>
         </span>
-        <span><i class="fa fa-user-o"></i>{{article.views}}</span>
+        <span><i class="fa fa-fire-alt"></i>{{article.views}}</span>
       </p>
     </div>
 
-    <article class="article-body markdown-body serif-sc" v-html="article.htmlContent">
+    <article
+      class="article-body markdown-body serif-sc"
+      v-html="article.htmlContent">
 
     </article>
-    <div class="article-foot">
-
-    </div>
 
   </div>
 </template>
@@ -55,13 +62,13 @@ export default {
       type: Object,
       required: true
     }
-  }
+  },
 }
 </script>
 
 <style lang="scss">
 .article-container{
-  width: calc(100% - 20px);
+  width: calc(100% - 200px);
   padding: 20px 20px 40px 40px;
   position: relative;
   color: #434343;
@@ -93,6 +100,12 @@ export default {
     }
   }
 
+  .tags{
+    a{
+      margin: 0 3px;
+    }
+  }
+
   .article-body{
     margin-top: 20px;
     line-height: 20px;
@@ -106,9 +119,6 @@ export default {
 }
 
 @media (max-width: 992px) {
-}
-
-@media (max-width: 838px) {
   .article-container{
     width: 100%;
     padding-left: 20px;
@@ -116,8 +126,7 @@ export default {
 }
 
 @media (max-width: 768px){
-  .flex-section{
-    width: 100%;
+  .common-section{
   }
 }
 @media (max-width: 576px){

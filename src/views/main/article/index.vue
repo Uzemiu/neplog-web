@@ -3,30 +3,49 @@
     <glide :glides="glides" class="article-glide"></glide>
 
     <template v-if="articleLoaded">
-      <section class="flex-section article-section" ref="articleSection">
-        <article-container :article="article"></article-container>
-        <div class="toc" ref="toc" v-if="tocDone">
+      <section class="common-section article-section" ref="articleSection">
+        <article-container :article="article" :class="`article-${article.id}`"></article-container>
+        <div class="toc" ref="toc">
 
         </div>
       </section>
 
-      <section class="flex-section">
+      <section class="article-foot"></section>
+
+      <section class="common-section">
         <comment-form
-          @commentSuccess="refreshComment"
+          @commentSuccess="handleCommentSuccess"
           :article-id="this.article.id"></comment-form>
       </section>
 
-      <section class="flex-section">
-        <ul>
+      <section class="common-section comment-section">
+        <div class="comment-header">
+          <span>{{article.comments}}</span>
+          <span>评论</span>
+          <el-divider></el-divider>
+        </div>
+        <ul v-if="comments.length !== 0">
           <li
             v-for="comment in comments"
             :key="comment.id">
             <comment-view
-              @commentSuccess="refreshComment"
+              @commentSuccess="handleCommentSuccess"
               :comment="comment"></comment-view>
           </li>
         </ul>
+        <div v-else class="no-more-content">来发评论吧~</div>
       </section>
+
+      <el-pagination
+        style="display: flex;justify-content: center"
+        :hide-on-single-page="true"
+        @current-change="handleCurrentChange"
+        :pager-count="5"
+        :page-size="query.size"
+        :current-page="query.page+1"
+        layout="prev, pager, next"
+        :total="total">
+      </el-pagination>
     </template>
 
   </div>
@@ -38,10 +57,11 @@ import ArticleContainer from "./ArticleContainer";
 import CommentForm from "../../../components/comment/CommentForm";
 import {listArticleView} from "@/api/article";
 import {fromArticle} from "@/utils/glide";
-import {findByArticleId} from "@/api/comment";
+import {queryArticleCommentBy} from "@/api/comment";
 import CommentView from "@/components/comment/CommentView";
 import Toc from "@/components/toc/toc";
 import NeplogConfig from "@/config/neplog";
+import query from "@/mixins/query";
 
 export default {
   name: "Article",
@@ -51,6 +71,7 @@ export default {
     ArticleContainer,
     CommentForm,
   },
+  mixins:[query],
   props: {
     id: {
       type: [Number, String],
@@ -60,22 +81,32 @@ export default {
   data() {
     return {
       article: {
-        id: 0,
-        category:{
-          id: 1,
-          name: ''
-        }
+        id: 0
       },
+      query:{
+        articleId: this.id,
+        size: 15,
+        page: 0,
+      },
+      total: 0,
       tocDone: true,
+      tocNode: null,
       glides: [],
       comments: [],
-      articleLoaded: false
+      articleLoaded: false,
     }
   },
   mounted() {
   },
   activated() {
     this.refresh();
+  },
+  deactivated() {
+    if(this.tocNode){
+      this.$refs.toc.removeChild(this.tocNode);
+    }
+    this.article = {id:0}
+    Toc.disableScrollToc();
   },
   methods: {
     refresh() {
@@ -85,14 +116,18 @@ export default {
         this.articleLoaded = true;
         this.$store.commit('setMeta', {
           title: data.title,
-          keywords: this.article.tags.map(tag => tag.tag).join(' '),
+          keywords: this.article.tags.map(tag => tag.tag).join(','),
           description: this.article.summary
         })
 
         this.$nextTick(() => {
           let h = NeplogConfig.navBarHeight;
-          this.$refs.toc.appendChild(Toc.generateToc('.article-body', {fixedHeading: h}));
+          let rootEl = Toc.generateToc(`.article-${this.article.id}`, {fixedHeading: h});
+          this.tocNode = rootEl;
+          this.$refs.toc.appendChild(rootEl);
         })
+
+        this.refreshComment();
       }).catch(error => {
         if(error.status === 404){
           this.glides = [{
@@ -103,13 +138,18 @@ export default {
           // TODO forbidden
         }
       });
-      this.refreshComment();
+
     },
     refreshComment(){
-      findByArticleId(this.id).then(data => {
-        this.comments = data;
+      queryArticleCommentBy(this.query).then(data => {
+        this.comments = data.content;
+        this.total = data.total;
       }).catch(() => {})
     },
+    handleCommentSuccess(){
+      this.refreshComment();
+      this.article.comments++;
+    }
   }
 }
 </script>
@@ -120,10 +160,9 @@ export default {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  //background-color: #fafafa;
 }
 
-.flex-section {
+.common-section {
   width: 80%;
   margin-bottom: 20px;
   background-color: #fff;
@@ -152,9 +191,7 @@ export default {
 
       ol {
         word-wrap: anywhere;
-        //white-space: nowrap;
         padding-left: 17px;
-        //padding-right: 7px;
       }
 
       li > ol {
@@ -191,31 +228,31 @@ export default {
   }
 }
 
-@media (max-width: 1100px) {
-  .flex-section {
-    width: 90%;
-  }
-}
-
-@media (max-width: 838px) {
-  .article-section {
-    .toc {
-      display: none;
-
-      background-color: #fff;
-      position: fixed;
-      top: 67px;
-      right: -150px;
-      border-bottom-left-radius: 10px;
-      transition: .4s ease-in-out;
-      box-shadow: 0 0 15px rgba(31, 45, 61, .2);
-      z-index: 999;
+.comment-section{
+  padding: 20px 32px;
+  .comment-header{
+    font-weight: 600;
+    font-size: 26px;
+    span:first-of-type{
+      margin-right: 12px;
     }
   }
 }
 
+@media (max-width: 1100px) {
+  .common-section {
+    width: 90%;
+  }
+}
+
+@media (max-width: 992px) {
+  .article-section .toc{
+    display: none;
+  }
+}
+
 @media (max-width: 768px) {
-  .flex-section {
+  .common-section {
     width: 100%;
   }
 }
