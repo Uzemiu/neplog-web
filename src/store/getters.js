@@ -11,6 +11,7 @@ export default {
   user: state => state.user,
   isLogin: state => state.user.isLogin,
   isOwner: state => state.user.isLogin && state.user.level === 6,
+  userAvatar: state => state.user.avatar || NeplogConfig.defaultAvatar,
 
   blogConfig: state => state.blogConfig,
   authorName: state => state.blogConfig.authorName || NeplogConfig.authorName,

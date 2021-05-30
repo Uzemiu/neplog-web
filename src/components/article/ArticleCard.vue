@@ -1,7 +1,7 @@
 <template>
   <div class="article-card" :mode="mode">
     <a class="article-cover" :href="'/article/' + article.id" v-if="mode !== 'edit'">
-      <img v-lazy="article.cover" alt="">
+      <img v-lazy="article.cover" :alt="article.title">
     </a>
     <div class="article-info">
       <router-link :to="(mode === 'edit' ? '/pluto' : '') + '/article/' + article.id" class="title">

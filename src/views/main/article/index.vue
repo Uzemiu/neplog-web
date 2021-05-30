@@ -4,17 +4,15 @@
 
     <template v-if="articleLoaded">
       <section class="common-section article-section" ref="articleSection">
-        <article-container :article="article" :class="`article-${article.id}`"></article-container>
-        <div class="toc" ref="toc">
-
-        </div>
+        <article-container :article="article" :class="`article-${article.id}`">
+        </article-container>
+        <div class="toc" ref="toc"></div>
       </section>
-
-      <section class="article-foot"></section>
 
       <section class="common-section">
         <comment-form
           @commentSuccess="handleCommentSuccess"
+          :avatar="$store.getters.userAvatar"
           :article-id="this.article.id"></comment-form>
       </section>
 
@@ -90,23 +88,13 @@ export default {
       },
       total: 0,
       tocDone: true,
-      tocNode: null,
       glides: [],
       comments: [],
       articleLoaded: false,
     }
   },
-  mounted() {
-  },
   activated() {
     this.refresh();
-  },
-  deactivated() {
-    if(this.tocNode){
-      this.$refs.toc.removeChild(this.tocNode);
-    }
-    this.article = {id:0}
-    Toc.disableScrollToc();
   },
   methods: {
     refresh() {
@@ -121,9 +109,16 @@ export default {
         })
 
         this.$nextTick(() => {
+          let toc = this.$refs.toc;
+          if(toc){
+            for(let child of toc.children){
+              toc.removeChild(child);
+            }
+            Toc.disableScrollToc();
+          }
+
           let h = NeplogConfig.navBarHeight;
           let rootEl = Toc.generateToc(`.article-${this.article.id}`, {fixedHeading: h});
-          this.tocNode = rootEl;
           this.$refs.toc.appendChild(rootEl);
         })
 
@@ -141,6 +136,7 @@ export default {
 
     },
     refreshComment(){
+      this.query.articleId = this.id;
       queryArticleCommentBy(this.query).then(data => {
         this.comments = data.content;
         this.total = data.total;
@@ -149,6 +145,18 @@ export default {
     handleCommentSuccess(){
       this.refreshComment();
       this.article.comments++;
+    }
+  },
+  watch: {
+    // 从/article/:id1到/article/:id2不会触发组件activated,deactivated
+    id(newVal, oldVal){
+      if(newVal !== oldVal){
+        this.refresh();
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+      }
     }
   }
 }
@@ -166,16 +174,18 @@ export default {
   width: 80%;
   margin-bottom: 20px;
   background-color: #fff;
-  box-shadow: 0 5px 13px rgba(31, 45, 61, .1);
+  box-shadow: 0 2px 12px -6px rgba(10, 110, 179, 0.5);
 }
+
 
 .article-section {
   position: relative;
   display: flex;
   flex-direction: row;
+  padding: 20px 20px 20px 30px;
 
   .toc {
-    width: 200px;
+    width: 160px;
     position: relative;
 
     ::v-deep .table-of-contents {
@@ -226,6 +236,7 @@ export default {
       }
     }
   }
+
 }
 
 .comment-section{

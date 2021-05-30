@@ -52,7 +52,7 @@
         </el-date-picker>
       </el-form-item>
     </query-group>
-    <crud-operation crud="crud" @create="createNewArticle">
+    <crud-operation crud="cd" @create="createNewArticle" :delete-disabled="true">
 
     </crud-operation>
     <section>

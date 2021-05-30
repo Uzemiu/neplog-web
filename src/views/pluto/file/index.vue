@@ -65,10 +65,13 @@
           min-width="200px"
           label="文件名">
           <template slot-scope="{row}">
-            <span
-              class="file-icon"
-              :class="getClassWithColor(row.filename)"></span>
-            <span>{{row.filename}}</span>
+            <div class="filename-cell">
+              <span
+                class="file-icon"
+                :class="getClassWithColor(row.filename)"></span>
+              <a :href="row.virtualPath" target="_blank"><span>{{row.filename}}</span></a>
+              <span class="fa fa-file-o copy-icon" @click="handleCopy(row)"></span>
+            </div>
           </template>
         </el-table-column>
         <el-table-column
@@ -84,9 +87,8 @@
           width="80">
         </el-table-column>
         <el-table-column
-
           label="操作"
-          width="100">
+          width="50">
           <template slot-scope="scope">
             <el-button
               type="text"
@@ -94,11 +96,11 @@
               @click="deleteFile([scope.row])">
               移除
             </el-button>
-            <el-button
-              type="text"
-              size="small">
-              详情
-            </el-button>
+<!--            <el-button-->
+<!--              type="text"-->
+<!--              size="small">-->
+<!--              详情-->
+<!--            </el-button>-->
           </template>
         </el-table-column>
       </el-table>
@@ -250,6 +252,11 @@ export default {
     },
     getClassWithColor(filename){
       return getClassWithColor(filename);
+    },
+    handleCopy(file){
+      this.$copyText(location.origin + file.virtualPath).then(() => {
+        this.$message.success("文件路径已复制到剪切板")
+      }).catch(() => {})
     }
   }
 }
@@ -267,6 +274,17 @@ export default {
   }
   .file-icon{
     margin-right: 4px;
+  }
+  .copy-icon{
+    display: none;
+    margin-left: 12px;
+    cursor: pointer;
+    color: var(--vscode-keyword);
+  }
+  .filename-cell:hover{
+    .copy-icon{
+      display: inline-block;
+    }
   }
 }
 

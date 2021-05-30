@@ -5,7 +5,8 @@ const ArticleTag = () => import("../views/main/tag/index");
 const ArticleCategory = () => import("../views/main/category/index");
 const Friend = () => import("../views/main/friend/index");
 const About = () => import("../views/main/about/index");
-const Search = () => import("../views/main/search/index")
+const Search = () => import("../views/main/search/index");
+const Statics = () => import("../views/main/statics/index");
 
 const routes = [
   {
@@ -37,6 +38,10 @@ const routes = [
       }
     },
     component: Archive
+  },
+  {
+    path: '/article',
+    redirect: '/archive',
   },
   {
     path: '/tag',
@@ -121,6 +126,16 @@ const routes = [
       }
     },
     component: Search
+  },
+  {
+    path: '/statics',
+    name: 'statics',
+    meta: {
+      metaInfo: {
+        title: '统计信息'
+      }
+    },
+    component: Statics
   }
 ];
 

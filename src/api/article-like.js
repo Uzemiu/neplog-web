@@ -4,7 +4,7 @@ export function getLike(articleId){
   return axios({
     url: 'like/article',
     method: 'get',
-    param: {id: articleId}
+    params: {id: articleId}
   })
 }
 
@@ -16,10 +16,10 @@ export function postLike(data){
   })
 }
 
-export function deleteLike(articleId){
+export function deleteLike(id){
   return axios({
     url: 'like/article',
     method: 'delete',
-    data: {id: articleId}
+    data: id
   })
 }

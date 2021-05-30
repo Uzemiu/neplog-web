@@ -45,6 +45,9 @@ Vue.use(VueParticlesBg)
 import VueMeta from 'vue-meta'
 Vue.use(VueMeta)
 
+import VueClipboard from "vue-clipboard2";
+Vue.use(VueClipboard)
+
 Vue.config.productionTip = false
 
 store.dispatch('getBlogConfig').then(() => {
@@ -59,7 +62,8 @@ store.dispatch('getBlogConfig').then(() => {
           {
             name: 'keywords',
             content: store.getters.meta.keywords
-          },{
+          },
+          {
             name: 'description',
             content: store.getters.meta.description
           }
