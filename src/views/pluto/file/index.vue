@@ -35,7 +35,6 @@
       create-text="上传"
       @create="dialogVisible = true"
       @delete="deleteFile(selectedFiles)"
-      @refresh="refresh"
       :delete-disabled="selectedFiles.length===0"></crud-operation>
 
     <section class="file-table">
@@ -96,11 +95,6 @@
               @click="deleteFile([scope.row])">
               移除
             </el-button>
-<!--            <el-button-->
-<!--              type="text"-->
-<!--              size="small">-->
-<!--              详情-->
-<!--            </el-button>-->
           </template>
         </el-table-column>
       </el-table>

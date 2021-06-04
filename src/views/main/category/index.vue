@@ -27,7 +27,7 @@ export default {
   },
   data(){
     return{
-      glides: [{title: 'Category', img:GlideConfig.categoryPageImage}],
+      glides: [GlideConfig.glideFromKey('category')],
       categories: [],
       query:{
         showCount: true,

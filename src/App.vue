@@ -70,8 +70,13 @@ export default {
 </script>
 
 <style lang="scss">
-@import "assets/css/style.css";
+@import "assets/css/style";
 @import "assets/css/popover";
+
+@font-face {
+  font-family: 'Play';
+  src: url("assets/fonts/Play-Regular.ttf");
+}
 
 #app, button, textarea{
   font-family: 'Noto Serif SC',"Play",'Open Sans',-apple-system,
@@ -85,26 +90,8 @@ export default {
   min-height: 100vh;
 }
 
-.main{
+.main, body{
   @import "assets/css/inputs";
-
-}
-
-/*
-图片背景（关闭）
- */
-body::before{
-  //content: "";
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  z-index: -2;
-  background-image: url("~@/assets/imgs/glide/320671.jpg");
-  background-attachment: fixed;
-  background-color: rgba(0,0,0,.5);
-  filter: blur(8px) brightness(.91);
 }
 
 #main{

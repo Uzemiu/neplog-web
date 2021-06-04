@@ -1,108 +1,93 @@
 <template>
   <el-form
-      :model="config"
+      :model="property"
       label-position="left"
       label-width="80px"
       class="cover-setting">
-    <el-form-item label="首页封面:">
-      <el-upload
-        v-if="isHomePageImage"
-        drag
-        action="#"
-        :show-file-list="false"
-        :before-upload="cropHomePage"
-        :http-request="uploadCover">
-        <img v-if="config.homePageCover" :src="config.homePageCover" class="page-cover">
-        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-      </el-upload>
-      <el-radio-group v-model="isHomePageImage">
-        <el-radio :label="false">显示文章</el-radio>
-        <el-radio :label="true">自定义图片</el-radio>
-      </el-radio-group>
-      <el-input
-          v-model="config.homePageCover"
-          @blur="updateConfigByKey('homePageCover', configName)"></el-input>
-    </el-form-item>
-    <el-form-item label="首页标题:" v-if="isHomePageImage">
-      <el-input
-          v-model="config.homePageTitle"
-          @blur="updateConfigByKey('homePageTitle', configName)"></el-input>
-    </el-form-item>
-    <el-form-item label="友链封面:">
-      <el-upload
+
+    <div v-for="(glide,i) in glideProperties" :key="i">
+      <el-form-item :label="`${glide.label}封面:`">
+        <el-upload
           drag
           action="#"
           :show-file-list="false"
-          :before-upload="cropFriendPage"
-          :http-request="uploadCover">
-        <img v-if="config.friendPageCover" :src="config.friendPageCover" class="page-cover">
-        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-      </el-upload>
-      <el-input
-          v-model="config.friendPageCover"
-          placeholder="封面URL"
-          @blur="updateConfigByKey('friendPageCover', configName)"></el-input>
-    </el-form-item>
-    <el-form-item label="友链标题:">
-      <el-input
-          v-model="config.friendPageTitle"
-          @blur="updateConfigByKey('friendPageTitle', configName)"></el-input>
-    </el-form-item>
+          :before-upload="getCropFunction(glide.key)"
+          :http-request="ignore">
+          <img :src="property[glideImageKey(glide.key)] || GlideConfig[glideImageKey(glide.key)]" class="page-cover">
+          <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+        </el-upload>
+        <el-input
+          v-model="property[glideImageKey(glide.key)]"
+          :placeholder="`${glide.label}封面URL`"
+          @change="updatePropertyByKey(glideImageKey(glide.key), true)"></el-input>
+      </el-form-item>
+      <el-form-item :label="`${glide.label}标题:`">
+        <el-input
+          v-model="property[glideTitleKey(glide.key)]"
+          :placeholder="`${glide.label}标题`"
+          @change="updatePropertyByKey(glideTitleKey(glide.key), true)"></el-input>
+      </el-form-item>
+    </div>
+
   </el-form>
 </template>
 
 <script>
-import property from "@/mixins/config";
 import {uploadCover} from "@/api/file";
+import property from "@/mixins/property";
+import GlideConfig from "@/config/glide";
 
 export default {
   name: "CoverSetting",
+  mixins: [property],
   data() {
     return {
-      config: {
-        friendPageCover: this.$store.getters.blogConfig.friendPageCover,
-        friendPageTitle: this.$store.getters.blogConfig.friendPageTitle,
-        // 数字表示首页显示glides数量
-        // 链接表示显示单张图片
-        homePageCover: this.$store.getters.blogConfig.homePageCover,
-        homePageTitle: this.$store.getters.blogConfig.homePageTitle,
-      },
-      isHomePageImage: false,
-      currentFile: null,
-      imageBase64: '',
-      configName: 'blog',
-
+      property: {},
       cropCoverOption: {
         autoCropWidth: 1900,
         autoCropHeight: 1000,
-      }
+      },
+      glideProperties: [
+        {label: '首页', key: 'home'},
+        {label: '友链', key: 'friend'},
+        {label: '归档', key: 'archive'},
+        {label: '标签', key: 'tag'},
+        {label: '分类', key: 'category'},
+        {label: '关于', key: 'about'},
+        {label: '统计', key: 'statics'},
+      ],
+      GlideConfig: GlideConfig
     }
   },
-  mixins: [property],
   mounted() {
-    this.isHomePageImage = !Number.parseInt(this.config.homePageCover)
+    for(const glideConfig of this.glideProperties){
+      const ik = this.glideImageKey(glideConfig.key);
+      const tk = this.glideTitleKey(glideConfig.key);
+      this.$set(this.property, ik, this.$store.getters.blogConfig[ik]);
+      this.$set(this.property, tk, this.$store.getters.blogConfig[tk]);
+    }
   },
   methods: {
-    uploadCover(){},
+    ignore(){},
     cropImage(file,key){
       this.$crop(file,(blob, filename, close) => {
         uploadCover(blob, filename).then((url) => {
-          this.config[key] = url;
-          this.updateConfigByKey(key, this.configName)
+          this.property[key] = url;
+          this.updatePropertyByKey(key, true)
             .then(() => close());
         }).catch(() => {})
       },this.cropCoverOption)
     },
-    cropHomePage(file){
-      this.cropImage(file,'homePageCover');
+    getCropFunction(key){
+      return file => this.cropImage(file, this.glideImageKey(key));
     },
-    cropFriendPage(file){
-      this.cropImage(file,'friendPageCover');
-    }
+    glideImageKey(key){
+      return `glide_image_${key}`;
+    },
+    glideTitleKey(key){
+      return `glide_title_${key}`;
+    },
   },
-  computed: {
-
-  }
 }
 </script>
 

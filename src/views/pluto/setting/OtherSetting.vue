@@ -7,7 +7,7 @@
     <el-form-item label="备案号:">
       <el-input
           v-model="property.icp"
-          @blur="updateConfigByKey('icp')"></el-input>
+          @change="updateConfigByKey('icp', 'blog', true)"></el-input>
     </el-form-item>
   </el-form>
 </template>

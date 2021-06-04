@@ -20,6 +20,7 @@ import Glide from "../../../components/glide/index"
 import {queryArticleBy} from "@/api/article";
 import {fromArticle} from "@/utils/glide";
 import ArticleList from "@/components/article/ArticleList";
+import GlideConfig from "@/config/glide";
 
 export default {
   name: "About",
@@ -35,14 +36,14 @@ export default {
     }
   },
   mounted() {
-    let cover = this.$store.getters.homePageImage;
+    let cover = this.$store.getters.blogConfig.glide_image_home || GlideConfig.glide_image_home;
     if(!Number.parseInt(cover)){
       this.glides.push({
         img:cover,
-        title: this.$store.getters.blogConfig.homePageTitle
+        title: this.$store.getters.blogConfig.glide_title_home
       })
     }
-    queryArticleBy({sort: 'updateTime,desc'}).then(articles => {
+    queryArticleBy({sort: 'createTime,desc'}).then(articles => {
       articles = articles.content;
       this.articles = articles;
       if(this.glides.length === 0){

@@ -28,7 +28,6 @@
 
     <crud-operation
       crud="d"
-      @refresh="refresh"
       :delete-disabled="selectedComments.length===0"></crud-operation>
 
     <section class="comment-table">

@@ -151,7 +151,6 @@
 import 'mavon-editor/dist/css/index.css';
 import 'highlight.js/styles/vs2015.css'
 import '@/assets/css/markdown.scss'
-import rules from '@/utils/rules/article';
 import {updateArticle, listArticleDetail} from "@/api/article";
 import {uploadCover, uploadImg} from "@/api/file";
 import {getAllTags} from "@/api/tag";
@@ -170,7 +169,12 @@ export default {
     return {
       drawer: false,
       setTopPriority: false,
-      rules: rules,
+      rules: {
+        title: [
+          {required: true, message: '请输入文章标题', trigger:'blur'},
+          {min: 1, max: 255, message: '标题长度在255个字符以内', trigger: 'blur'}
+        ],
+      },
       availableTags: [],
       availableCategories: [],
       availableViewPermission: [{

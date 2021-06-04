@@ -32,10 +32,7 @@ export default {
   data(){
     return{
       tags: [],
-      glides: [{
-        img: GlideConfig.tagPageImage,
-        title: 'TAGS'
-      }]
+      glides: [GlideConfig.glideFromKey('tag')]
     }
   },
   methods: {

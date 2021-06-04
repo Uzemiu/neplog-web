@@ -6,9 +6,15 @@
 
 <script>
 import UnderConstruction from "@/components/common/UnderConstruction";
+import GlideConfig from "@/config/glide";
 export default {
   name: "Statics",
-  components: {UnderConstruction}
+  components: {UnderConstruction},
+  data(){
+    return {
+      glides: [GlideConfig.glideFromKey('statics')]
+    }
+  }
 }
 </script>
 

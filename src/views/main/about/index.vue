@@ -43,7 +43,7 @@ export default {
   components: {Responsive, Glide},
   data(){
     return{
-      glide:[{img: GlideConfig.aboutPageImage,title: '关于'}],
+      glide:[GlideConfig.glideFromKey('about')],
       linkMap: {
         about_github: 'icon-github-alt',
         about_gitee: 'icon-gitee',

@@ -2,16 +2,23 @@ import axios from "@/plugins/axios"
 
 export function listFriendView(){
   return axios({
-    url: 'friend/view',
+    url: 'friend',
     method: 'get'
   })
 }
 
-export function queryBy(query){
+export function queryFriendBy(query){
   return axios({
-    url: 'friend',
+    url: 'friend/query',
     method: 'get',
     params: query
+  })
+}
+
+export function countByLabel(){
+  return axios({
+    url: 'friend/count',
+    method: 'get'
   })
 }
 
@@ -26,6 +33,14 @@ export function createFriend(data){
 export function updateFriend(data){
   return axios({
     url: 'friend',
+    method: 'put',
+    data: data
+  })
+}
+
+export function updateStatus(data){
+  return axios({
+    url: 'friend/status',
     method: 'put',
     data: data
   })

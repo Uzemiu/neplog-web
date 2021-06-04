@@ -1,3 +1,6 @@
+/**
+ * 用于更新config配置
+ */
 import {updateConfig} from "@/api/config";
 
 export default {
@@ -7,23 +10,17 @@ export default {
     }
   },
   methods: {
-    updateConfigByKey(key, configName){
-      let blogConfig = this.$store.getters.blogConfig;
-      if(Object.hasOwnProperty.call(blogConfig, key)
-          && blogConfig[key] === this.config[key]){
-        return;
-      }
+    updateConfigByKey(key, configName, updateStore = false){
       const prop = {[key]: this.config[key]};
-      return this.updateConfigByObject(prop, configName).then(() => {
-        if(Object.hasOwnProperty.call(blogConfig, key)){
-          this.$store.commit('setBlogConfig', prop);
-        }
-      })
+      return this.updateConfigByObject(prop, configName, updateStore);
     },
-    updateConfigByObject(prop, config){
+    updateConfigByObject(prop, configName, updateStore = false){
       this.loading = true;
       this.$emit('beforeUpdate');
-      return updateConfig(config, prop).then(() => {
+      return updateConfig(configName, prop).then(() => {
+        if(updateStore){
+          this.$store.commit('setBlogConfig', prop);
+        }
         this.$emit('afterUpdate',true);
       }).catch(() => {
         this.$emit('afterUpdate',false);

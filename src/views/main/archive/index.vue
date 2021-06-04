@@ -49,7 +49,7 @@ export default {
   components: {Responsive, Glide},
   data(){
     return {
-      glides: [{title: '归档',img:GlideConfig.archivePageImage}],
+      glides: [GlideConfig.glideFromKey('archive')],
       articles: [],
       query: {
         size: 10,

@@ -47,7 +47,8 @@ import Glide from "@/components/glide/index"
 import FriendCard from "../../../components/friend/FriendCard";
 import Responsive from "../../../components/layout/Responsive"
 import FriendCardEmpty from "@/components/friend/FriendCardEmpty";
-import {createFriend, queryBy} from "@/api/friend";
+import {createFriend, listFriendView} from "@/api/friend";
+import GlideConfig from "@/config/glide";
 
 export default {
   name: "index",
@@ -60,10 +61,7 @@ export default {
   data(){
     return{
       friends: [],
-      glides: [{
-        img: this.$store.getters.blogConfig.friendPageCover,
-        title: this.$store.getters.blogConfig.friendPageTitle
-      }],
+      glides: [GlideConfig.glideFromKey('friend')],
       newFriend: {},
       enableEdit: true,
       creating: false,
@@ -89,8 +87,8 @@ export default {
     }
   },
   mounted() {
-    queryBy().then(data => {
-      this.friends = data.friends;
+    listFriendView().then(data => {
+      this.friends = data.content;
     }).catch(() => {})
   }
 }

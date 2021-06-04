@@ -33,7 +33,7 @@
     </div>
 
     <div class="crud-section-right">
-      <el-button size="mini" @click="$emit('refresh')">
+      <el-button size="mini" @click="tryRefresh">
         <i class="el-icon-refresh"></i>
       </el-button>
     </div>
@@ -72,11 +72,20 @@ export default {
     updateDisabled: Boolean,
     retrieveDisabled: Boolean,
     deleteDisabled: Boolean,
-
+    refresh: Function
   },
   methods: {
     showOperation(op){
       return this.crud.includes(op);
+    },
+    tryRefresh(){
+      if(this.refresh){
+        this.refresh();
+      } else {
+        if(typeof(this.$parent.refresh) === 'function'){
+          this.$parent.refresh();
+        }
+      }
     }
   }
 }

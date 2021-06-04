@@ -8,12 +8,12 @@
       <el-input
           style="max-width: 240px"
           v-model="config.blogName"
-          @blur="updateConfigByKey('blogName', 'blog')"></el-input>
+          @change="updateConfigByKey('blogName', 'blog', true)"></el-input>
     </el-form-item>
     <el-form-item label="备案号:">
       <el-input
         v-model="config.icp"
-        @blur="updateConfigByKey('icp', 'blog')"></el-input>
+        @change="updateConfigByKey('icp', 'blog', true)"></el-input>
     </el-form-item>
   </el-form>
 </template>
