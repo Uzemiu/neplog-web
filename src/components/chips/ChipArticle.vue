@@ -5,7 +5,7 @@
       <slot name="chips"></slot>
     </responsive>
 
-    <responsive v-if="loaded" class="article-list-container">
+    <responsive class="article-list-container" v-loading="loading">
 
       <article-list
         :articles="articles"
@@ -13,7 +13,7 @@
         mode="list">
       </article-list>
 
-      <p v-if="noMoreArticle" class="no-more">没有更多文章了...</p>
+      <p v-if="loaded && noMoreArticle" class="no-more">没有更多文章了...</p>
 
       <el-pagination
         style="display: flex;justify-content: center"
@@ -51,11 +51,12 @@ export default {
   },
   methods: {
     listArticles(){
+      this.loading = true;
       queryArticleBy(this.query).then(data => {
         this.articles = data.content;
         this.total = data.total;
         this.loaded = true;
-      }).catch(() => {})
+      }).catch(() => {}).finally(() => this.loading=false);
     },
     handleCurrentChange(val){
       this.query.page = val - 1;
@@ -84,12 +85,8 @@ export default {
   padding: 0 10px;
   width: 100%;
 }
-
-.no-more{
-  width: 100%;
-  text-align: center;
-  color: #999;
-  font-size: 14px;
-  margin-bottom: 8px;
+.article-list-container{
+  margin-top: 18px;
 }
+
 </style>

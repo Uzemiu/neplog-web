@@ -33,6 +33,8 @@
           layout="prev, pager, next">
 
         </el-pagination>
+
+        <p class="no-more" v-if="articles.length===0">好像还没有发过一篇博客哦...</p>
       </responsive>
     </div>
   </div>

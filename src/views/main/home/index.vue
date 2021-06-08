@@ -10,6 +10,7 @@
         :articles="articles"
         :show-arrow="true"
         mode="show"></article-list>
+      <p class="no-more" v-if="articles.length===0">好像还没有发过一篇博客哦...</p>
     </responsive>
   </div>
 </template>
@@ -23,7 +24,7 @@ import ArticleList from "@/components/article/ArticleList";
 import GlideConfig from "@/config/glide";
 
 export default {
-  name: "About",
+  name: "Home",
   components: {
     ArticleList,
     Responsive,

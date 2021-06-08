@@ -27,7 +27,7 @@
             :to="`/tag/${tag.id}`"
             v-for="tag in article.tags"
             :key="tag.id">
-            {{ tag.tag }}
+            {{ tag.name }}
           </router-link>
         </span>
         <span><i class="fa fa-fire-alt"></i>{{ article.views }}</span>

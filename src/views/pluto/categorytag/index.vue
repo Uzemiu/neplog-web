@@ -39,21 +39,21 @@ export default {
       this.$prompt('',{
         title: '修改标签名',
         customClass: 'responsive',
-        inputValue: tag.tag
+        inputValue: tag.name
       }).then(({value}) => {
         if(value !== tag.name){
           updateTag({
             id: tag.id,
-            tag: value,
+            name: value,
           }).then(() => {
             this.$message.success('修改分类成功');
-            tag.tag = value;
+            tag.name = value;
           }).catch(() => {})
         }
       }).catch(() => {})
     },
     deleteTag(tag){
-      this.$confirm(`确认删除标签 ${tag.tag} 吗?`,{
+      this.$confirm(`确认删除标签 ${tag.name} 吗?`,{
         title: '删除标签',
         type: 'warning',
         customClass: 'responsive'

@@ -162,19 +162,18 @@ export default {
   .article-card[mode=show]{
     grid-template-areas: "cover" "content";
     grid-template-columns: 100%;
-    grid-template-rows: 283px 233px;
-  }
-}
-
-@media (max-width: 576px){
-  .article-card[mode=show]{
-    grid-template-rows: 28vh 233px;
-
-    .article-cover img{
-      height: 28vh;
+    grid-template-rows: 155px 215px;
+    .summary{
+      font-size: 14px;
+      margin-top: 10px;
+    }
+    img{
+      object-fit: cover;
+      height: 100%;
     }
   }
 }
+
 </style>
 
 <style lang="scss" scoped>
@@ -205,7 +204,7 @@ export default {
       }
     }
     .summary{
-      font-size: 13px;
+      font-size: 14px;
       margin-top: 10px;
     }
   }
@@ -218,7 +217,13 @@ export default {
   .article-card[mode=list]{
     grid-template-areas: "cover" "content";
     grid-template-columns: 100%;
-    grid-template-rows: 283px 233px;
+    grid-template-rows: 155px 215px;
+    .article-info .title{
+      display: block;
+      float: unset;
+      font-size: 22px;
+      margin-bottom: 5px;
+    }
     .article-cover img{
       height: 100%;
     }

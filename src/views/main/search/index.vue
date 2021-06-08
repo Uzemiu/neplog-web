@@ -13,9 +13,9 @@
                  class="search-button"
                  type="text"><i class="fa fa-search"></i></el-button>
     </responsive>
-    <responsive v-if="loaded" class="article-list-container">
+    <responsive class="article-list-container" v-loading="loading">
       <article-list :articles="articles" mode="list"></article-list>
-      <p v-if="noMoreArticle" class="no-more">没有更多文章了...</p>
+      <p v-if="loaded && noMoreArticle" class="no-more">没有更多文章了...</p>
       <el-pagination
         style="display: flex;justify-content: center"
         :hide-on-single-page="true"
@@ -47,15 +47,17 @@ export default {
       },
       total: 0,
       articles: [],
+      loading: false,
     }
   },
   methods:{
     search(){
+      this.loading = true;
       queryArticleBy(this.query).then(data => {
         this.loaded = true;
         this.articles = data.content;
         this.total = data.total;
-      }).catch(() => {})
+      }).catch(() => {}).finally(() => {this.loading = false;})
     },
     handleCurrentChange(val){
       this.query.page = val - 1;
@@ -119,7 +121,7 @@ export default {
   }
 
   .article-list-container{
-    margin-top: 24px;
+    margin-top: 48px;
   }
 
   .no-more{

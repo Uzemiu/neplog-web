@@ -28,12 +28,6 @@ module.exports = {
         pathRewrite: {
           '^/uploads': 'uploads'
         }
-      },
-      '/sitemap.xml': {
-        target: process.env.VUE_APP_BASE_API,
-        pathRewrite: {
-          '^/sitemap.xml': 'sitemap.xml'
-        }
       }
     },
   }

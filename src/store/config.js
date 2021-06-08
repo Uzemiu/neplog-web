@@ -10,7 +10,7 @@ export default {
     icp: '',
     globalCss: '',
     // 封面图片 标题
-    glide_image_home: '3',
+    glide_image_home: '',
     glide_title_home: '',
     glide_image_friend: '',
     glide_title_friend: '',

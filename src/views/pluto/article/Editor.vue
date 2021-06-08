@@ -78,7 +78,8 @@
                 v-for="per in availableCommentPermission"
                 :key="per.value"
                 :label="per.label"
-                :value="per.value">
+                :value="per.value"
+                :disabled="per.disabled">
               </el-option>
             </el-select>
           </el-form-item>
@@ -95,7 +96,7 @@
               <el-option
                 v-for="(tag) in availableTags"
                 :key="tag.id"
-                :label="tag.tag"
+                :label="tag.name"
                 :value="tag">
               </el-option>
             </el-select>
@@ -251,6 +252,7 @@ export default {
         autoCropWidth: 1900,
         autoCropHeight: 1000,
       })
+      return false;
     },
     saveArticle(status){
       if(Number.isInteger(status)){
@@ -266,7 +268,7 @@ export default {
       this.article.tags.forEach((tag,i) => {
         if(typeof(tag) === 'string'){
           reloadTag = true;
-          this.article.tags[i] = {id:null,tag:tag};
+          this.article.tags[i] = {id:null,name:tag};
         }
       })
 
@@ -282,18 +284,20 @@ export default {
             this.$message.success("更新文章成功")
             this.drawer = false;
             if(!this.article.id && data){
+
               this.article.id = data;
               let paths = this.$route.fullPath.split('/');
               paths[paths.length - 1] = data;
               this.$router.replace({path: paths.join('/')});
               location.reload(); // 新建文章重新加载
+
             } else if(reloadTag || reloadCategory) {
               // 新建标签/分类时获取新建标签/分类的id
               listArticleDetail(this.id).then(data => {
                 this.article.category = data.category;
                 let newTags = data.tags;
                 this.article.tags.forEach(tag => {
-                  let idx = newTags.findIndex(t => t.tag === tag.tag);
+                  let idx = newTags.findIndex(t => t.name === tag.name);
                   if(idx >= 0){
                     tag.id = newTags[idx].id;
                   }

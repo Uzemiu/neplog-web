@@ -8,6 +8,7 @@
         :editable="false"
         @chipClick="handleChipClick">
       </tag-chips>
+      <p class="no-more" v-if="tags.length===0" slot="chips">好像还没有创建过一个标签哦...</p>
     </chip-article>
   </div>
 </template>

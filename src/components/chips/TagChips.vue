@@ -7,7 +7,7 @@
       v-bind="$attrs"
       v-on="$listeners">
       <template slot-scope="{item}">
-        <span>{{item.tag}}</span>
+        <span>{{item.name}}</span>
         <span class="tag-article-count">{{item.articleCount}}</span>
       </template>
     </chips>

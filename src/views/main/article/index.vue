@@ -104,7 +104,7 @@ export default {
         this.articleLoaded = true;
         this.$store.commit('setMeta', {
           title: data.title,
-          keywords: this.article.tags.map(tag => tag.tag).join(','),
+          keywords: this.article.tags.map(tag => tag.name).join(','),
           description: this.article.summary
         })
 
