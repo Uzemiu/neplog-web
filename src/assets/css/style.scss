@@ -45,7 +45,7 @@ button:focus,input:focus,textarea:focus{
     --secondary-green: #71c2cc;
 
     --vscode-class: #4ec9b0;
-    --vscode-yellow: #DCD2A1;
+    --vscode-function: #DCD2A1;
     --vscode-light-green: #b8d7a3;
     --vscode-orange: #FFC66D;
     --vscode-sky-blue: #67cdfe;
@@ -106,15 +106,17 @@ a:visited{text-decoration:none;color:#666}
 }
 
 .nep-scroll::-webkit-scrollbar{
-     height: 4px;
+    height: 6px;
+    width: 6px;
 }
 .nep-scroll::-webkit-scrollbar-thumb {
-     background-color: rgba(0,0,0,.1);
-     border-radius: 10px;
- }
+    background-color: #569cd6;
+    border-radius: 10px;
+}
 .nep-scroll::-webkit-scrollbar-track {
-     border-radius: 10px;
-     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0);
+    border-radius: 10px;
+    //background: transparent;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0);
 }
 
 .common-flex{

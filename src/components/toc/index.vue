@@ -32,7 +32,7 @@ export default {
   z-index: 1;
   overflow: hidden;
   font-size: 15px;
-  line-height: 20px;
+  line-height: 24px;
 
   ol {
     word-wrap: anywhere;
@@ -46,6 +46,7 @@ export default {
   a {
     height: 100%;
     color: #000;
+    line-height: 24px;
   }
 
   a:before {

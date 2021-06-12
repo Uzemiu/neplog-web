@@ -118,7 +118,7 @@ export default {
           }
 
           let h = NeplogConfig.navBarHeight;
-          let rootEl = Toc.generateToc(`.article-${this.article.id}`, {fixedHeading: h});
+          let rootEl = Toc.generateToc(`.article-${this.article.id}`, {fixedHeading: h + 22});
           this.$refs.toc.appendChild(rootEl);
         })
 
@@ -197,7 +197,7 @@ export default {
       z-index: 1;
       overflow: hidden;
       font-size: 15px;
-      line-height: 20px;
+      line-height: 22px;
 
       ol {
         word-wrap: anywhere;

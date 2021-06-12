@@ -2,7 +2,7 @@
   <div class="tag-chips">
     <chips
       chip-key="id"
-      label="tag"
+      label="name"
       :show-delete-icon="editable"
       v-bind="$attrs"
       v-on="$listeners">

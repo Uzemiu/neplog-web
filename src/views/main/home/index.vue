@@ -10,7 +10,7 @@
         :articles="articles"
         :show-arrow="true"
         mode="show"></article-list>
-      <p class="no-more" v-if="articles.length===0">好像还没有发过一篇博客哦...</p>
+      <p class="no-more" v-if="articles.length===0">好像还没有发过一篇博客呢...</p>
     </responsive>
   </div>
 </template>
@@ -44,7 +44,12 @@ export default {
         title: this.$store.getters.blogConfig.glide_title_home
       })
     }
-    queryArticleBy({sort: 'createTime,desc'}).then(articles => {
+    queryArticleBy({
+      status: 4,
+      deleted: false,
+      viewPermission: 0,
+      sort: 'createTime,desc'
+    }).then(articles => {
       articles = articles.content;
       this.articles = articles;
       if(this.glides.length === 0){

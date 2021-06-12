@@ -1,53 +1,76 @@
 .markdown-body{
-  pre{
+  line-height: 30px;
+
+  // 代码块
+  pre.hljs{
+    position: relative;
     overflow-x: auto !important;
-    padding-left: 4.2em !important;
+    padding-left: 3.8em !important;
     background-color: #1d1d1d !important;
     counter-reset: linenumber;
     color: #dcdcdc;
+
     code{
       position: relative;
       .hljs-keyword, .hljs-literal, .hljs-symbol, .hljs-name{
-        color: #569CD6;
+        color: var(--vscode-keyword);
       }
-      .hljs-subst, .hljs-function, .hljs-title, .hljs-params, .hljs-formula{
+      .hljs-attribute, .hljs-attr{
+        color: var(--vscode-sky-blue)
+      }
+      .hljs-subst, .hljs-params, .hljs-formula{
         color: #dcdcdc;
       }
       .hljs-string, .hljs-meta-string{
-        color: #d69d85;
+        color: var(--vscode-string);
       }
       .hljs-regexp{
         color: #b5cea8;
       }
       .hljs-function .hljs-title{
-         color: #dcd2a1;
+         color: var(--vscode-function);
       }
       .hljs-class .hljs-title{
-        color: #4ec9b0;
+        color: var(--vscode-class);
       }
       .hljs-built_in, .hljs-type{
-        color: #4ec9b0;
+        color: var(--vscode-class);
       }
-      .line-numbers{
-        position: absolute;
-        top: 0;
-        left: -4.8em;
-        width: 4em;
-        font-size: 100%;
-        pointer-events: none;
-        border-right: 1px #999 solid;
-        .line-number{
-          display: block;
-          counter-increment: linenumber;
-          text-align: right;
-          color: #999;
+    }
+    .line-numbers{
+      position: absolute;
+      top: 0;
+      left: -3.6em;
+      width: 2.8em;
+      font-size: 100%;
+      pointer-events: none;
+      border-right: 1px #999 solid;
+      .line-number{
+        display: block;
+        counter-increment: linenumber;
+        text-align: right;
+        color: #999;
 
-          &:before{
-            content: counter(linenumber);
-            padding-right: .5em;
-          }
+        &:before{
+          content: counter(linenumber);
+          padding-right: .5em;
         }
       }
     }
+  }
+  pre.no-line-number{
+    padding-left: 1.8em !important;
+  }
+
+  // 标题
+  h3,h4,h5,h6{
+    &:before{
+      content: "# ";
+      color: var(--vscode-keyword);
+    }
+  }
+
+  p, blockquote{
+    line-height: 30px;
   }
 }

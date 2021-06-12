@@ -1,15 +1,11 @@
-.markdown-body{
-  pre{
-    code[class*=css]{
-      .hljs-tag, .hljs-name, .hljs-attribute{
-        color: #dcdcaa;
-      }
-      .hljs-keyword, .hljs-selector-tag, .hljs-subst{
-        color: #569cd6;
-      }
-      .hljs-selector-id{
-        color: #569cd6;
-      }
-    }
+code[class*=css]{
+  .hljs-tag, .hljs-name, .hljs-attribute{
+    color: #dcdcaa;
+  }
+  .hljs-keyword, .hljs-selector-tag, .hljs-subst{
+    color: #569cd6;
+  }
+  .hljs-selector-id{
+    color: #569cd6;
   }
 }

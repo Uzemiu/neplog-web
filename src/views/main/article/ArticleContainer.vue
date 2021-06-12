@@ -87,8 +87,7 @@
 import 'mavon-editor/dist/css/index.css'
 import 'highlight.js/styles/vs2015.css'
 import '@/assets/css/markdown.scss'
-import '@/assets/css/highlight/highlight-css.scss'
-import '@/assets/css/highlight/highlight-html.scss'
+import '@/assets/css/highlight/highlight.scss'
 import {RemoteCss, RemoteJs} from "@/utils/remote-tags";
 import ArticleCardSimple from "@/components/article/ArticleCardSimple";
 import {getLike, postLike} from "@/api/article-like";
@@ -114,6 +113,9 @@ export default {
       },
     }
   },
+  mounted() {
+    this.getArticleLike();
+  },
   methods: {
     getArticleLike() {
       getLike(this.article.id).then(data => {
@@ -122,8 +124,7 @@ export default {
         } else {
           this.articleLike.opinion = 0;
         }
-      }).catch(() => {
-      })
+      }).catch(() => {})
     },
     updateLike() {
       this.articleLike.opinion = this.articleLike.opinion ? 0 : 1; // 切换点赞状态
@@ -138,8 +139,7 @@ export default {
             ],
           })
         }
-      }).catch(() => {
-      })
+      }).catch(() => {})
     },
     wechatShareUrl() {
       return '#'
@@ -159,15 +159,6 @@ export default {
         `&appkey=` +
         `&title=${document.title}` +
         `&pic=${location.origin}${this.article.cover}`
-    }
-  },
-  mounted() {
-  },
-  watch: {
-    article(newVal, oldVal) {
-      if (newVal !== oldVal) {
-        this.getArticleLike();
-      }
     }
   }
 }
@@ -220,7 +211,6 @@ export default {
   .article-body {
     margin-top: 20px;
     margin-bottom: 60px;
-    line-height: 20px;
     font-family: "Noto Serif SC", serif;
 
     code {

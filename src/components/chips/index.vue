@@ -53,6 +53,7 @@ export default {
         let set = ColorSet["set-chips"];
 
         return function(data,index){
+          console.log(data)
           let hash = Math.abs(hashString(data[this.label]))
           let backgroundColor = set[hash % set.length];
           let textColor = getTextColor(backgroundColor);
